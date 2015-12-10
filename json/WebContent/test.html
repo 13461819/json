@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<style type="text/css">
+#mask {  
+	  position:absolute;  
+	  z-index:9000;  
+	  background-color:#000;  
+	  display:none;  
+	  left:0;
+	  top:0;
+} 
+</style>
+</head>
+<body>
+	<div style="left: -240px;">
+		<input type="checkbox" class="1" id="11"> <input
+			type="checkbox" class="1" id="22"> <input type="checkbox"
+			class="1" id="33"> <input type="button" class="2"
+			value="Check" onclick="check()"> <input type="button"
+			class="2" value="Uncheck" onclick="uncheck()"> <input
+			type="button" class="2" value="Toggle" onclick="toggle()">
+	</div>
+	<!-- 
+	<ul style="float: left; list-style-type: disc;">
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+	</ul>
+	<ul style="float: left; list-style-type: circle;">
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+		<li>완</li>
+	</ul>
+	<ul style="float: left; list-style-type: square;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: decimal;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: decimal-leading-zero;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: lower-roman;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: upper-roman;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: lower-greek;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: lower-alpha;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: lower-latin;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: upper-alpha;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: upper-latin;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: hebrew;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: armenian;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: georgian;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: cjk-ideographic;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: hiragana;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: katakana;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: hiragana-iroha;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: katakana-iroha;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: none;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+	<ul style="float: left; list-style-type: inherit;">
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+			<li>완</li>
+		</ul>
+-->
+
+	<input type="button" onclick="clicktest();" value="블러테스트" />
+	
+	<div id="mask"></div> 
+	<div style="background-color: #86E57F; width: 300px; height: 300px; position: absolute; top:200px; left: 500px; display: none; z-index:10001;" id="test">
+		<input type="button" onclick="btnexit();" value="닫기" />
+	</div>
+
+	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+		$(document).on("change", "#11", function() {
+			console.log("change");
+		});
+
+		function check() {
+			$("input.1").prop("checked", true);
+		}
+
+		function uncheck() {
+			$("input.1").prop("checked", false);
+		}
+
+		function toggle() {
+			var bool = $("input#11").is(":checked");
+			$("input.1").prop("checked", !(bool));
+		}
+		
+		
+		
+		
+		function wrapWindowByMask(){
+			//화면의 높이와 너비를 구한다.
+			var maskHeight = $(document).height();  
+			var maskWidth = $(window).width();
+
+			//마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+			$('#mask').css({'width':maskWidth,'height':maskHeight});  
+	    //마스크의 투명도 처리
+	          $('#mask').fadeTo("slow",0.8);    
+		}
+
+		$(document).ready(function(){
+			//wrapWindowByMask();
+			//불투명 배경 띄우기
+			$('.openMask').click(function(e){
+				e.preventDefault();
+				wrapWindowByMask();
+			});
+		});
+		
+	// 팝업 , 불투명 배경 띄우기
+		function clicktest(){
+			$('#test').show();
+			wrapWindowByMask();
+		}
+		
+		function btnexit(){
+			$('#test').hide();
+			$('#mask').hide();
+			
+		}
+	</script>
+</body>
+</html>
