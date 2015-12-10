@@ -196,7 +196,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTML코드를 생성한다.
 	var searchHTML = "", beforeLength = "", afterLength = "", subSearchHTML = "";
 	var title = "", id = "";
-	var count, length = 0;
+	var count = 0, length = 0;
 	var searchWord = $("input#searchText").val();
 	if(searchWord == "") {
 		$("#accordion_s").html("");
