@@ -14,7 +14,7 @@ function showSetting(settingName) {
 			'</div>' +
 			'<div class="modal-body"' +
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
-				get_modal_setting(settingName) +
+				getModalSetting(settingName) +
 			'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
@@ -24,7 +24,7 @@ function showSetting(settingName) {
 	modal.html(settingHTML);
 }
 
-function get_modal_setting(settingName) {
+function getModalSetting(settingName) {
 	var settingHTML = "";
 	switch (settingName) {
 	case '계정':
