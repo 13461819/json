@@ -61,7 +61,7 @@ function get_modal_setting(settingName) {
 }
 
 function getAccount() {
-	settingHTML = "";
+	var settingHTML = "";
 	settingHTML +=
 	'<div class="row" style="margin-bottom: 30px;">' +
 		'<div class="col-md-4" style="text-align: left;">전화번호</div>' +
@@ -90,49 +90,147 @@ function getAccount() {
 }
 
 function getProfile() {
-	settingHTML = "";
-	settingHTML += '프로필';
+	var settingHTML = "";
+	settingHTML += 
+	'<div class="row" style="margin-bottom: 30px;">' +
+		'<img src="../image/silhouette.png" class="img-responsive"' +
+			'width="50%" style="margin-left: auto; margin-right: auto;">' +
+	'</div>' +
+	'<div class="form-group">' +
+		'<label for="inputdefault">이름</label> <input class="form-control"' +
+			'id="inputdefault" placeholder="이름을 입력하세요." type="text">' +
+	'</div>' +
+	
+	'<div class="form-group">' +
+		'<label for="sel1">직종</label> <select class="form-control" id="sel1">' +
+			'<option>의사</option>' +
+			'<option>인턴</option>' +
+			'<option>간호사</option>' +
+		'</select>' +
+	'</div>' +
+	'<div class="form-group">' +
+		'<label for="sel2">전공</label> <select class="form-control" id="sel2">' +
+			'<option>OR</option>' +
+			'<option>ER</option>' +
+			'<option>외과</option>' +
+			'<option>성형외과</option>' +
+		'</select>' +
+	'</div>';
 	return settingHTML;
 }
 
 function getNotice() {
-	settingHTML = "";
-	settingHTML += '알림';
+	var settingHTML = "";
+	settingHTML += 
+	'<div style="margin: 0px 30px;">' +
+		'<span>알림</span>' +
+		'<input type="checkbox" style="float: right;"/>' +
+	'</div>' +
+	'<hr style="border-color: rgb(214, 214, 214);">' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>미리보기</span>' +
+		'<input type="checkbox" style="float: right;"/>' +
+	'</div>' +
+	'<hr style="border-color: rgb(214, 214, 214);">' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>벨소리</span>' +
+	'</div>' +
+	'<div style="margin-left: 40px; font-size: 15px; color: rgb(130, 130, 130);">' +
+		'기본벨소리(Whistle)' +
+	'</div>' +
+	'<hr style="border-color: rgb(214, 214, 214);">' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>진동</span>' +
+		'<input type="checkbox" style="float: right;"/>' +
+	'</div>' +
+	'<hr style="border-color: rgb(214, 214, 214);">';
 	return settingHTML;
 }
 
 function getPassword() {
-	settingHTML = "";
-	settingHTML += '암호잠금';
+	var settingHTML = "";
+	settingHTML += 
+	'<div style="margin: 0px 30px; padding-bottom: 30px;">' +
+		'<span>암호 잠금</span>' +
+		'<input type="checkbox" style="float: right;"/>' +
+	'</div>' +
+	'<div style="margin: 0px 30px; padding-bottom: 30px;">' +
+		'<span>암호 변경</span>' +
+		'<span class="glyphicon glyphicon-chevron-right" style="float: right;"></span>' +
+	'</div>' +
+	'<div style="font-size: 16px; padding-bottom: 30px;">암호를 분실하시면 앱을 재설치해야 합니다.</div>';
 	return settingHTML;
 }
 
 function getTicket() {
-	settingHTML = "";
-	settingHTML += '설명처방 티켓충전';
+	var settingHTML = "";
+	settingHTML += '설명처방 티켓충전 - 현재 작성 중입니다.';
 	return settingHTML;
 }
 
 function getDownloaded() {
-	settingHTML = "";
-	settingHTML += '다운로드된 비디오';
+	var settingHTML = "";
+	settingHTML += '다운로드된 비디오 - 현재 작성 중입니다.';
 	return settingHTML;
 }
 
 function getSendMethod() {
-	settingHTML = "";
-	settingHTML += '처방 전송 방법 지정';
+	var settingHTML = "";
+	settingHTML += 
+	'<div style="margin: 0px 30px; padding-bottom: 30px;">' +
+		'<form role="form">' +
+			'<div class="radio" style="margin-bottom: 30px;">' +
+				'<label><input type="radio" name="optradio">처방 시 지정</label>' +
+			'</div>' +
+			'<div class="radio" style="margin-bottom: 30px;">' +
+				'<label><input type="radio" name="optradio">문자 (SMS)</label>' +
+			'</div>' +
+			'<div class="radio">' +
+				'<label><input type="radio" name="optradio">이메일(E-mail)</label>' +
+			'</div>' +
+		'</form>' +
+	'</div>';
 	return settingHTML;
 }
 
 function getLanguage() {
-	settingHTML = "";
-	settingHTML += '비디오 목록 탭 언어';
+	var settingHTML = "";
+	settingHTML += 
+	'<div style="margin: 0px 30px; padding-bottom: 10px; color: rgb(45, 151, 134); font-size: 15px;">' +
+		'<strong>비디오 목록 탭 언어 선택</strong>' +
+	'</div>' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>표시 언어 지정</span>' +
+		'<input type="checkbox" style="float: right;">' +
+		'<div style="font-size: 15px; color: rgb(135, 135, 135);">모든 비디오가 표시됩니다.</div>' +
+		'<hr style="border-color: rgb(214, 214, 214)">' +	
+	'</div>' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>기본 언어 이외</span>' +
+		'<input type="checkbox" style="float: right;">' +
+		'<div style="font-size: 15px; color: rgb(135, 135, 135);">기본 언어만 표시됩니다.</div>' +
+		'<hr style="border-color: rgb(214, 214, 214)">' +	
+	'</div>' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>English</span>' +
+		'<input type="checkbox" style="float: right;">' +
+		'<hr style="border-color: rgb(214, 214, 214)">' +	
+	'</div>' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>한글(Korean)</span>' +
+		'<input type="checkbox" style="float: right;">' +
+		'<hr style="border-color: rgb(214, 214, 214)">' +	
+	'</div>' +
+	'<div style="margin: 0px 30px;">' +
+		'<span>日本語(Japanese)</span>' +
+		'<input type="checkbox" style="float: right;">' +
+		'<hr style="border-color: rgb(214, 214, 214)">' +	
+	'</div>';
 	return settingHTML;
 }
 
 function getHelp() {
-	settingHTML = "";
-	settingHTML += '사용법 안내';
+	var settingHTML = "";
+	settingHTML += '사용법 안내 - 현재 작성 중입니다.';
 	return settingHTML;
 }

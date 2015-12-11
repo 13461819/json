@@ -132,7 +132,7 @@ function createNewTeam() {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">팀 이름</label>' +
-					'<input class="form-control" id="inputdefault" type="text">' +
+					'<input class="form-control" placeholder="만드실 팀 이름을 입력하세요." id="inputdefault" type="text">' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
