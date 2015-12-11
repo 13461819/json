@@ -8,7 +8,9 @@ function showSetting(settingName) {
 			'<div class="modal-header"' +
 				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
 				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-				'<h2 class="modal-title">새로운 팀 만들기</h2>' +
+				'<h2 class="modal-title">' +
+					settingName +
+				'</h2>' +
 			'</div>' +
 			'<div class="modal-body"' +
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
