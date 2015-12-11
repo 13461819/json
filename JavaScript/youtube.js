@@ -14,6 +14,23 @@ function loadYouTube(title, description, youtube) { //제목, 내용, youtube코
     playerYT.setLoop(true);
 }
 
+function loadYouTubePlayer() {
+	removePlayerDiv();
+	createPlayerDiv();
+	  playerYT = new YT.Player('playerYT', {
+	      height: 720,
+	      width: 1280,
+//	      videoId: 'ZuX0rQ7twnE',
+	      playerVars: {
+	      	'controls': 2,
+	      	'autohide': 1,
+	      	'showinfo': 0},
+	      events: {
+	        'onReady': onPlayerReady,
+	        'onStateChange': onPlayerStateChange
+	      }
+	  });
+}
 
 // 이하 유튜브 API
 
@@ -23,7 +40,7 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var playerYT = null;
-
+/*
 function onYouTubeIframeAPIReady() {
   
   playerYT = new YT.Player('playerYT', {
@@ -41,7 +58,7 @@ function onYouTubeIframeAPIReady() {
   });
   
 }
-
+*/
 function onPlayerReady(event) {
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 

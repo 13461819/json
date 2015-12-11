@@ -1,3 +1,21 @@
+function createPlayerDiv() {
+	var iframe_rwd = document.querySelector(".iframe-rwd");
+	var old_div_player = document.querySelector("#playerYT");
+	if(old_div_player) return;
+	var new_div_player = document.createElement('div');
+	new_div_player.setAttribute('id', 'playerYT');
+	new_div_player.setAttribute('class', 'video');
+	iframe_rwd.appendChild(new_div_player);
+}
+
+function removePlayerDiv() {
+	var iframe_rwd = document.querySelector(".iframe-rwd");
+	var old_div_player = document.querySelector("#playerYT");
+	if(old_div_player)
+		iframe_rwd.removeChild(old_div_player);
+}
+
+
 function convertPlayTime(playtime) { // 3자리 숫자로 되어있는 playTime을 mm분 ss초로 변환한다.
 	var min, sec = 0;
 	min = Math.floor(playtime / 60);
