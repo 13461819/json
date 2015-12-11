@@ -15,8 +15,9 @@ function loadYouTube(title, description, youtube) { //제목, 내용, youtube코
 }
 
 function loadYouTubePlayer() {
-	removePlayerDiv();
-	createPlayerDiv();
+	//removePlayerDiv();
+	disablePlayerFP();
+	createDivPlayerYT();
 	  playerYT = new YT.Player('playerYT', {
 	      height: 720,
 	      width: 1280,

@@ -1,20 +1,51 @@
-function createPlayerDiv() {
+function createDivPlayerYT() {
+	var player_yt = document.querySelector("#playerYT");
+	if(player_yt) {
+		player_yt.setAttribute('style', 'display: block');
+		return;
+	}
 	var iframe_rwd = document.querySelector(".iframe-rwd");
-	var old_div_player = document.querySelector("#playerYT");
-	if(old_div_player) return;
-	var new_div_player = document.createElement('div');
-	new_div_player.setAttribute('id', 'playerYT');
-	new_div_player.setAttribute('class', 'video');
-	iframe_rwd.appendChild(new_div_player);
+	player_yt = document.createElement('div');
+	player_yt.setAttribute('id', 'playerYT');
+	player_yt.setAttribute('class', 'video');
+	iframe_rwd.appendChild(player_yt);
 }
 
+function createDivPlayerFP() {
+	var player_fp = document.querySelector("#playerFP");
+	if(player_fp) {
+		player_fp.setAttribute('style', 'display: block');
+		return;
+	}
+	var iframe_rwd = document.querySelector(".iframe-rwd");
+	player_fp = document.createElement('div');
+	player_fp.setAttribute('id', 'playerFP');
+	player_fp.setAttribute('class', 'video');
+	iframe_rwd.appendChild(player_fp);
+}
+
+function disablePlayerYT() {
+	var player_yt = document.querySelector("#playerYT");
+	if(player_yt) {
+		player_yt.setAttribute('style', 'display: none');
+	}
+}
+
+function disablePlayerFP() {
+	var player_fp = document.querySelector("#playerFP");
+	if(player_fp) {
+		player_fp.setAttribute('style', 'display: none');
+	}
+}
+
+/*
 function removePlayerDiv() {
 	var iframe_rwd = document.querySelector(".iframe-rwd");
 	var old_div_player = document.querySelector("#playerYT");
 	if(old_div_player)
 		iframe_rwd.removeChild(old_div_player);
 }
-
+*/
 
 function convertPlayTime(playtime) { // 3자리 숫자로 되어있는 playTime을 mm분 ss초로 변환한다.
 	var min, sec = 0;
