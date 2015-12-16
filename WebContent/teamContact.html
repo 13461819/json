@@ -9,6 +9,8 @@
 #map {
 	height: 500px;
 	width: 70%;
+	margin: auto;
+	margin-top: 20px;
 }
 </style>
 <title>팀의 연락처 보기</title>
@@ -17,11 +19,24 @@
 	<label id="drawer_menu_label" onclick="toggleMenu()"></label>
 	<header id="my_header"><img src="../image/menu.png" id="menu_image" style="cursor: pointer;"><span class="page_name" id="page_name">TEAM CONTACT</span><span class="page_name" style="text-align: center;">Health Breeze</span></header>
 	<div class="container" id="cont2">
-	<div id="map"></div>
+		<form class="form-inline" role="form" style="width: 70%; margin: auto;">
+			<div class="form-group" style="margin-top: 20px; display: block;">
+				<label for="inputdefault"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></label> <input style="width: 80%;" class="form-control" id="inputdefault" placeholder="URL(홈 페이지, 블로그, SNS등.)" type="text">
+			</div>
+			<div class="form-group" style="margin-top: 20px; display: block;">
+				<label for="inputdefault"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></label> <input style="width: 80%;" class="form-control" id="inputdefault" placeholder="전화 번호" type="text">
+			</div>
+			<div class="form-group" style="margin-top: 20px; display: block;">
+				<label for="inputdefault"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></label> <input style="width: 80%;" class="form-control" id="inputdefault" placeholder="팀 정보" type="text">
+			</div>
+		</form>
+		<div id="map"></div>
 	</div>
 	<script src="../JavaScript/googleMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?&signed_in=true&libraries=places&callback=initMap" async defer></script>
 	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
 	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	</script>
 </body>
 </html>

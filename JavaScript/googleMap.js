@@ -26,12 +26,20 @@ function initMap() {
 function createMakerMyHome() {
 	var marker = new google.maps.Marker({
 		map: map,
+		animation: google.maps.Animation.DROP,
+		draggable: true,
 		position: {lat: 37.473556, lng: 126.889478}
 	});
 
 	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.setContent('우리집');
-		infowindow.open(map, this);
+		if(marker.getAnimation() !== null) {
+			marker.setAnimation(null);
+			infowindow.close();
+		} else {
+			infowindow.setContent('우리집');
+			infowindow.open(map, this);
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+		}
 	});
 }
 
