@@ -17,7 +17,19 @@ function loadYouTube(title, description, youtube) { //제목, 내용, youtube코
 function loadYouTubePlayer() {
 	//removePlayerDiv();
 	disablePlayerFP();
-	createDivPlayerYT();
+	//createDivPlayerYT();
+	
+	var player_yt = document.querySelector("#playerYT");
+	if(player_yt) {
+		player_yt.setAttribute('style', 'display: block');
+		return;
+	}
+	var iframe_rwd = document.querySelector(".iframe-rwd");
+	player_yt = document.createElement('div');
+	player_yt.setAttribute('id', 'playerYT');
+	player_yt.setAttribute('class', 'video');
+	iframe_rwd.appendChild(player_yt);
+	
 	  playerYT = new YT.Player('playerYT', {
 	      height: 720,
 	      width: 1280,
