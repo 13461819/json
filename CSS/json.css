@@ -151,3 +151,23 @@ a.list-group-item{
 .drawer_menu>.drawer_menu_sub:HOVER>#settings {
 	max-height: 500px;
 }
+
+.team_image {
+	width: 100%;
+}
+
+#team_page {
+	background-color: rgb(230,230,230);
+}
+#team_page > div {
+	color: rgb(80,50,110);
+	font-size: 30px;
+	margin: 30px;
+	-webkit-transition: all 0.6s ease;
+	-moz-transition: all 0.6s ease;
+	transition: all 0.6s ease;
+}
+#team_page > div:HOVER {
+	font-size: 33px;
+	cursor: pointer;
+}
