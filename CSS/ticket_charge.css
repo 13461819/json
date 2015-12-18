@@ -9,22 +9,44 @@
 	font-size: 18px;
 	padding-top: 30px;
 	background-color: rgb(238, 238, 238);
+	padding-bottom: 0px;
 }
 
 .modal-body > div {
 	margin: 0px 30px;
 }
 
-.charge-ticket {
+#remain-info {
+	margin-bottom: 15px;
+}
+
+.img-remain {
+	height: 35px;
+}
+
+.img-remain-graph {
+	float: right;
+}
+
+.img-charge-ticket {
 	width: 50px;
+	float: left;
+	margin-right: 15px;
 }
 
 .modal-body > p {
-	margin: 0px 30px;
+	margin: 15px 30px;
+	font-size: 15px;
 }
 
 .modal-body > hr {
 	border-color: rgb(214, 214, 214);
+	margin: 15px;
+}
+
+.modal-body > hr:last-child {
+	border-color: rgb(214, 214, 214);
+	margin-bottom: 0px;
 }
 
 .ticket-price {
@@ -34,4 +56,19 @@
 .btn-ticket-price {
 	padding: 10px 15px;
 	border: none;
+	font-weight: bold;
+}
+
+.modal-footer {
+	padding: 25px;
+	text-align: center;
+	border: none;
+	background-color: rgb(238, 238, 238);
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.btn-coupon {
+	font-size: 30px;
+	width: 80%;
 }
