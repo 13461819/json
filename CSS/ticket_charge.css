@@ -72,3 +72,15 @@
 	font-size: 30px;
 	width: 80%;
 }
+
+.form-coupon {
+	max-height: 0px;
+	overflow: hidden;
+	-webkit-transition : max-height 1s ease, margin-bottom 0.3s ease;
+	-moz-transition: max-height 1s ease, margin-bottom 0.3s ease;
+	transition: max-height 1s ease, margin-bottom 0.3s ease;
+}
+
+.form-control {
+	width: 15% !important;
+}

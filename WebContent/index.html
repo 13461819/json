@@ -40,7 +40,11 @@
 					onclick="createNewTeam()"><span class="glyphicon glyphicon-plus"></span> 새로운 팀 만들기</div>
 	</nav>
 	<label id="drawer_menu_label" onclick="toggleMenu()"></label>
-	<header id="my_header"><img src="../image/menu.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;"><span class="page_name" id="page_name">VIDEO</span><span class="page_name" style="text-align: center;">Health Breeze</span></header>
+	<header id="my_header">
+		<img src="../image/menu.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
+		<span class="page_name" id="page_name">VIDEO</span>
+		<span class="page_name" >Health Breeze</span>
+	</header>
 	<div class="container" id="cont1">
 		<div class="row" id="main_body">
 			<div class="col-xs-4" style="min-width: 323px;">
@@ -94,6 +98,11 @@
 						<p class="text-info" id="description">섹션의 푸터</p>
 						<button onclick="loadYouTubePlayer()">Youtube</button>
 						<button onclick="loadFlowPlayer()">FlowPlayer</button>
+						<span> specialties : 
+							<input id="specialties" type="text" style="width: 45px;"/>
+							<input type="button" value="저장" onclick="saveSpecialties()">
+							<input type="button" value="삭제" onclick="deleteSpecialties()">
+						</span>
 					</footer>
 				</section>
 			</div>
@@ -168,9 +177,11 @@
 	<script src="../JavaScript/misc.js"></script>
 	<script type="text/javascript">
 	$(function() {
+		loadSpecialties();
 		getVideos();
 		accordion_resize();
 		showSelectedList();
+		loadSpecialties();
 	});
 
 	$(window).resize(accordion_resize);

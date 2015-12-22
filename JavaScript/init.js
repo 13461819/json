@@ -70,7 +70,6 @@ function getTopics() {
 					});
 }
 
-
 function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스를 2차원으로 만든다.
 	console.log('createVideos');
 	for( var i = videos_length; i-- ; ) {
@@ -80,24 +79,30 @@ function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스
 
 function createTopics(json) { // "자신만의 비디오 리스트"를 가지고 있는 소주제 객체를 배열에 할당한다.
 	console.log('createTopics');
+	var specialties = [];
 	for( var i = json.length; i-- ; ) {
-		topics.push(json[i]);
+		specialties = json[i].specialties;
+		if(-1 < specialties.indexOf(Number(sessionStorage.getItem("specialties")))) {  // specialties값을 가지고 topics를 구성한다.
+			topics.push(json[i]);
+		}
 	}
 }
-
 
 function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 돈다.
 								  // 루프를 돌며 하나의 비디오는 자기에게 맞는 카테고리에(0~11번 인덱스), 
 								  // 자신의 ID를 key값으로 하는 HashMap에 총 2번 저장된다.(배열[ID]=비디오)
 	console.log('categorizeVideos');
 	var category_index = 0;
+	//var specialties = [];
 	for( var i = json.length; i-- ; ) {
-		
-		// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
-		category_index = findIndexFromCode(json[i]);
-		
-		videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
-		videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
+		//specialties = json[i].specialties;
+		//if(-1 < specialties.indexOf(3009)) {  // specialties값을 가지고 videos를 구성한다.
+			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
+			category_index = findIndexFromCode(json[i]);
+			
+			videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
+			videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
+		//}
 	}
 }
 
@@ -119,4 +124,23 @@ function sortTopics() { // 분류 된 배열을 오름차순 정렬한다.
 	topics.sort( function (a, b) {
 		return (a.name > b.name) ? 1 : -1;
 	});
+}
+
+function loadSpecialties() {
+	var specialties = document.getElementById("specialties");
+	specialties.value = sessionStorage.getItem("specialties");
+}
+
+function saveSpecialties() {
+	var specialties = document.getElementById("specialties");
+	sessionStorage.setItem("specialties", specialties.value); // 세션 스토리지에 데이타를 저장한다. 
+	specialties.value = sessionStorage.getItem("specialties");
+	location.reload();
+}
+
+function deleteSpecialties() {
+	var specialties = document.getElementById("specialties");
+	sessionStorage.removeItem("specialties"); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
+	specialties.value = "";
+	location.reload();
 }

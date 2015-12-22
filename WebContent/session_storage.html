@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<script type="text/javascript">
+		/**
+		 *	스토리지 저장
+		 */
+		function Save() {
+			console.log("Save");
+			var key = document.getElementById("key");
+			var val = document.getElementById("val");
+			var storage = Object.sessionStorage;
+			storage.setItem(key.value, val.value); // 세션 스토리지에 데이타를 저장한다. 
+			key.value = "";
+			val.value = "";
+			ShowStorage();
+		}
+
+		/**
+		 *	스토리지 출력
+		 */
+		function ShowStorage() {
+			console.log("ShowStorage");
+			var storage = document.getElementById("storage");
+			storage.innerHTML = "";
+			for (var i = 0; i < sessionStorage.length; i++) {
+				var k = sessionStorage.key(i); // 세션 스토리지에 키값을 얻는다.
+				storage.innerHTML += '<div>' + k + ' : ' + sessionStorage.getItem(k)
+						+ ' <input type="button" value="삭제" onclick="DeleteStorage(\'' + k
+						+ '\')"/></div>';
+			}
+			focus();
+		}
+
+		/**
+		 *	스토리지 삭제
+		 */
+		function DeleteStorage(key) {
+			console.log("DeleteStorage");
+			sessionStorage.removeItem(key); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
+			ShowStorage();
+		}
+
+		/**
+		 *	스토리지 모든 데이타 삭제
+		 */
+		function ClearStorage() {
+			console.log("ClearStorage");
+			sessionStorage.clear(); // 세션 스토리지를 전부 지운다.
+			ShowStorage();
+		}
+		
+		function searchKeyPress(e) {
+			console.log("searchKeyPress");
+			e = e || window.event;
+			if (e.keyCode == 13) {
+				Save();
+				focus();
+				return false;
+			}
+			return true;
+		}
+		
+		function focus() {
+			console.log("focus");
+			document.getElementById("key").focus();
+		}
+	</script>
+
+	<h1>세션 스토리지</h1>
+	키:
+	<input id="key" type="text"> 값:
+	<input id="val" type="text" onkeyup="return searchKeyPress(event)">
+	<input type="button" value="저장" onclick="Save()">
+	<input type="button" value="모두 삭제" onclick="ClearStorage()">
+	<input type="button" value="새창" onclick="window.open(location.href)">
+	<input type="button" value="새로고침" onclick="ShowStorage()">
+	<h3>세션 스토리지 내역</h3>
+	<div id="storage"></div>
+
+</body>
+</html>
