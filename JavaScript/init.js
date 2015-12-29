@@ -80,10 +80,21 @@ function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스
 function createTopics(json) { // "자신만의 비디오 리스트"를 가지고 있는 소주제 객체를 배열에 할당한다.
 	console.log('createTopics');
 	var specialties = [];
+	var professions = [];
+	var countries = [];
 	for( var i = json.length; i-- ; ) {
-		specialties = json[i].specialties;
-		if(-1 < specialties.indexOf(Number(sessionStorage.getItem("specialties")))) {  // specialties값을 가지고 topics를 구성한다.
-			topics.push(json[i]);
+		specialties = json[i].specialties; 
+		professions = json[i].professions; 
+		countries = json[i].countries;
+		if( (-1 < specialties.indexOf(Number(sessionStorage.getItem("specialties"))))
+				|| specialties.length == 0) {  // specialties값을 가지고 topics를 구성한다.
+			if( (-1 < professions.indexOf(Number(sessionStorage.getItem("professions"))))
+					|| professions.length == 0) {
+				if( (-1 < countries.indexOf("KR"))
+						|| countries.length == 0) {
+					topics.push(json[i]);
+				}
+			}
 		}
 	}
 }
@@ -122,25 +133,37 @@ function sortVideos() { // 분류 된 배열을 오름차순 정렬한다.
 function sortTopics() { // 분류 된 배열을 오름차순 정렬한다.
 	console.log('sortTopics');
 	topics.sort( function (a, b) {
-		return (a.name > b.name) ? 1 : -1;
+		return (a.name < b.name) ? 1 : -1;
 	});
 }
 
-function loadSpecialties() {
+function loadSessions() {
 	var specialties = document.getElementById("specialties");
+	var professions = document.getElementById("professions");
 	specialties.value = sessionStorage.getItem("specialties");
+	professions.value = sessionStorage.getItem("professions");
 }
 
-function saveSpecialties() {
+function saveSessions() {
 	var specialties = document.getElementById("specialties");
+	var professions = document.getElementById("professions");
 	sessionStorage.setItem("specialties", specialties.value); // 세션 스토리지에 데이타를 저장한다. 
+	sessionStorage.setItem("professions", professions.value); // 세션 스토리지에 데이타를 저장한다. 
 	specialties.value = sessionStorage.getItem("specialties");
+	professions.value = sessionStorage.getItem("professions");
 	location.reload();
 }
 
-function deleteSpecialties() {
+function deleteSessions() {
 	var specialties = document.getElementById("specialties");
+	var professions = document.getElementById("professions");
 	sessionStorage.removeItem("specialties"); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
+	sessionStorage.removeItem("professions"); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
 	specialties.value = "";
+	professions.value = "";
 	location.reload();
+}
+
+function saveToken(json) {
+	
 }

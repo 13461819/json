@@ -62,9 +62,7 @@
 						<div class="panel-group" id="accordion_t"></div>
 					</div>
 					<div id="my_list" class="tab-pane fade">
-						<h3>My List</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit
-							voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						<div class="panel-group" id="accordion_m"></div>
 					</div>
 					<div id="search" class="tab-pane fade">
 					<p>
@@ -100,8 +98,10 @@
 						<button onclick="loadFlowPlayer()">FlowPlayer</button>
 						<span> specialties : 
 							<input id="specialties" type="text" style="width: 45px;"/>
-							<input type="button" value="저장" onclick="saveSpecialties()">
-							<input type="button" value="삭제" onclick="deleteSpecialties()">
+							professions : 
+							<input id="professions" type="text" style="width: 45px;"/>
+							<input type="button" value="저장" onclick="saveSessions()">
+							<input type="button" value="삭제" onclick="deleteSessions()">
 						</span>
 					</footer>
 				</section>
@@ -177,11 +177,10 @@
 	<script src="../JavaScript/misc.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		loadSpecialties();
+		loadSessions();
 		getVideos();
 		accordion_resize();
 		showSelectedList();
-		loadSpecialties();
 	});
 
 	$(window).resize(accordion_resize);

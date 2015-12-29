@@ -312,6 +312,7 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 	var title = "", id = "";
 	var count = 0, length = 0;
 	var specialties = [];
+	var professions = [];
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
 			'<div class="panel panel-default" style="margin-top:0px;">' +
@@ -350,54 +351,60 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 					length = videos[i].length;
 					for( var j = length; j-- ;) {
 						specialties = videos[i][j].specialties;
+						professions = videos[i][j].professions;
 						//title = videos[i][j].title;
-						if( -1 < specialties.indexOf(Number(sessionStorage.getItem("specialties")))) {
-							count++;
-							id = videos[i][j].id;
-							subRecommendHTML += 
-								'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
-								
-								id + 
-								
-								'" onclick="replaceAndLoadYoutubeByID(' + 
-								
-								id + 
-								
-								')">' +
-								'<div class="row">' +
-								'<div class="col-sm-3">' +
-								'<img src="' + 
-								
-								videos[id].thumbnail + 
-								
-								'" class="img-responsive">' +
-								'</div>' +
-								'<div class="col-sm-9">' +
-								'<div class="row">' + 
-								
-								videos[id].title + 
-								
-								'</div>' +
-								'<div class="row" style="font-size:13px;">' +
-								
-								convertPlayTime(videos[id].playtime) +
-								
-								'</div>' +
-								'</div>' +
-								'</div>' +
-								'</a></div>' +
-								'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
-								'<input type="checkbox" class="checkbox checkbox' + 
-								
-								id + 
-								
-								'" onclick="toggleCheckList(' + 
-								
-								id + 
-								
-								', this.checked)">' +
-								'</div>' +
-								'</div>';
+						if( (-1 < specialties.indexOf(Number(sessionStorage.getItem("specialties")))) || specialties.length == 0) {
+							if( (-1 < professions.indexOf(Number(sessionStorage.getItem("professions"))) ) || professions.length == 0) {
+								//console.log(typeof videos[i][j].visible);
+								if(videos[i][j].visible == true) {
+								count++;
+								id = videos[i][j].id;
+								subRecommendHTML += 
+									'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+									
+									id + 
+									
+									'" onclick="replaceAndLoadYoutubeByID(' + 
+									
+									id + 
+									
+									')">' +
+									'<div class="row">' +
+									'<div class="col-sm-3">' +
+									'<img src="' + 
+									
+									videos[id].thumbnail + 
+									
+									'" class="img-responsive">' +
+									'</div>' +
+									'<div class="col-sm-9">' +
+									'<div class="row">' + 
+									
+									videos[id].title + 
+									
+									'</div>' +
+									'<div class="row" style="font-size:13px;">' +
+									
+									convertPlayTime(videos[id].playtime) +
+									
+									'</div>' +
+									'</div>' +
+									'</div>' +
+									'</a></div>' +
+									'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
+									'<input type="checkbox" class="checkbox checkbox' + 
+									
+									id + 
+									
+									'" onclick="toggleCheckList(' + 
+									
+									id + 
+									
+									', this.checked)">' +
+									'</div>' +
+									'</div>';
+								}
+							}
 						}
 					}
 					subRecommendHTML += 
@@ -411,4 +418,8 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 		count = 0;
 	}
 	$("#accordion_r").html(recommendHTML);
+}
+
+function crateMyListHTML() {
+	console.log('crateMyListHTML');
 }
