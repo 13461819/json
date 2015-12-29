@@ -12,6 +12,13 @@
 	overflow-x: hidden;
 }
 
+#accordion_m {
+	min-height: 300px; 
+	background-color: rgb(251, 251, 251); 
+	overflow: auto; 
+	overflow-x: hidden;
+}
+
 .arrow {
 	width: 20px;
 	margin-top: 3px;

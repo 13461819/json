@@ -52,6 +52,7 @@ function getTopics() {
 						createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
 						sortTopics(); // 객체의 순서를 정렬한다.
 						createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
+						createMyListHTML(); //My List의 HTML코드를 생성한다.
 					})
 			.fail(
 					function(request, status, error) {
@@ -166,4 +167,9 @@ function deleteSessions() {
 
 function saveToken(json) {
 	
+}
+
+function showCurrentSessionStorage() {
+	console.log(sessionStorage.getItem("accounts"));
+	console.log(sessionStorage.getItem("my_lists"));
 }

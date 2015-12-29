@@ -420,6 +420,107 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 	$("#accordion_r").html(recommendHTML);
 }
 
-function crateMyListHTML() {
+function createMyListHTML() {
 	console.log('crateMyListHTML');
+	var myListHTML = "", beforeLength = "", afterLength = "", subMyListHTML = "";
+	var title = "", id = "";
+	var count = 0, length = 0;
+	var my_videos = [];
+	var my_lists = JSON.parse(sessionStorage.getItem("my_lists"));
+	for( var i = 0; i < my_lists.length; i++) {
+		beforeLength = 
+			'<div class="panel panel-default" style="margin-top:0px;">' +
+			'<div class="panel-heading">' +
+			'<span class="panel-title" style="margin-top: 8px;">' +
+			'<a data-toggle="collapse" href="#collapse_m' + 
+				
+			i + 
+			
+			'" onclick="myListArrowRotate(' + 
+			
+			i + 
+			
+			')" style="font-size: 12px;">' + 
+			'<span id="myListArrow' + 
+			
+			i + 
+			
+			'" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>' + 
+			
+			my_lists[i].name +
+				
+			'<span class="label label-default label-as-badge">';
+		
+			afterLength = 
+				'</span>' +
+				'</a>' + 
+				'</span>' +
+				'</div>' +
+				'<div id="collapse_m' + 
+				
+				i + 
+				
+				'" class="panel-collapse collapse">' + 
+				'<div class="list-group">';
+					my_videos = my_lists[i].videos;
+					length = my_videos.length;
+					for( var j = 0; j < length; j++) {
+						count++;
+						id = my_videos[j];
+						subMyListHTML += 
+							'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+							
+							id + 
+							
+							'" onclick="replaceAndLoadYoutubeByID(' + 
+							
+							id + 
+							
+							')">' +
+							'<div class="row">' +
+							'<div class="col-sm-3">' +
+							'<img src="' + 
+							
+							videos[id].thumbnail + 
+							
+							'" class="img-responsive">' +
+							'</div>' +
+							'<div class="col-sm-9">' +
+							'<div class="row">' + 
+							
+							videos[id].title + 
+							
+							'</div>' +
+							'<div class="row" style="font-size:13px;">' +
+							
+							convertPlayTime(videos[id].playtime) +
+							
+							'</div>' +
+							'</div>' +
+							'</div>' +
+							'</a></div>' +
+							'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
+							'<input type="checkbox" class="checkbox checkbox' + 
+							
+							id + 
+							
+							'" onclick="toggleCheckList(' + 
+							
+							id + 
+							
+							', this.checked)">' +
+							'</div>' +
+							'</div>';
+					}
+					subMyListHTML += 
+				'</div>' +
+			'</div>' + 
+		'</div>';
+		if( 0 < count) {
+			myListHTML += beforeLength + count + afterLength + subMyListHTML;
+		}
+		subMyListHTML = "";
+		count = 0;
+	}
+	$("#accordion_m").html(myListHTML);
 }

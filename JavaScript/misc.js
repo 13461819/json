@@ -59,6 +59,7 @@ function convertPlayTime(playtime) { // 3자리 숫자로 되어있는 playTime�
 var accordion_resize = function() { // 화면 크기가 변경되면 리스트의 크기도 같이 변경한다.
 	$('#accordion_r').height($(window).height() - $('#draw_menu_button').height() - 150);
 	$('#accordion_t').height($(window).height() - $('#draw_menu_button').height() - 150);
+	$('#accordion_m').height($(window).height() - $('#draw_menu_button').height() - 150);
 }
 
 var arrow; // 각 리스트에 있는 카테고리 제목의 +, - 모양 아이콘
@@ -102,6 +103,22 @@ function searchArrowRotate(arrowID) {
 function topicArrowRotate(arrowID) {
 	console.log("topicArrowRotate");
 	arrow = $("#topicArrow" + arrowID);
+	/*
+	clearInterval(rotateINT);
+	rotateINT = setInterval("arrowRotate()", 10);
+	*/
+	if(arrow.hasClass("glyphicon-plus-sign")) {
+		arrow.removeClass("glyphicon-plus-sign");
+		arrow.addClass("glyphicon-minus-sign");
+	} else {
+		arrow.removeClass("glyphicon-minus-sign");
+		arrow.addClass("glyphicon-plus-sign");
+	}
+}
+
+function myListArrowRotate(arrowID) {
+	console.log("myListArrowRotate");
+	arrow = $("#myListArrow" + arrowID);
 	/*
 	clearInterval(rotateINT);
 	rotateINT = setInterval("arrowRotate()", 10);

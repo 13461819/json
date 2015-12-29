@@ -32,14 +32,14 @@
 					<form id="loginform" class="form-horizontal" role="form">
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-user"></i></span> <input id="login-username"
+								class="glyphicon glyphicon-user"></i></span> <input id="login-useremail"
 								type="text" class="form-control" name="username" value=""
 								placeholder="이메일을 입력하세요.">
 						</div>
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
-								type="password" class="form-control" name="password"
+								type="password" class="form-control" name="password" onkeyup="return searchKeyPress(event)"
 								placeholder="비밀번호를 입력하세요.">
 						</div>
 						<div class="input-group">
@@ -52,16 +52,16 @@
 						<div style="margin-top: 10px" class="form-group">
 							<!-- Button -->
 							<div class="col-sm-12 controls">
-								<a id="btn-login" href="#" class="btn btn-success">로그인 </a>
+								<a id="btn-login" href="#" class="btn btn-success" onclick="login()">로그인 </a>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-12 control">
-								<div
-									style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
-									계정이 없습니까? <a href="#"
-										onClick="$('#loginbox').hide(); $('#signupbox').show()">
-<!-- 										회원 가입 </a> -->
+								<div style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
+									계정이 없습니까?
+									<a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+										회원 가입 
+									</a>
 								</div>
 							</div>
 						</div>
@@ -146,5 +146,41 @@
 	</div>
 	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
 	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function login() {
+			var email = $("#login-useremail").val();
+			var passwd = $("#login-password").val();
+			var data = '{"email" : "' + email + '",' + 
+			    '"password" : "' + passwd + '", ' + 
+			    '"deviceId" : "5668600916475904"}';
+			
+			$.post("https://hbreeze4ani.appspot.com/api/v1/login", data,
+					function(json) {
+						//console.log(json);
+						$.ajax({
+							type: "GET",
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader("Authorization", "Basic " + btoa(json.userId + "-" + json.deviceId + ":" + json.sessionKey))
+							},
+							url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + json.userId + "/mylists",
+							success: function(json2) {
+								sessionStorage.setItem("specialties", json.specialty);
+								sessionStorage.setItem("professions", String(json.profession).substr(0,1) + "00");
+								sessionStorage.setItem("accounts", JSON.stringify(json));
+								sessionStorage.setItem("my_lists", JSON.stringify(json2));
+								location.replace("index.html");
+							}
+						});
+					});
+		}
+		function searchKeyPress(e) {
+			e = e || window.event;
+			if (e.keyCode == 13) {
+				login();
+				return false;
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>
