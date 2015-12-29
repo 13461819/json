@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/hanna.css" />
 <link rel="stylesheet" href="../CSS/json.css" />
+<script type="text/javascript">
+	if(sessionStorage.getItem("specialties") == null) {
+		alert("비정상적인 접근!");
+		location.replace("login.html");
+	}
+</script>
 </head>
 <body>
 	<nav id="drawer_menu" class="drawer_menu">
