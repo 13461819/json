@@ -91,6 +91,24 @@ function getMyLists() {
 	});
 }
 
+function getTeamTitle() {
+	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/teams",
+		success: function(json) {
+			for(var i = 0; i < json.length; i++) {
+				$(".teamTitleEnd").before('<div class="drawer_menu_sub">' + json[i].name + '</div>');
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+	});
+}
+
 function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스를 2차원으로 만든다.
 	console.log('createVideos');
 	for( var i = videos_length; i-- ; ) {
