@@ -53,6 +53,7 @@ function getTopics() {
 						sortTopics(); // 객체의 순서를 정렬한다.
 						createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
 						createMyListHTML(); //My List의 HTML코드를 생성한다.
+						loadYouTubePlayer();
 					})
 			.fail(
 					function(request, status, error) {
