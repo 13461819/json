@@ -80,7 +80,7 @@
 			console.log("postToServer");
 			$.post("https://hbreeze4ani.appspot.com/api/v1/login", data,
 					function(json) {
-					console.log(json);
+						console.log(json);
 						$.ajax({
 							type: "GET",
 							beforeSend: function(xhr) {
