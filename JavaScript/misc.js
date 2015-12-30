@@ -190,3 +190,21 @@ function createNewTeam() {
 	'</div>';
 	modal.html(settingHTML);
 }
+
+function onTopicLbtn() {
+	var accordion_t = $("#accordion_t");
+	if(accordion_t.html() == "") {
+		accordion_t.html("else");
+		console.log("I'll make topics HTML now, just one time!")
+		getTopics();
+	}
+}
+
+function onMyListLbtn() {
+	var accordion_m = $("#accordion_m");
+	if(accordion_m.html() == "") {
+		accordion_m.html("else");
+		console.log("I'll make My List HTML now, just one time!")
+		getMyLists();
+	}
+}

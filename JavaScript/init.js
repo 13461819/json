@@ -52,8 +52,8 @@ function getTopics() {
 						createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
 						sortTopics(); // 객체의 순서를 정렬한다.
 						createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
-						createMyListHTML(); //My List의 HTML코드를 생성한다.
-						loadYouTubePlayer();
+						//createMyListHTML(); //My List의 HTML코드를 생성한다.
+						//loadYouTubePlayer();
 					})
 			.fail(
 					function(request, status, error) {
@@ -72,6 +72,25 @@ function getTopics() {
 					});
 }
 
+function getMyLists() {
+	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/mylists",
+		success: function(json) {
+			if(localStorage.getItem("deviceId") == null)
+				localStorage.setItem("deviceId", json.deviceId);
+			sessionStorage.setItem("my_lists", JSON.stringify(json));
+			createMyListHTML(); //My List의 HTML코드를 생성한다.
+		}
+	}).fail(function (message){
+		console.log(message);
+	});
+}
+
 function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스를 2차원으로 만든다.
 	console.log('createVideos');
 	for( var i = videos_length; i-- ; ) {
@@ -81,6 +100,9 @@ function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스
 
 function createTopics(json) { // "자신만의 비디오 리스트"를 가지고 있는 소주제 객체를 배열에 할당한다.
 	console.log('createTopics');
+	var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
+	var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
+	profession -= profession % 100; 
 	var specialties = [];
 	var professions = [];
 	var countries = [];
@@ -88,9 +110,9 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 		specialties = json[i].specialties; 
 		professions = json[i].professions; 
 		countries = json[i].countries;
-		if( (-1 < specialties.indexOf(Number(sessionStorage.getItem("specialties"))))
+		if( (-1 < specialties.indexOf(specialty))
 				|| specialties.length == 0) {  // specialties값을 가지고 topics를 구성한다.
-			if( (-1 < professions.indexOf(Number(sessionStorage.getItem("professions"))))
+			if( (-1 < professions.indexOf(profession))
 					|| professions.length == 0) {
 				if( (-1 < countries.indexOf("KR"))
 						|| countries.length == 0) {
