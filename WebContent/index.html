@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/hanna.css" />
 <link rel="stylesheet" href="../CSS/json.css" />
 <script type="text/javascript">
-	if(sessionStorage.getItem("specialties") == null) {
+	if(sessionStorage.getItem("accounts") == null) {
 		alert("비정상적인 접근!");
 		location.replace("login.html");
 	}
@@ -102,13 +102,6 @@
 						<p class="text-info" id="description">섹션의 푸터</p>
 						<button onclick="loadYouTubePlayer()">Youtube</button>
 						<button onclick="loadFlowPlayer()">FlowPlayer</button>
-						<span> specialties : 
-							<input id="specialties" type="text" style="width: 45px;"/>
-							professions : 
-							<input id="professions" type="text" style="width: 45px;"/>
-							<input type="button" value="저장" onclick="saveSessions()">
-							<input type="button" value="삭제" onclick="deleteSessions()">
-						</span>
 					</footer>
 				</section>
 			</div>
@@ -183,7 +176,6 @@
 	<script src="../JavaScript/misc.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		loadSessions(); //세션 불러옴
 		getVideos(); // Videos 리스트 받아옴
 		accordion_resize(); // 리스트 사이즈 변경
 		showSelectedList();

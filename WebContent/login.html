@@ -80,26 +80,9 @@
 			console.log("postToServer");
 			$.post("https://hbreeze4ani.appspot.com/api/v1/login", data,
 					function(json) {
-					console.log(json);
-						$.ajax({
-							type: "GET",
-							beforeSend: function(xhr) {
-								xhr.setRequestHeader("Authorization", "Basic " + btoa(json.userId + "-" + json.deviceId + ":" + json.sessionKey))
-							},
-							url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + json.userId + "/mylists",
-							success: function(json2) {
-								console.log("mylist");
-								if(localStorage.getItem("deviceId") == null)
-									localStorage.setItem("deviceId", json.deviceId);
-								sessionStorage.setItem("specialties", json.specialty);
-								sessionStorage.setItem("professions", String(json.profession).substr(0,1) + "00");
-								sessionStorage.setItem("accounts", JSON.stringify(json));
-								sessionStorage.setItem("my_lists", JSON.stringify(json2));
-								location.replace("index.html");
-							}
-						}).fail(function (message){
-							console.log(message);
-						});
+						console.log(json);
+						sessionStorage.setItem("accounts", JSON.stringify(json));
+						location.replace("index.html");
 					}).fail(function(message) {
 						var responseText = JSON.parse(message.responseText);
 						console.log(responseText);

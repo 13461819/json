@@ -27,7 +27,7 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 												// 나머지 인덱스에는 비디오 ID값을 이용해 배열의 인덱스에 [Key: ID] = Value: 비디오 값으로 채운다.
 						sortVideos(); // 첫 12개의 인덱스에 들어있는 카테고리별 비디오만 각각 정렬한다.
 						createRecommendHTML(); //정렬 된 배열을 가지고 HTML코드를 생성한다.
-						getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
+						//getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
 					})
 			.fail(
 					function(request, status, error) {
@@ -137,40 +137,4 @@ function sortTopics() { // 분류 된 배열을 오름차순 정렬한다.
 	topics.sort( function (a, b) {
 		return (a.name < b.name) ? 1 : -1;
 	});
-}
-
-function loadSessions() {
-	var specialties = document.getElementById("specialties");
-	var professions = document.getElementById("professions");
-	specialties.value = sessionStorage.getItem("specialties");
-	professions.value = sessionStorage.getItem("professions");
-}
-
-function saveSessions() {
-	var specialties = document.getElementById("specialties");
-	var professions = document.getElementById("professions");
-	sessionStorage.setItem("specialties", specialties.value); // 세션 스토리지에 데이타를 저장한다. 
-	sessionStorage.setItem("professions", professions.value); // 세션 스토리지에 데이타를 저장한다. 
-	specialties.value = sessionStorage.getItem("specialties");
-	professions.value = sessionStorage.getItem("professions");
-	location.reload();
-}
-
-function deleteSessions() {
-	var specialties = document.getElementById("specialties");
-	var professions = document.getElementById("professions");
-	sessionStorage.removeItem("specialties"); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
-	sessionStorage.removeItem("professions"); // 세션 스토리지에 key값에 해당하는 데이타를 삭제한다.
-	specialties.value = "";
-	professions.value = "";
-	location.reload();
-}
-
-function saveToken(json) {
-	
-}
-
-function showCurrentSessionStorage() {
-	console.log(sessionStorage.getItem("accounts"));
-	console.log(sessionStorage.getItem("my_lists"));
 }
