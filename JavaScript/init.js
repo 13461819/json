@@ -102,7 +102,7 @@ function getTeamTitle() {
 		success: function(json) {
 			sessionStorage.setItem("teams", JSON.stringify(json));
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="drawer_menu_sub" onclick="createTeamPage(\'' + json[i].id + '\')">' + json[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="drawer_menu_sub" onclick="createTeamPage(\'' + json[i].owner + '\')">' + json[i].name + '</div>');
 			}
 		}
 	}).fail(function (message){

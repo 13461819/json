@@ -209,6 +209,77 @@ function onMyListLbtn() {
 	}
 }
 
-function createTeamPage(teamID) {
-	alert("teamID : " + teamID);
+function createTeamPage(owner) {
+	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	var teamHTML = "";
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + owner + "/credit",
+		success: function(json) {
+			
+			
+			
+			console.log("관리자의 남은 티켓 : " + json.credit);
+		}
+	}).fail(function (message){
+		console.log(message);
+	});
+	/*
+	<div class="container" id="cont2" style="display: none;">
+	<div class="row">
+		<div class="col-lg-5" style="padding-right: 0px;">
+			<div class="row">
+				<div class="col-md-12">
+					<img alt="팀 사진" class="img-responsive team_image" src="../image/dog.png">
+				</div>
+			</div>
+			<div>
+				<div class="col-md-12" style="height: 50px;">
+					<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/ticket.png">
+					<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain_ticket">28</span></div>
+					<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/amount_used.png">
+				</div>
+			</div>
+			<div class="row" style="background-color: rgb(210,210,210); clear: both;">
+				<div class="col-md-12">관리자</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<img alt="팀 사진" class="img-responsive" src="../image/silhouette.png">
+				</div>
+				<div class="col-md-8">
+					<div>김동현</div>
+					<div>의사(인턴)</div>
+					<div>호스피스</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" style="text-align: center;">팀의 연락처 보기</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" style="text-align: center;">이 팀을 떠나기</div>
+			</div>
+		</div>
+		<div class="col-lg-7" id="team_page">
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('팀 사진 변경')">팀 사진 변경</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('팀 이름 변경')">팀 이름 변경</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('연락처 설정')">연락처 설정</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('팀원 추가')">팀원 추가</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('팀원 관리')">팀원 관리</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('관리자 변경')">관리자 변경</div>
+			<div data-toggle="modal" data-target="#modal_setting"
+				onclick="showTeamSetting('암호로 설명처방 보호')">암호로 설명처방 보호</div>
+		</div>
+	</div>
+</div>
+	*/
 }
