@@ -208,3 +208,7 @@ function onMyListLbtn() {
 		getMyLists();
 	}
 }
+
+function createTeamPage(teamID) {
+	alert("teamID : " + teamID);
+}

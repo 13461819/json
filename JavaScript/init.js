@@ -100,8 +100,9 @@ function getTeamTitle() {
 		},
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/teams",
 		success: function(json) {
+			sessionStorage.setItem("teams", JSON.stringify(json));
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="drawer_menu_sub">' + json[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="drawer_menu_sub" onclick="createTeamPage(\'' + json[i].id + '\')">' + json[i].name + '</div>');
 			}
 		}
 	}).fail(function (message){
