@@ -53,7 +53,7 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var playerYT = null;
-/*
+
 function onYouTubeIframeAPIReady() {
   
   playerYT = new YT.Player('playerYT', {
@@ -71,7 +71,7 @@ function onYouTubeIframeAPIReady() {
   });
   
 }
-*/
+
 function onPlayerReady(event) {
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 

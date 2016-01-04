@@ -209,19 +209,29 @@ function onMyListLbtn() {
 	}
 }
 
-function createTeamPage(owner) {
+function clickTeamPage(index) {
+	if($("#team" + index).html() == null) {
+		createTeamPage(index);
+	}
+}
+
+function createTeamPage(index) {
+	$("#modal_setting").before('<div class="container" id="team' + index + '">team' + index + ' page</div>');
 	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	var teams = JSON.parse(sessionStorage.getItem("teams"));
+	var team = teams[index];
 	var teamHTML = "";
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + owner + "/credit",
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + team.owner + "/credit",
 		success: function(json) {
 			
 			
-			
+
+			$("#team" + index).html('team' + index + ' page');
 			console.log("관리자의 남은 티켓 : " + json.credit);
 		}
 	}).fail(function (message){
