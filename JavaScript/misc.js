@@ -161,18 +161,13 @@ function toggleMenu() {
 	}
 }
 
-function toggleCont(value) {
-	var cont1 = $("#cont1");
-	var cont2 = $("#cont2");
-	var page_name = $("#page_name");
-	if(value == 'VIDEO') {
-		cont2.hide();
-		cont1.show();
-	} else {
-		cont1.hide();
-		cont2.show();
-	}
-	page_name.text(value);
+function toggleCont(contID) {
+	var cont = $(".container");
+	var targetCont = $("#" + contID);
+	cont.css("display", "none");
+	targetCont.css("display", "block");
+	//var page_name = $("#page_name");
+	//page_name.text(value);
 	toggleMenu();
 }
 
@@ -225,6 +220,7 @@ function clickTeamPage(index) {
 	if($("#team" + index).html() == null) {
 		createTeamPage(index);
 	}
+	toggleCont("team" + index);
 }
 
 function createTeamPage(index) {
@@ -240,9 +236,6 @@ function createTeamPage(index) {
 		},
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + team.owner + "/credit",
 		success: function(json) {
-			
-			
-
 			$("#team" + index).html('team' + index + ' page');
 			console.log("관리자의 남은 티켓 : " + json.credit);
 		}
