@@ -110,11 +110,11 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			
 			i + 
 			
-			'" onclick="topicArrowRotate(' + 
+			'" onclick="arrowRotate(\'topicArrow' + 
 			
 			i + 
 			
-			')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 12px;">' + 
 			'<span id="topicArrow' + 
 			
 			i + 
@@ -213,11 +213,11 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 				
 			i + 
 			
-			'" onclick="searchArrowRotate(' + 
+			'" onclick="arrowRotate(\'searchArrow' + 
 			
 			i + 
 			
-			')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 12px;">' + 
 			'<span id="searchArrow' + 
 			
 			i + 
@@ -325,11 +325,11 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 				
 			i + 
 			
-			'" onclick="recommendArrowRotate(' + 
+			'" onclick="arrowRotate(\'recommendArrow' + 
 			
 			i + 
 			
-			')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 12px;">' + 
 			'<span id="recommendArrow' + 
 			
 			i + 
@@ -441,11 +441,11 @@ function createMyListHTML() {
 				
 			i + 
 			
-			'" onclick="myListArrowRotate(' + 
+			'" onclick="arrowRotate(\'myListArrow' + 
 			
 			i + 
 			
-			')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 12px;">' + 
 			'<span id="myListArrow' + 
 			
 			i + 

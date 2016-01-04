@@ -64,6 +64,18 @@ var accordion_resize = function() { // 화면 크기가 변경되면 리스트�
 
 var arrow; // 각 리스트에 있는 카테고리 제목의 +, - 모양 아이콘
 
+function arrowRotate(arrowID) {
+	console.log("arrowRotate");
+	arrow = $("#" + arrowID);
+	if(arrow.hasClass("glyphicon-plus-sign")) {
+		arrow.removeClass("glyphicon-plus-sign");
+		arrow.addClass("glyphicon-minus-sign");
+	} else {
+		arrow.removeClass("glyphicon-minus-sign");
+		arrow.addClass("glyphicon-plus-sign");
+	}
+}
+
 function recommendArrowRotate(arrowID) { 
 	console.log("recommendArrowRotate");
 	arrow = $("#recommendArrow" + arrowID);
@@ -203,7 +215,7 @@ function onTopicLbtn() {
 function onMyListLbtn() {
 	var accordion_m = $("#accordion_m");
 	if(accordion_m.html() == "") {
-		accordion_m.html("else");
+		accordion_m.html("Now Loading My List...");
 		console.log("I'll make My List HTML now, just one time!")
 		getMyLists();
 	}
