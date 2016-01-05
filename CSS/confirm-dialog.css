@@ -53,7 +53,7 @@ body {
 	margin: 0px;
 }
 
-.btn-selector {
+.confirm-btn {
 	border-right: 1px solid rgb(189, 189, 189);
 	display: inline-block;
 	line-height: 44px;
@@ -66,24 +66,32 @@ body {
 	    	transition: font-size 0.2s ease;
 }
 
-.btn-selector:HOVER {
+.confirm-btn:HOVER {
 	cursor: pointer;
 	font-size: 17px;
 }
 
-.btn-selector:LAST-CHILD {
+.confirm-btn:LAST-CHILD {
 	border: none;
 }
 
-.btn-selector3 {
-	width: 32%;
+.confirm-btn1 {
+	width: 99%;
 }
 
-.btn-selector2 {
+.confirm-btn2 {
 	width: 49%;
 }
 
-#background-layer {
+.confirm-btn3 {
+	width: 32%;
+}
+
+.confirm-btn4 {
+	width: 24%;
+}
+
+#confirm-bg {
 	z-index: 101;
 	top: 0px;
 	left: 0px;
