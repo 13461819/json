@@ -142,7 +142,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			id = topics[i].videos[j];
 			topicHTML += 
 				
-				'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+				'<div class="row list' + id + '"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
 				
 				id + 
 				
@@ -246,7 +246,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 							count++;
 							id = videos[i][j].id;
 							subSearchHTML += 
-								'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+								'<div class="row list' + id + '"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
 								
 								id + 
 								
@@ -365,7 +365,7 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 								count++;
 								id = videos[i][j].id;
 								subRecommendHTML += 
-									'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+									'<div class="row list' + id + '"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
 									
 									id + 
 									
@@ -473,7 +473,7 @@ function createMyListHTML() {
 						count++;
 						id = my_videos[j];
 						subMyListHTML += 
-							'<div class="row"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+							'<div class="row list' + id + '"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
 							
 							id + 
 							

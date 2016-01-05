@@ -19,6 +19,19 @@
 	overflow-x: hidden;
 }
 
+.list-group > div:HOVER {
+	cursor: pointer;
+	background-color: rgb(231, 247, 253);
+}
+
+.list-group a {
+	background: none;
+}
+
+.list-group a:hover {
+	background: none;
+}
+
 .arrow {
 	width: 20px;
 	margin-top: 3px;
@@ -107,6 +120,18 @@ a.list-group-item{
 	margin-top: 15px;
 	margin-left: 25px;
 	width: 30px;
+}
+
+.list-manipulation{
+	margin-right: 15px;
+	float: right;
+	width: 60px;
+	display: none;
+
+}
+
+#send_image {
+	margin-top: 5px;
 }
 
 .page_name {

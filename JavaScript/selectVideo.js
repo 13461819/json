@@ -16,9 +16,18 @@ function showSelectedList() { // 선택 된 리스트의 썸네일을 보여주�
 
 function refreshCheckBox() { // Recommend, Topic, My List, Search 리스트의 체크박스를 새로고침 한다.
 	//$("input.checkbox").attr("checked", false);
+	var isSelected = false;
 	$("input.checkbox").prop("checked", false);
+	$(".list-group > div").css("background-color", "white");
+	$(".list-group a").css("background-color", "white");
+	$(".list-manipulation").css("display", "none");
 	for( var i = 0; i < selectedVideos.length; i++){
+		isSelected = true;
 		$("input.checkbox" + selectedVideos[i]).prop("checked", true);
+		$(".list" + selectedVideos[i]).css("background-color", "rgb(135, 214, 244)");
+	}
+	if(isSelected) {
+		$(".list-manipulation").css("display", "block");
 	}
 }
 
