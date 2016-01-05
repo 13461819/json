@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>custom confirm</title>
+<link rel="stylesheet" href="../CSS/confirm-dialog.css" />
+</head>
+<body>
+	<button onclick="submitLogin()">로그인</button>
+	<div class="confirm-dialog">
+		<div class="confirm-content">
+			<div class="confirm-header">
+				Confirm your action
+			</div>
+			<div class="confirm-body">
+				Are you really sure that you want to delete or add Device ID?
+			</div>
+			<hr>
+			<div class="confirm-footer">
+				<span class="btn-selector btn-selector3" onclick="alert('Delete!')">Delete</span>
+				<span class="btn-selector btn-selector3" onclick="alert('Add!')">Add</span>
+				<span class="btn-selector btn-selector3" onclick="cancel()">Cancel</span>
+			</div>
+		</div>
+	</div>
+	<label id="background-layer"></label>
+	<script type="text/javascript">
+	function submitLogin() {
+		$(".confirm-dialog")
+		.css("width", "500px")
+		.css("height", "165px")
+		.css("opacity", "1");
+		$("#background-layer")
+		.css("width", "100vw")
+		.css("height", "100vh");
+	}
+	
+	function cancel() {
+		$(".confirm-dialog")
+		.css("opacity", "0")
+		.css("width", "0px")
+		.css("height", "0px");
+		$("#background-layer")
+		.css("width", "0px")
+		.css("height", "0px");
+	}
+	</script>
+	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
+</body>
+</html>

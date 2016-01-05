@@ -90,15 +90,16 @@ function getAccount() {
 }
 
 function getProfile() {
+	var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 	var settingHTML = "";
 	settingHTML += 
 	'<div class="row" style="margin-bottom: 30px;">' +
-		'<img src="../image/silhouette.png" class="img-responsive"' +
+		'<img src="' + accounts.picture + '" class="img-responsive"' +
 			'width="50%" style="margin-left: auto; margin-right: auto;">' +
 	'</div>' +
 	'<div class="form-group">' +
 		'<label for="inputdefault">이름</label> <input class="form-control"' +
-			'id="inputdefault" placeholder="이름을 입력하세요." type="text">' +
+			'id="inputdefault" placeholder="이름을 입력하세요." type="text" value="' + accounts.nickName + '">' +
 	'</div>' +
 	
 	'<div class="form-group">' +

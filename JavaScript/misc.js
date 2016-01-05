@@ -257,10 +257,10 @@ function createTeamPage(index) {
 					'</div>' +
 					'<div class="row">' +
 						'<div class="col-md-4">' +
-							'<img alt="관리자 사진" class="img-responsive" src="../image/silhouette.png">' +
+							'<img alt="관리자 사진" class="img-responsive" src="' + account.picture + '">' +
 						'</div>' +
 						'<div class="col-md-8">' +
-							'<div>김동현</div>' +
+							'<div>' + account.nickName + '</div>' +
 							'<div>의사(인턴)</div>' +
 							'<div>호스피스</div>' +
 						'</div>' +
@@ -291,7 +291,7 @@ function createTeamPage(index) {
 			'</div>';
 			
 			$("#team" + index).html(teamHTML);
-			console.log("관리자의 남은 티켓 : " + json.credit);
+			//console.log("관리자의 남은 티켓 : " + json.credit);
 		}
 	}).fail(function (message){
 		console.log(message);
