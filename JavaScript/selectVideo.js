@@ -17,9 +17,7 @@ function showSelectedList() { // 선택 된 리스트의 썸네일을 보여주�
 function refreshCheckBox() { // Recommend, Topic, My List, Search 리스트의 체크박스를 새로고침 한다.
 	//$("input.checkbox").attr("checked", false);
 	var isSelected = false;
-	$("input.checkbox").prop("checked", false);
-	$(".list-group > div").css("background-color", "white");
-	$(".list-group a").css("background-color", "white");
+	//$("input.checkbox").prop("checked", false);
 	$(".list-manipulation").css("display", "none");
 	for( var i = 0; i < selectedVideos.length; i++){
 		isSelected = true;
@@ -37,7 +35,20 @@ function removeFromSelectedList(id) { // 선택 된 비디오의 썸네일을 �
 		if(index >= 0) {
 			selectedVideos.splice(index, 1);
 		}
-		//$("input.checkbox" + id).attr("checked", false);
+		$("input.checkbox" + id).prop("checked", false);
+		
+		
+		$(".list" + id).css("background-color", "white");
+		/*
+		$(".list" + id).mouseenter(function() {
+			$(this).css("background-color", "rgb(231, 247, 253)");
+		});
+		
+		$(".list" + id).mouseleave(function() {
+			$(this).css("background-color", "white");
+		});
+		*/
+		
 		showSelectedList();
 	}
 }
@@ -52,7 +63,20 @@ function toggleCheckList(id, isChecked) { //체크박스를 클릭하면 해당 
 		if(index >= 0) {
 			selectedVideos.splice(index, 1);
 		}
-		//$("input.checkbox" + id).attr("checked", false);
+		$("input.checkbox" + id).prop("checked", false);
+		
+		
+		$(".list" + id).css("background-color", "white");
+		/*
+		$(".list" + id).mouseenter(function() {
+			$(this).css("background-color", "rgb(231, 247, 253)");
+		});
+		
+		$(".list" + id).mouseleave(function() {
+			$(this).css("background-color", "white");
+		});
+		*/
+		
 	}
 	showSelectedList();
 }

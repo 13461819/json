@@ -198,10 +198,37 @@ function createNewTeam() {
 	modal.html(settingHTML);
 }
 
+function sendMessage() {
+	var modal = $("#modal_setting");
+	var settingHTML = "";
+	modal.html(settingHTML);
+	settingHTML +=
+	'<div class="modal-dialog">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"' +
+				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+				'<h2 class="modal-title">새로운 팀 만들기</h2>' +
+			'</div>' +
+			'<div class="modal-body"' +
+			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+				'<div class="form-group">' +
+					'<label for="inputdefault">팀 이름</label>' +
+					'<input class="form-control" placeholder="만드실 팀 이름을 입력하세요." id="inputdefault" type="text">' +
+				'</div>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">팀 만들기</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	modal.html(settingHTML);
+}
+
 function onTopicLbtn() {
 	var accordion_t = $("#accordion_t");
 	if(accordion_t.html() == "") {
-		accordion_t.html("else");
+		accordion_t.html("<img src=\"../image/loading.gif\">");
 		console.log("I'll make topics HTML now, just one time!")
 		getTopics();
 	}
@@ -210,21 +237,25 @@ function onTopicLbtn() {
 function onMyListLbtn() {
 	var accordion_m = $("#accordion_m");
 	if(accordion_m.html() == "") {
-		accordion_m.html("Now Loading My List...");
+		accordion_m.html("<img src=\"../image/loading.gif\">");
 		console.log("I'll make My List HTML now, just one time!")
 		getMyLists();
 	}
 }
 
+
 function clickTeamPage(index) {
-	if($("#team" + index).html() == null) {
+	checkTeamPage(index);
+	sessionStorage.setItem("currentTeam", index);
+	var team = $("#team" + index);
+	if(team.html() == null) {
 		createTeamPage(index);
 	}
 	toggleCont("team" + index);
 }
 
 function createTeamPage(index) {
-	$("#modal_setting").before('<div class="container" id="team' + index + '">team' + index + ' page</div>');
+	$("#modal_setting").before('<div class="container" id="team' + index + '"><img src=\"../image/loading.gif\"></div>');
 	var account = JSON.parse(sessionStorage.getItem("accounts"));
 	var teams = JSON.parse(sessionStorage.getItem("teams"));
 	var team = teams[index];
@@ -296,4 +327,10 @@ function createTeamPage(index) {
 	}).fail(function (message){
 		console.log(message);
 	});
+}
+
+function checkTeamPage(index) {
+	$(".teamCheck").remove();
+	var targetTeamPage = $(".teamPage" + index);
+	targetTeamPage.append('<img class="teamCheck" src="../image/check.png">');
 }

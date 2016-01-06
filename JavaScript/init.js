@@ -20,6 +20,7 @@ var topics = []; // 21개의 소주제 객체 리스트
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
+	$("#accordion_r").html("<img src=\"../image/loading.gif\">");
 	$.getJSON("https://hbreeze4ani.appspot.com/api/v1/videos",
 					function(json) {
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
@@ -101,9 +102,11 @@ function getTeamTitle() {
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/teams",
 		success: function(json) {
 			sessionStorage.setItem("teams", JSON.stringify(json));
+			sessionStorage.setItem("currentTeam", "0");
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + json[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="drawer_menu_sub teamPage' + i + '" onclick="clickTeamPage(\'' + i + '\')">' + json[i].name + '</div>');
 			}
+			checkTeamPage(0);
 		}
 	}).fail(function (message){
 		console.log(message);

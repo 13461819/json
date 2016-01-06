@@ -19,19 +19,26 @@
 	overflow-x: hidden;
 }
 
-.list-group > div:HOVER {
+.modal-dialog {
+	margin: 0px;
+	left: 20vw;
+}
+
+.list-group-item {
+	background-color: white;
+	border-bottom: 1px solid rgb(209, 209, 209);
+	padding: 0px;
+}
+/*
+.list-group-item:HOVER {
 	cursor: pointer;
 	background-color: rgb(231, 247, 253);
 }
 
-.list-group a {
-	background: none;
+.list-group-item:LAST-CHILD {
+	border: none;
 }
-
-.list-group a:hover {
-	background: none;
-}
-
+*/
 .arrow {
 	width: 20px;
 	margin-top: 3px;
@@ -127,7 +134,6 @@ a.list-group-item{
 	float: right;
 	width: 60px;
 	display: none;
-
 }
 
 #send_image {
@@ -202,4 +208,11 @@ a.list-group-item{
 #team_page > div:HOVER {
 	font-size: 33px;
 	cursor: pointer;
+}
+
+.teamCheck {
+	float: right;
+	width: 30px;
+	position: relative;
+	top: -5px;
 }

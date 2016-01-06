@@ -9,12 +9,16 @@ body {
 	background-size: cover;
 }
 */
+.container-login {
+	position: fix;
+	z-index: 100;
+}
 
 .confirm-dialog {
 	background-color: rgba(226, 226, 226, 1);
-	width: 0px;
-	height: 0px;
-	overflow: hidden;
+	width: 500px;
+	height: 165px;
+	/*overflow: hidden;*/
 	border-radius: 10px;
 	text-align: center;
 	-webkit-box-sizing: border-box;
@@ -22,12 +26,13 @@ body {
 	        box-sizing: border-box;
 	position: fixed;
 	margin: 0 auto;
+	display: none;
 	left: 50vw;
 	top: 50vh;
-	z-index: 102;
 	margin-left: -250px;
-	margin-top: -75px;
-	opacity: 0;
+	margin-top: -70px;
+	z-index: 102;
+	/*opacity: 0;*/
 	-webkit-transition: opacity 0.3s ease;
 	   -moz-transition: opacity 0.3s ease;
 	    	transition: opacity 0.3s ease;
@@ -89,6 +94,10 @@ body {
 
 .confirm-btn4 {
 	width: 24%;
+}
+
+.confirm-btn5 {
+	width: 18%;
 }
 
 #confirm-bg {
