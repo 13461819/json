@@ -57,7 +57,6 @@ function postToServer(data) {
 			showConfirmDialog(
 				'이 PC에서 첫 로그인입니다.<br>기존에 등록되어있는 PC정보를 삭제하시려면 삭제를,<br>삭제하지 않고 추가하시려면 추가를 선택하세요.',
 				'Delete', function(){
-					localStorage.removeItem("deviceId");
 					data.forcing = 0;
 					postToServer(data);
 				},
@@ -66,6 +65,7 @@ function postToServer(data) {
 					postToServer(data);
 				},
 				'Cancel', closeConfirmDialog
+				//'Cancel', testFunc('this is testFunc parameter')
 			);
 			break;
 		case 2001:
@@ -88,6 +88,12 @@ function postToServer(data) {
 		}
 
 	});
+}
+
+function testFunc(msg) {
+	return function() {
+		console.log(msg);
+	}
 }
 
 function closeConfirmDialog() {
@@ -136,7 +142,7 @@ function showConfirmDialog(msg) {
 		$("#confirm-btn" + i).click((function() {
 			return funcs[i];
 		})());
-	}	
+	}
 	
 	$(".confirm-dialog")
 	.css("display", "block");

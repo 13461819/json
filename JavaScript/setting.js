@@ -90,7 +90,7 @@ function getAccount() {
 }
 
 function getProfile() {
-	var accounts = JSON.parse(sessionStorage.getItem("accounts"));
+	//var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 	var settingHTML = "";
 	settingHTML += 
 	'<div class="row" style="margin-bottom: 30px;">' +

@@ -18,6 +18,12 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
+var accounts = JSON.parse(sessionStorage.getItem("accounts"));
+var teams;
+var myLists;
+var currentTeamIndex;
+var credit;
+var ads;
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
 	$("#accordion_r").html("<img src=\"../image/loading.gif\">");
@@ -74,17 +80,16 @@ function getTopics() {
 }
 
 function getMyLists() {
-	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	//var account = JSON.parse(sessionStorage.getItem("accounts"));
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/mylists",
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists",
 		success: function(json) {
-			if(localStorage.getItem("deviceId") == null)
-				localStorage.setItem("deviceId", json.deviceId);
-			sessionStorage.setItem("my_lists", JSON.stringify(json));
+			myLists = json;
+			//sessionStorage.setItem("my_lists", JSON.stringify(json));
 			createMyListHTML(); //My List의 HTML코드를 생성한다.
 		}
 	}).fail(function (message){
@@ -93,20 +98,24 @@ function getMyLists() {
 }
 
 function getTeamTitle() {
-	var account = JSON.parse(sessionStorage.getItem("accounts"));
+	//var account = JSON.parse(sessionStorage.getItem("accounts"));
+	console.log("getTeamTitle");
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(account.userId + "-" + account.deviceId + ":" + account.sessionKey))
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + account.userId + "/teams",
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams",
 		success: function(json) {
-			sessionStorage.setItem("teams", JSON.stringify(json));
-			sessionStorage.setItem("currentTeam", "0");
+			currentTeamIndex = Number(localStorage.getItem("currentTeam")) || 0;
+			teams = json;
+			sortTeams();
+			//console.log(teams);
+			//sessionStorage.setItem("teams", JSON.stringify(json));
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="drawer_menu_sub teamPage' + i + '" onclick="clickTeamPage(\'' + i + '\')">' + json[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="drawer_menu_sub teamPage' + i + '" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
-			checkTeamPage(0);
+			checkTeamPage(currentTeamIndex);
 		}
 	}).fail(function (message){
 		console.log(message);
@@ -122,8 +131,10 @@ function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스
 
 function createTopics(json) { // "자신만의 비디오 리스트"를 가지고 있는 소주제 객체를 배열에 할당한다.
 	console.log('createTopics');
-	var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
-	var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
+	//var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
+	//var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
+	var specialty = accounts.specialty;
+	var profession = accounts.profession;
 	profession -= profession % 100; 
 	var specialties = [];
 	var professions = [];
@@ -167,7 +178,7 @@ function findIndexFromCode(value) { // A = 11, B = 10, ..., L = 0
 	return 11-(value.code.charCodeAt(0) - 97);
 }
 
-function sortVideos() { // 분류 된 배열을 오름차순 정렬한다.
+function sortVideos() { // 분류된 배열을 내림차순 정렬한다.
 	console.log('sortVideos');
 	for(var i = videos_length; i -- ; ) { // videos_length는 카테고리의 수, 총 12개의 배열을 각각 정렬한다.
 		videos[i].sort(function(a, b) {
@@ -176,9 +187,16 @@ function sortVideos() { // 분류 된 배열을 오름차순 정렬한다.
 	}
 }
 
-function sortTopics() { // 분류 된 배열을 오름차순 정렬한다.
+function sortTopics() { // 분류된 배열을 내림차순 정렬한다.
 	console.log('sortTopics');
 	topics.sort( function (a, b) {
 		return (a.name < b.name) ? 1 : -1;
+	});
+}
+
+function sortTeams() { // 분류된 팀을 오름차순 정렬한다.
+	console.log('sortTeams');
+	teams.sort( function(a, b) {
+		return (a.name > b.name) ? 1 : -1;
 	});
 }

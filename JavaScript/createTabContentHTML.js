@@ -551,8 +551,7 @@ function createMyListHTML() {
 	var title = "", id = "";
 	var count = 0, length = 0;
 	var my_videos = [];
-	var my_lists = JSON.parse(sessionStorage.getItem("my_lists"));
-	for( var i = 0; i < my_lists.length; i++) {
+	for( var i = 0; i < myLists.length; i++) {
 		beforeLength = 
 			'<div class="panel panel-default" style="margin-top:0px;">' +
 			'<div class="panel-heading">' +
@@ -572,7 +571,7 @@ function createMyListHTML() {
 			
 			'" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>' + 
 			
-			my_lists[i].name +
+			myLists[i].name +
 				
 			'<span class="label label-default label-as-badge">';
 		
@@ -587,7 +586,7 @@ function createMyListHTML() {
 				
 				'" class="panel-collapse collapse">' + 
 				'<div class="list-group">';
-					my_videos = my_lists[i].videos;
+					my_videos = myLists[i].videos;
 					length = my_videos.length;
 					for( var j = 0; j < length; j++) {
 						count++;

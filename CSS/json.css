@@ -130,7 +130,6 @@ a.list-group-item{
 }
 
 .list-manipulation{
-	margin-right: 15px;
 	float: right;
 	width: 60px;
 	display: none;
@@ -141,11 +140,13 @@ a.list-group-item{
 }
 
 .page_name {
+	position: relative;
 	color: white;
 	font-size: 35px;
 	font-family: "Hanna", serif;
 	margin-left: 40px;
 	vertical-align: middle;
+	top: 5px;
 }
 
 .drawer_menu>.drawer_menu_sub {

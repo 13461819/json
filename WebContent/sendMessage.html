@@ -2,52 +2,41 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>SendMessage</title>
+<title>SEND MESSAGE</title>
 <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
 	<div class="container">
-
-		<!-- Modal -->
 		<div class="modal-dialog">
-
-			<!-- Modal content-->
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header"
+					style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title">계정</h2>
+					<h2 class="modal-title">메시지 전송</h2>
 				</div>
-				<div class="modal-body" style="font-size: 18px; margin-top: 30px;">
-					<div class="row" style="margin-bottom: 30px;">
-						<div class="col-md-4" style="text-align: left;">전화번호</div>
-						<div class="col-md-8" style="text-align: right; color: rgb(86,167,222)">+82 1049334688</div>
+				<div class="modal-body"
+					style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">
+					<div align="center">
+						<select>
+							<option selected="selected">나의 팀</option>
+						</select>
+						&nbsp;남은 티켓 : 28
 					</div>
-					<div class="row" style="margin-bottom: 10px;">
-						<div class="col-md-3" style="text-align: left;">이메일</div>
-						<div class="col-md-8" style="text-align: right; color: rgb(86,167,222);">dhkim@hichart.net</div>
-						<div class="col-md-1"><span class="glyphicon glyphicon-chevron-right"></span></div>
+					<img src="https://storage.googleapis.com/hbreeze4ani.appspot.com/ads/default_484.gif" style="max-width: 100%; padding: 15px;">
+					<div align="center">
+						선택된 비디오 : 1개
+						<br><br>
 					</div>
-					<div class="row" style="margin-bottom: 30px;">
-					<div class="col-md-12" style="text-align: center; font-size: 14px;">
-						이메일을 등록하시면 다중기기 접속이나 계정관리가 가능합니다.
-					</div>
-					</div>
-					<div class="row" style="margin-bottom: 30px;">
-						<div class="col-md-5" style="text-align: left;">다중 로그인 사용</div>
-						<div class="col-md-6" style="text-align: right; color: rgb(86,167,222)">켜짐</div>
-						<div class="col-md-1"><span class="glyphicon glyphicon-chevron-right"></span></div>
-					</div>
-					<div class="row" style="margin-bottom: 30px;">
-						<div class="col-md-6" style="text-align: left;"><strong>계정 삭제</strong></div>
-						<div class="col-md-6" style="text-align: right;"><span class="glyphicon glyphicon-chevron-right"></span></div>
+					<div align="center">
+						번호 : 
+						<input type="text" style="width: 8%;" placeholder="국가"> <input type="text" value="" placeholder="휴대폰번호">
+						<button>확인</button>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div style="text-align: center;">저장하지 않은 정보는 삭제됩니다.</div>
-					<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
-
 		</div>
 	</div>
 	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
