@@ -43,6 +43,8 @@ function loadYouTubePlayer() {
 	        'onStateChange': onPlayerStateChange
 	      }
 	  });
+	 //var url = $("iframe").attr("src");
+	 //console.log(url);
 }
 
 // 이하 유튜브 API
@@ -70,6 +72,11 @@ function onYouTubeIframeAPIReady() {
       }
   });
   
+  $('iframe[src^="https://www.youtube.com/embed"]').each(function(){
+	    var url = $(this).attr("src");
+	    var separator = (url.indexOf('?') > 0) ? '&' : '?';
+	    $(this).attr('src', url + separator + 'wmode=transparent');
+  });
 }
 
 function onPlayerReady(event) {

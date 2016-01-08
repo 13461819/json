@@ -36,21 +36,11 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 						createRecommendHTML(); //정렬 된 배열을 가지고 HTML코드를 생성한다.
 						//getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
 					})
-			.fail(
-					function(request, status, error) {
-						var msg = "code:" + request.status + "<br>"
-								+ "message:" + request.responseText + "<br>"
-								+ "status:" + status + "<br>" + "error:"
-								+ error;
-						console.log(msg);
-
-						$("#result")
-								.html(
-										$("#result").html()
-												+ "<div class=\"alert alert-success fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a><strong>.getJSON()</strong><br>"
-												+ msg
-												+ "</div>");
-					});
+			.fail( function (message) {
+				alert("서버와 통신 오류로 로그인할 수 없습니다!");
+				sessionStorage.removeItem("accounts");
+				location.replace(login2.html);
+			});
 }
 
 function getTopics() {
@@ -62,21 +52,11 @@ function getTopics() {
 						//createMyListHTML(); //My List의 HTML코드를 생성한다.
 						//loadYouTubePlayer();
 					})
-			.fail(
-					function(request, status, error) {
-						var msg = "code:" + request.status + "<br>"
-								+ "message:" + request.responseText + "<br>"
-								+ "status:" + status + "<br>" + "error:"
-								+ error;
-						console.log(msg);
-
-						$("#result")
-								.html(
-										$("#result").html()
-												+ "<div class=\"alert alert-success fade in\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a><strong>.getJSON()</strong><br>"
-												+ msg
-												+ "</div>");
-					});
+			.fail( function (message) {
+				alert("서버와 통신 오류로 로그인할 수 없습니다!");
+				sessionStorage.removeItem("accounts");
+				location.replace(login2.html);
+			});
 }
 
 function getMyLists() {
@@ -119,6 +99,41 @@ function getTeamTitle() {
 		}
 	}).fail(function (message){
 		console.log(message);
+	});
+}
+
+function getAds() {
+	console.log("getAds");
+	$.ajax({
+		type: "GET",
+		url: "https://hbreeze4ani.appspot.com/api/v1/ads?country=" + accounts.country + "&profession=" + accounts.profession + "&specialty=" + accounts.specialty,
+		success: function(json){
+			ads = json;
+		},
+		error: function(message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace(login2.html);
+		}
+	});
+}
+
+function getCredit() {
+	console.log("getCredit");
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/credit",
+		success: function(json) {
+			credit = json;
+		},
+		error: function(message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace(login2.html);
+		}
 	});
 }
 

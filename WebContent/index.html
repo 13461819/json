@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	if(sessionStorage.getItem("accounts") == null) {
 		alert("비정상적인 접근!");
-		location.replace("login.html");
+		location.replace("login2.html");
 	}
 </script>
 </head>
@@ -182,6 +182,7 @@
 	$(function() {
 		getVideos(); // Videos 리스트 받아옴
 		getTeamTitle(); //팀 타이틀 받아옴
+		getAds();
 		accordion_resize(); // 리스트 사이즈 변경
 		showSelectedList();
 	});

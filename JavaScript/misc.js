@@ -201,41 +201,49 @@ function createNewTeam() {
 
 function modalSendMessage() {
 	var modal = $("#modal_setting");
-	var sendHTML = "";
-	modalSendMessageLoading(modal);
-	if(ads == null){
-		$.ajax({
-			type: "GET",
-			url: "https://hbreeze4ani.appspot.com/api/v1/ads?country=" + accounts.country + "&profession=" + accounts.profession + "&specialty=" + accounts.specialty,
-			success: function(json){
-				//console.log(json);
-				ads = json;
-				if(credit == null) {
-					$.ajax({
-						type: "GET",
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
-						},
-						url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/credit",
-						success: function(json) {
-							credit = json;
-							modal.html(getSendMessageHTML());
+	var sendHTML = 
+		'<div class="modal-dialog">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"' +
+				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+				'<h2 class="modal-title">메시지 전송</h2>' +
+			'</div>' +
+			'<div class="modal-body"' +
+				'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+				'<div align="center">' +
+					'<select id="sendMessageTeam">';
+						for(var i = 0; i < teams.length; i++) {
+							if(i == currentTeamIndex) {
+								sendHTML += '<option selected="selected" value="' +i + '">' + teams[i].name + '</option>';
+							} else {
+								sendHTML += '<option value="' + i + '">' + teams[i].name + '</option>';
+							}
 						}
-					}).fail( function (message){
-						console.log(message);
-					});
-				} else {
-					modal.html(getSendMessageHTML());
-				}
-			}
-		}).fail( function (message){
-			console.log(message);
-		});
-	} else {
-		modal.html(getSendMessageHTML());
-	}	
+					sendHTML +=	
+					'</select>' +
+					'&nbsp;남은 티켓 : ' + credit.credit +
+				'</div>' +
+				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px;">' +
+				'<div align="center">' +
+					'선택된 비디오 : ' + selectedVideos.length + '개' +
+					'<br><br>' +
+				'</div>' +
+				'<div align="center">' +
+					'번호 : ' + 
+					'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
+					'<input id="sendMessagePhoneNumber" type="number" placeholder="휴대폰번호"> &nbsp;' +
+					'<button onclick="sendMessage()" data-dismiss="modal">확인</button>' +
+				'</div>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	modal.html(sendHTML);
 }
-
+/*
 function getSendMessageHTML() {
 	var sendHTML = 
 		'<div class="modal-dialog">' +
@@ -291,8 +299,9 @@ function modalSendMessageLoading(modal) {
 					'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 					'<h2 class="modal-title">메시지 전송</h2>' +
 				'</div>' +
-				'<div class="modal-body"' +
-					'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+				//'<div class="modal-body" style="text-align:center; vertical-align:middle; line-height: 592px;' +
+				'<div class="modal-body" style="text-align:center;' +
+					' height: 592px; font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 						'<img src="../image/loading.gif">' +
 					'</div>' +
 				'<div class="modal-footer">' +
@@ -302,6 +311,7 @@ function modalSendMessageLoading(modal) {
 		'</div>';
 	modal.html(sendHTML);
 }
+*/
 
 function sendMessage() {
 	var team_id = teams[$("#sendMessageTeam").val()].id;
@@ -337,25 +347,7 @@ function sendMessage() {
 
 function createTeamPage(index) {
 	$("#modal_setting").before('<div class="container" id="team' + index + '"><img src=\"../image/loading.gif\"></div>');
-	//var account = JSON.parse(sessionStorage.getItem("accounts"));
-	//var teams = JSON.parse(sessionStorage.getItem("teams"));
-	if(credit == null) {
-		$.ajax({
-			type: "GET",
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
-			},
-			url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + teams[index].owner + "/credit",
-			success: function(json) {
-				credit = json;
-				$("#team" + index).html(getCreateTeamPageHTML(index));
-			}
-		}).fail(function (message){
-			console.log(message);
-		});
-	} else {
-		$("#team" + index).html(getCreateTeamPageHTML(index));
-	}
+	$("#team" + index).html(getCreateTeamPageHTML(index));
 }
 
 function getCreateTeamPageHTML(index) {

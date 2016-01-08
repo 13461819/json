@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HealthBreeze</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link href="../CSS/app_style.css" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" href="../CSS/confirm.css" />
+	<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
+</head>
+
+<body>
+	 
+
+	<div class="container">
+	<label id="confirm-bg"></label>
+	<div class="row">
+		<div class="col-lg-10 col-lg-offset-1 headerImg">
+			<img width="100%" src="../image/tv_banner.png">
+		</div>
+	</div>
+
+	<form onsubmit="return validateForm();" class="form-horizontal" role="form" method="POST" accept-charset="utf-8" id="login">
+		<div class="col-lg-10 col-lg-offset-1 form-login">
+			<div>
+				<input value="dhkim@hichart.net" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
+			</div>
+			<div>
+				<input value="kimc1310" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
+			</div>
+			<div class="g-recaptcha" style="margin-bottom: 10px;" align="center" data-sitekey="6LeeDRQTAAAAABRFHbgAfjTt6InTCZ50QzUouojm"></div>
+			<div>
+				<input type="submit" class="btw btn-primary btn-lg" style="padding: 10px 50px;" value="Login">
+			</div>
+		</div>
+	</form>
+</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+	
+<script src="../JavaScript/login2.js"></script>
+</body>
+</html>
