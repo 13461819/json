@@ -1,10 +1,10 @@
 function validateForm() {
-	console.log("?");
 //	var recaptcha = document.getElementById("g-recaptcha-response").value;
 	var recaptcha = grecaptcha.getResponse();
 	if (recaptcha) {
 		data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
 		console.log(data);
+		sessionStorage.setItem("g-recaptcha-response", recaptcha);
 		var deviceId = localStorage.getItem("deviceId");
 		if (deviceId) {
 			data.deviceId = deviceId;

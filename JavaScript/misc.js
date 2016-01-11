@@ -202,8 +202,8 @@ function createNewTeam() {
 function modalSendMessage() {
 	var modal = $("#modal_setting");
 	var sendHTML = 
-		'<div class="modal-dialog">' +
-		'<div class="modal-content">' +
+	'<div class="modal-dialog">' +
+		'<div class="modal-content" id="sendMessagePage">' +
 			'<div class="modal-header"' +
 				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
 				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
@@ -212,7 +212,7 @@ function modalSendMessage() {
 			'<div class="modal-body"' +
 				'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div align="center">' +
-					'<select id="sendMessageTeam">';
+					'<select id="sendMessageTeam" onchange="getTeamCredit(this.selectedIndex)">';
 						for(var i = 0; i < teams.length; i++) {
 							if(i == currentTeamIndex) {
 								sendHTML += '<option selected="selected" value="' +i + '">' + teams[i].name + '</option>';
@@ -222,9 +222,9 @@ function modalSendMessage() {
 						}
 					sendHTML +=	
 					'</select>' +
-					'&nbsp;남은 티켓 : ' + credit.credit +
+					'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="../image/loading.gif" style="width: 24px;"></span>' +
 				'</div>' +
-				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px;">' +
+				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
 				'<div align="center">' +
 					'선택된 비디오 : ' + selectedVideos.length + '개' +
 					'<br><br>' +
@@ -242,6 +242,7 @@ function modalSendMessage() {
 		'</div>' +
 	'</div>';
 	modal.html(sendHTML);
+	getTeamCredit(currentTeamIndex);
 }
 /*
 function getSendMessageHTML() {
@@ -313,6 +314,34 @@ function modalSendMessageLoading(modal) {
 }
 */
 
+function getTeamCredit(index, where) {
+	console.log("getTeamCredit");
+	$("#remain-ticket-num").html('<img src="../image/loading.gif" style="width: 24px;">');
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams/credit",
+		success: function(json) {
+			for(var i = 0; i < json.length; i++) {
+				if(json[i].team == teams[index].id) {
+					if(where == "teamPage") {
+						$("#remain-ticket-num" + index).html(json[i].credit);
+					} else {
+						$("#remain-ticket-num").html(json[i].credit);
+					}
+				}
+			}
+		},
+		error: function(message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace(login2.html);
+		}
+	});
+}
+
 function sendMessage() {
 	var team_id = teams[$("#sendMessageTeam").val()].id;
 	var patient_cc =  $("#sendMessageCountryNumber").val();
@@ -357,13 +386,14 @@ function getCreateTeamPageHTML(index) {
 		'<div class="col-lg-5" style="padding-right: 0px;">' +
 			'<div class="row">' +
 				'<div class="col-md-12">' +
-					'<img alt="팀 사진" class="img-responsive team_image" src="' + team.banner + '">' +
+					'<img alt="팀 사진" style="height: 182px;" class="img-responsive team_image" src="' + team.banner + '">' +
 				'</div>' +
 			'</div>' +
 			'<div>' +
 				'<div class="col-md-12" style="height: 50px;">' +
 					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/ticket.png">' +
-					'<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : ' + credit.credit + '</div>' +
+					'<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain-ticket-num' + index + '">' +
+						'<img src="../image/loading.gif" style="width: 24px;"></span></div>' +
 					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/amount_used.png">' +
 				'</div>' +
 			'</div>' +
@@ -434,6 +464,7 @@ function clickTeamPage(index) {
 	if(team.html() == null) {
 		createTeamPage(index);
 	}
+	getTeamCredit(index, "teamPage");
 	toggleCont("team" + index, teams[index].name);
 }
 

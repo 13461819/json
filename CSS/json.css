@@ -22,6 +22,7 @@
 .modal-dialog {
 	margin: 0px;
 	left: 20vw;
+	top: 15vh;
 }
 
 .list-group-item {
