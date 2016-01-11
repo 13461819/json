@@ -546,12 +546,12 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 }
 
 function createMyListHTML() {
-	console.log('crateMyListHTML');
+	console.log('createMyListHTML');
 	var myListHTML = "", beforeLength = "", afterLength = "", subMyListHTML = "";
 	var title = "", id = "";
 	var count = 0, length = 0;
 	var my_videos = [];
-	for( var i = 0; i < myLists.length; i++) {
+	for( var i = 1; i < myLists.length + 1; i++) {
 		beforeLength = 
 			'<div class="panel panel-default" style="margin-top:0px;">' +
 			'<div class="panel-heading">' +
@@ -571,7 +571,7 @@ function createMyListHTML() {
 			
 			'" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>' + 
 			
-			myLists[i].name +
+			myLists[i - 1].name +
 				
 			'<span class="label label-default label-as-badge">';
 		
@@ -586,7 +586,7 @@ function createMyListHTML() {
 				
 				'" class="panel-collapse collapse">' + 
 				'<div class="list-group">';
-					my_videos = myLists[i].videos;
+					my_videos = myLists[i - 1].videos;
 					length = my_videos.length;
 					for( var j = 0; j < length; j++) {
 						count++;
@@ -646,5 +646,79 @@ function createMyListHTML() {
 		subMyListHTML = "";
 		count = 0;
 	}
-	$("#accordion_m").html(myListHTML);
+	$("#accordion_m").append(myListHTML);
+}
+
+function createBookMarkHTML() {
+	console.log('createBookMarkHTML');
+	var bookMarkHTML = "", beforeLength = "", afterLength = "", subBookMarkHTML = "";
+	var title = "", id = "";
+	var count = 0, length = 0;
+	beforeLength = 
+		'<div class="panel panel-default" style="margin-top:0px;">' +
+		'<div class="panel-heading">' +
+		'<span class="panel-title" style="margin-top: 8px;">' +
+		'<a data-toggle="collapse" href="#collapse_m0" onclick="arrowRotate(\'myListArrow0\')" style="font-size: 12px;">' + 
+		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>북마크<span class="label label-default label-as-badge">';
+		afterLength = 
+			'</span>' +
+			'</a>' + 
+			'</span>' +
+			'</div>' +
+			'<div id="collapse_m0" class="panel-collapse collapse">' + 
+			'<div class="list-group">';
+				for( var i = 0; i < bookMarks.length; i++) {
+					count++;
+					id = bookMarks[i];
+					subBookMarkHTML += 
+						'<div class="row list' + id + '"><div class="col-sm-11"><a href="#" class="list-group-item list' + 
+						
+						id + 
+						
+						'" onclick="replaceAndLoadYoutubeByID(' + 
+						
+						id + 
+						
+						')">' +
+						'<div class="row">' +
+						'<div class="col-sm-3">' +
+						'<img src="' + 
+						
+						videos[id].thumbnail + 
+						
+						'" class="img-responsive">' +
+						'</div>' +
+						'<div class="col-sm-9">' +
+						'<div class="row">' + 
+						
+						videos[id].title + 
+						
+						'</div>' +
+						'<div class="row" style="font-size:13px;">' +
+						
+						convertPlayTime(videos[id].playtime) +
+						
+						'</div>' +
+						'</div>' +
+						'</div>' +
+						'</a></div>' +
+						'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
+						'<input type="checkbox" class="checkbox checkbox' + 
+						
+						id + 
+						
+						'" onclick="toggleCheckList(' + 
+						
+						id + 
+						
+						', this.checked)">' +
+						'</div>' +
+						'</div>';
+				}
+				subBookMarkHTML += 
+			'</div>' +
+		'</div>' + 
+	'</div>';
+	bookMarkHTML += beforeLength + count + afterLength + subBookMarkHTML;
+	$("#accordion_m").html(bookMarkHTML);
 }

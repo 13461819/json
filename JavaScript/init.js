@@ -21,6 +21,7 @@ var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
 var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 var teams;
 var myLists;
+var bookMarks;
 var currentTeamIndex;
 var credit;
 var ads;
@@ -44,24 +45,41 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 }
 
 function getTopics() {
+	console.log("getTopics");
 	$.getJSON("https://hbreeze4ani.appspot.com/api/v1/topics",
-					function(json) {
-						createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
-						sortTopics(); // 객체의 순서를 정렬한다.
-						createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
-						//createMyListHTML(); //My List의 HTML코드를 생성한다.
-						//loadYouTubePlayer();
-					})
-			.fail( function (message) {
-				alert("서버와 통신 오류로 로그인할 수 없습니다!");
-				sessionStorage.removeItem("accounts");
-				location.replace("login2.html");
-			});
+			function(json) {
+				createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
+				sortTopics(); // 객체의 순서를 정렬한다.
+				createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
+				//createMyListHTML(); //My List의 HTML코드를 생성한다.
+				//loadYouTubePlayer();
+			})
+		.fail( function (message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace("login2.html");
+		});
 }
 
 function getMyLists() {
 	//var account = JSON.parse(sessionStorage.getItem("accounts"));
-	$.ajax({
+	var when1 = $.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/bookmarks",
+		success: function(json) {
+			bookMarks = json;
+			console.log("붘맠 호출됨");
+			//sessionStorage.setItem("my_lists", JSON.stringify(json));
+			//createMyListHTML(); //My List의 HTML코드를 생성한다.
+		}
+	}).fail(function (message){
+		console.log(message);
+	});
+	
+	var when2 = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
@@ -69,11 +87,19 @@ function getMyLists() {
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists",
 		success: function(json) {
 			myLists = json;
+			console.log("마맅 호출됨");
 			//sessionStorage.setItem("my_lists", JSON.stringify(json));
-			createMyListHTML(); //My List의 HTML코드를 생성한다.
+			//createMyListHTML(); //My List의 HTML코드를 생성한다.
 		}
 	}).fail(function (message){
 		console.log(message);
+	});
+	
+	$.when(when1, when2).done(function() {
+		console.log("2개 다 호출됨");
+		createBookMarkHTML();
+		sortMyLists();
+		createMyListHTML();
 	});
 }
 
@@ -212,6 +238,13 @@ function sortTopics() { // 분류된 배열을 내림차순 정렬한다.
 function sortTeams() { // 분류된 팀을 오름차순 정렬한다.
 	console.log('sortTeams');
 	teams.sort( function(a, b) {
+		return (a.name > b.name) ? 1 : -1;
+	});
+}
+
+function sortMyLists() { // 분류된 팀을 오름차순 정렬한다.
+	console.log('sortMyLists');
+	myLists.sort( function(a, b) {
 		return (a.name > b.name) ? 1 : -1;
 	});
 }
