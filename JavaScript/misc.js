@@ -337,7 +337,7 @@ function getTeamCredit(index, where) {
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace(login2.html);
+			location.replace("login2.html");
 		}
 	});
 }
