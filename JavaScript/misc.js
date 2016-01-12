@@ -172,7 +172,7 @@ function toggleCont(contID, title) {
 	toggleMenu();
 }
 
-function createNewTeam() {
+function createNewTeamPage() {
 	var modal = $("#modal_setting");
 	var settingHTML = "";
 	modal.html(settingHTML);
@@ -188,15 +188,20 @@ function createNewTeam() {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">팀 이름</label>' +
-					'<input class="form-control" placeholder="만드실 팀 이름을 입력하세요." id="inputdefault" type="text">' +
+					'<input class="form-control" placeholder="만드실 팀 이름을 입력하세요." id="input_new_team_name" type="text">' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">팀 만들기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewTeam()">팀 만들기</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
 	modal.html(settingHTML);
+}
+
+function createNewTeam() {
+	var newTeamName = $("#input_new_team_name").val();
+	console.log(newTeamName);
 }
 
 function modalSendMessage() {

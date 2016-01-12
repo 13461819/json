@@ -314,8 +314,8 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 	var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
 	var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
 	profession -= profession % 100; 
-	var specialties = []; //비디오의 specialties
-	var professions = []; //비디오의 professions
+	var video_specialties = []; //비디오의 video_specialties
+	var video_professions = []; //비디오의 video_professions
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
 			'<div class="panel panel-default" style="margin-top:0px;">' +
@@ -353,14 +353,14 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 				'<div class="list-group">';
 					length = videos[i].length;
 					for( var j = length; j-- ;) {
-						specialties = videos[i][j].specialties;
-						professions = videos[i][j].professions;
+						video_specialties = videos[i][j].specialties;
+						video_professions = videos[i][j].professions;
 						//title = videos[i][j].title;
-						if( (-1 < specialties.indexOf(specialty)) || specialties.length == 0) {
-							//console.log(specialties.indexOf(specialty));
-							if( (-1 < professions.indexOf(profession)) || professions.length == 0) {
+						if( (-1 < video_specialties.indexOf(specialty)) || video_specialties.length == 0) {
+							//console.log(video_specialties.indexOf(specialty));
+							if( (-1 < video_professions.indexOf(profession)) || video_professions.length == 0) {
 								//console.log(typeof videos[i][j].visible);
-								//console.log(professions.indexOf(profession));
+								//console.log(video_professions.indexOf(profession));
 								if(videos[i][j].visible == true) {
 								count++;
 								id = videos[i][j].id;
@@ -436,8 +436,8 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 	var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
 	var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
 	profession -= profession % 100; 
-	var specialties = []; //비디오의 specialties
-	var professions = []; //비디오의 professions
+	var video_specialties = []; //비디오의 video_specialties
+	var video_professions = []; //비디오의 video_professions
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
 			'<div class="panel panel-default" style="margin-top:0px;">' +
@@ -475,14 +475,14 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 				'<div class="list-group">';
 					length = videos[i].length;
 					for( var j = length; j-- ;) {
-						specialties = videos[i][j].specialties;
-						professions = videos[i][j].professions;
+						video_specialties = videos[i][j].specialties;
+						video_professions = videos[i][j].professions;
 						//title = videos[i][j].title;
-						if( (-1 < specialties.indexOf(specialty)) || specialties.length == 0) {
-							//console.log(specialties.indexOf(specialty));
-							if( (-1 < professions.indexOf(profession)) || professions.length == 0) {
+						if( (-1 < video_specialties.indexOf(specialty)) || video_specialties.length == 0) {
+							//console.log(video_specialties.indexOf(specialty));
+							if( (-1 < video_professions.indexOf(profession)) || video_professions.length == 0) {
 								//console.log(typeof videos[i][j].visible);
-								//console.log(professions.indexOf(profession));
+								//console.log(video_professions.indexOf(profession));
 								if(videos[i][j].visible == true) {
 								count++;
 								id = videos[i][j].id;

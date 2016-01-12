@@ -14,13 +14,13 @@ function showSetting(settingName) {
 			'</div>' +
 			'<div class="modal-body"' +
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
-				getModalSetting(settingName) +
-			'</div>' +
+				getModalSetting(settingName);
+			/*'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
 			'</div>' +
 		'</div>' +
-	'</div>';
+	'</div>';*/
 	modal.html(settingHTML);
 }
 
@@ -93,31 +93,53 @@ function getProfile() {
 	//var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 	var settingHTML = "";
 	settingHTML += 
-	'<div class="row" style="margin-bottom: 30px;">' +
-		'<img src="' + accounts.picture + '" class="img-responsive"' +
-			'width="50%" style="margin-left: auto; margin-right: auto;">' +
-	'</div>' +
-	'<div class="form-group">' +
-		'<label for="inputdefault">이름</label> <input class="form-control"' +
-			'id="inputdefault" placeholder="이름을 입력하세요." type="text" value="' + accounts.nickName + '">' +
-	'</div>' +
-	
-	'<div class="form-group">' +
-		'<label for="sel1">직종</label> <select class="form-control" id="sel1">' +
-			'<option>의사</option>' +
-			'<option>인턴</option>' +
-			'<option>간호사</option>' +
-		'</select>' +
-	'</div>' +
-	'<div class="form-group">' +
-		'<label for="sel2">전공</label> <select class="form-control" id="sel2">' +
-			'<option>OR</option>' +
-			'<option>ER</option>' +
-			'<option>외과</option>' +
-			'<option>성형외과</option>' +
-		'</select>' +
+				'<div class="row" style="margin-bottom: 30px;">' +
+					'<img src="' + accounts.picture + '" class="img-responsive"' +
+						'width="50%" style="margin-left: auto; margin-right: auto;">' +
+				'</div>' +
+				'<div class="form-group">' +
+					'<label for="inputdefault">이름</label> <input class="form-control"' +
+						'id="input_name" placeholder="이름을 입력하세요." type="text" value="' + accounts.nickName + '">' +
+				'</div>' +
+				
+				'<div class="form-group">' +
+					'<label for="sel_professions">직종</label> <select class="form-control" id="sel_professions">';
+						for(var i = 0; i < professions.length; i++) {
+							if(professions[i].id == accounts.profession) {
+								settingHTML += '<option selected="selected" value="' + professions[i].name + '">' + professions[i].name + '</option>';
+							} else {
+								settingHTML += '<option value="' + professions[i].name + '">' + professions[i].name + '</option>';
+							}
+						}
+					settingHTML +=
+					'</select>' +
+				'</div>' +
+				'<div class="form-group">' +
+					'<label for="sel_specialties">전공</label> <select class="form-control" id="sel_specialties">';
+						for(var i = 0; i < specialties.length; i++) {
+							if(specialties[i].id == accounts.specialty) {
+								settingHTML += '<option selected="selected">' + specialties[i].name + '</option>';
+							} else {
+								settingHTML += '<option>' + specialties[i].name + '</option>';
+							}
+						}
+					settingHTML +=
+					'</select>' +
+				'</div>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateProfile()">저장</button>' +
+			'</div>' +
+		'</div>' +
 	'</div>';
 	return settingHTML;
+}
+
+function updateProfile() {
+	var name = $("#input_name").val();
+	var sel_pro = $("#sel_professions option:selected").text();
+	var sel_spe = $("#sel_specialties option:selected").text();
+	console.log("name : " + name + ", pro: " + sel_pro + ", spe : " + sel_spe);
 }
 
 function getNotice() {

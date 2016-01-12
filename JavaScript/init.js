@@ -25,6 +25,8 @@ var bookMarks;
 var currentTeamIndex;
 var credit;
 var ads;
+var professions;
+var specialties;
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
 	$("#accordion_r").html("<img src=\"../image/loading.gif\">");
@@ -163,6 +165,40 @@ function getCredit() {
 	});
 }
 
+function getProfessions() {
+	console.log("getProfessions");
+	$.ajax({
+		type: "GET",
+		url: "https://hbreeze4ani.appspot.com/api/v1/professions?lang=ko",
+		success: function(json){
+			professions = json;
+			//console.log(professions);
+		},
+		error: function(message){
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace("login2.html");
+		}
+	});
+}
+
+function getSpecialties() {
+	console.log("getSpecialties");
+	$.ajax({
+		type: "GET",
+		url: "https://hbreeze4ani.appspot.com/api/v1/specialties?lang=ko",
+		success: function(json){
+			specialties = json;
+			//console.log(specialties);
+		},
+		error: function(message){
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			sessionStorage.removeItem("accounts");
+			location.replace("login2.html");
+		}
+	});
+}
+
 function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스를 2차원으로 만든다.
 	console.log('createVideos');
 	for( var i = videos_length; i-- ; ) {
@@ -177,17 +213,17 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 	var specialty = accounts.specialty;
 	var profession = accounts.profession;
 	profession -= profession % 100; 
-	var specialties = [];
-	var professions = [];
+	var video_specialties = [];
+	var video_professions = [];
 	var countries = [];
 	for( var i = json.length; i-- ; ) {
-		specialties = json[i].specialties; 
-		professions = json[i].professions; 
+		video_specialties = json[i].specialties; 
+		video_professions = json[i].professions; 
 		countries = json[i].countries;
-		if( (-1 < specialties.indexOf(specialty))
-				|| specialties.length == 0) {  // specialties값을 가지고 topics를 구성한다.
-			if( (-1 < professions.indexOf(profession))
-					|| professions.length == 0) {
+		if( (-1 < video_specialties.indexOf(specialty))
+				|| video_specialties.length == 0) {  // video_specialties값을 가지고 topics를 구성한다.
+			if( (-1 < video_professions.indexOf(profession))
+					|| video_professions.length == 0) {
 				if( (-1 < countries.indexOf("KR"))
 						|| countries.length == 0) {
 					topics.push(json[i]);
@@ -202,10 +238,10 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 								  // 자신의 ID를 key값으로 하는 HashMap에 총 2번 저장된다.(배열[ID]=비디오)
 	console.log('categorizeVideos');
 	var category_index = 0;
-	//var specialties = [];
+	//var video_specialties = [];
 	for( var i = json.length; i-- ; ) {
-		//specialties = json[i].specialties;
-		//if(-1 < specialties.indexOf(3009)) {  // specialties값을 가지고 videos를 구성한다.
+		//video_specialties = json[i].specialties;
+		//if(-1 < video_specialties.indexOf(3009)) {  // video_specialties값을 가지고 videos를 구성한다.
 			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
 			category_index = findIndexFromCode(json[i]);
 			
