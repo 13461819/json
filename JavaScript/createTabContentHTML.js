@@ -569,7 +569,7 @@ function createMyListHTML() {
 		
 			afterLength = 
 				'</span>' +
-				'</a>' + 
+				'</a><span class="glyphicon glyphicon-menu-hamburger my_list_menu" onclick="showConfirmDialog(\'리스트 편집\', \'내용\', \'버튼\',function(){}); return false"></span>' + 
 				'</span>' +
 				'</div>' +
 				'<div id="collapse_m' + 

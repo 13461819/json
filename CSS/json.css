@@ -218,3 +218,15 @@ a.list-group-item{
 	position: relative;
 	top: -5px;
 }
+
+.my_list_menu {
+	top: 2px;
+	right: 3px;
+	position: relative;
+	font-size: 18px;
+	float: right;
+}
+
+.my_list_menu:HOVER {
+	cursor: pointer;
+}
