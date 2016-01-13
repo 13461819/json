@@ -128,8 +128,15 @@ function getTeamTitle() {
 		},
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams",
 		success: function(json) {
-			currentTeamIndex = Number(localStorage.getItem("currentTeam")) || 0;
 			teams = json;
+			for(var i = 0; i < teams.length; i++) {
+				if(teams[i].id == localStorage.getItem("currentTeam")) {
+					currentTeamIndex = i;
+					break;
+				} else {
+					currentTeamIndex = 0;
+				}
+			}
 			sortTeams();
 			//console.log(teams);
 			//sessionStorage.setItem("teams", JSON.stringify(json));

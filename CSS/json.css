@@ -224,9 +224,37 @@ a.list-group-item{
 	right: 3px;
 	position: relative;
 	font-size: 18px;
-	float: right;
+	cursor: pointer;
 }
 
-.my_list_menu:HOVER {
+.drop-down {
+	float: right;
+    position: relative;
+    display: inline-block;
+}
+
+.drop-down-content {
+	z-index: 100;
+    display: none;
+    position: fixed;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: visible;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.drop-down-content a {
 	cursor: pointer;
+    color: black;
+    padding: 6px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.drop-down a:hover {
+	background-color: #d1d1d1;
+}
+
+.drop-down-show {
+	display:block;
 }

@@ -569,7 +569,15 @@ function createMyListHTML() {
 		
 			afterLength = 
 				'</span>' +
-				'</a><span class="glyphicon glyphicon-menu-hamburger my_list_menu" onclick="showConfirmDialog(\'리스트 편집\', \'내용\', \'버튼\',function(){}); return false"></span>' + 
+				'</a>' +
+				'<div class="drop-down">' +
+				'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" onclick="myListMenu()"></span>' + 
+				'<div id="myDropdown" class="drop-down-content">' +
+				'<a data-toggle="modal" data-target="#modal_setting" onclick="changeListName(' + (i - 1) + ');">이름 변경</a>'+
+				'<a onclick="deleteList(' + (i - 1) + ');">삭제</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting">편집</a>'+
+				'</div>' +
+				'</div>' +
 				'</span>' +
 				'</div>' +
 				'<div id="collapse_m' + 

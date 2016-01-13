@@ -586,7 +586,7 @@ function onMyListLbtn() {
 
 function clickTeamPage(index) {
 	checkTeamPage(index);
-	localStorage.setItem("currentTeam", index);
+	localStorage.setItem("currentTeam", teams[index].id);
 	currentTeamIndex = index;
 	var team = $("#team" + index);
 	if(team.html() == null) {
@@ -600,4 +600,44 @@ function checkTeamPage(index) {
 	$(".teamCheck").remove();
 	var targetTeamPage = $(".teamPage" + index);
 	targetTeamPage.append('<img class="teamCheck" src="../image/check.png">');
+}
+
+function myListMenu() {
+	$("#myDropdown").toggleClass("drop-down-show");
+}
+
+function changeListName(index) {
+	$("#myDropdown").removeClass("drop-down-show");
+	console.log(myLists[index]);
+	
+	
+	createBookMarkHTML();
+	sortMyLists();
+	createMyListHTML();
+	refreshCheckBox();
+}
+
+function deleteList(index) {
+	$("#myDropdown").removeClass("drop-down-show");
+	if( confirm(myLists[index].name + " 리스트를 정말 삭제하시겠습니까?") ) {
+		$.ajax({
+			type: "DELETE",
+			url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			},
+			success: function(json){
+				console.log(json);
+				myLists.splice(index, 1);
+				createBookMarkHTML();
+				sortMyLists();
+				createMyListHTML();
+				refreshCheckBox();
+			},
+			error: function(message){
+				console.log(message);
+			}
+		});
+		
+	}
 }
