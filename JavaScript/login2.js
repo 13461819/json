@@ -44,21 +44,23 @@ function postToServer(json) {
 				break;
 			case 2003:	// web device already exist.
 				showConfirmDialog(
-						'Your web device already exist!<br>Do you want to replace with new one?<br>Or add new web device to your account?',
-						'Replace', function(){ json.forcing = 0; postToServer(json); },
-						'Add',  function(){ json.forcing = 1; postToServer(json); },
-						'Cancel', closeConfirmDialog
-					);
+					'Confirm your action',
+					'Your web device already exist!<br>Do you want to replace with new one?<br>Or add new web device to your account?',
+					'Replace', function(){ json.forcing = 0; postToServer(json);},
+					'Add',  function(){ json.forcing = 1; postToServer(json);},
+					'Cancel', function(){}
+				);/*
 				if (confirm('Your device for web already exist!\nDo you want to replace?')) {
 					json.forcing = 0;
 					postToServer(json);
 				} else if (confirm('Or add new device to your account?')) {
 					json.forcing = 1;
 					postToServer(json);
-				}
+				}*/
 				break;
 			case 2004:	// invalid id/password
 				alert('Please check your e-mail id and password!')
+				location.reload();
 				break;
 			default:
 				alert('Logon error!')
@@ -70,21 +72,21 @@ function postToServer(json) {
 }
 
 function closeConfirmDialog() {
+	console.log("closeConfirmDialog");
 	$(".confirm-dialog")
 	.css("display", "none");
 	$("#confirm-bg")
 	.css("width", "0px")
 	.css("height", "0px");
-	$("#loginbox").css("opacity","1");
 	$(".confirm-dialog").remove();
 }
 
-function showConfirmDialog(msg) {
+function showConfirmDialog(title, msg) {
 	var html = "";
 	var count = 0;
 	var texts = [];
 	var funcs = [];
-	for(var i = 0, argument = 1; argument < arguments.length; i++, argument+=2) {
+	for(var i = 0, argument = 2; argument < arguments.length; i++, argument+=2) {
 		texts[i] = arguments[argument];
 		funcs[i] = arguments[argument+1];
 		count++;
@@ -94,7 +96,7 @@ function showConfirmDialog(msg) {
 		'<div class="confirm-dialog">' +
 			'<div class="confirm-content">' +
 				'<div class="confirm-header">' +
-					'Confirm your action' +
+					title +
 				'</div>' +
 				'<div class="confirm-body">' +
 					msg +
@@ -112,9 +114,12 @@ function showConfirmDialog(msg) {
 	$("#confirm-bg").before(html);
 	
 	for (var i = 0; i < count; i++) {
-		$("#confirm-btn" + i).click((function() {
-			return funcs[i];
-		})());
+		$("#confirm-btn" + i).click((function(func) {
+			return function () {
+				func();
+				closeConfirmDialog();
+			}
+		})(funcs[i]));
 	}
 	
 	$(".confirm-dialog")
@@ -122,5 +127,4 @@ function showConfirmDialog(msg) {
 	$("#confirm-bg")
 	.css("width", "100vw")
 	.css("height", "100vh");
-	$("#loginbox").css("opacity","0.4");
 }

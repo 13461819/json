@@ -24,9 +24,12 @@ var myLists;
 var bookMarks;
 var currentTeamIndex;
 var credit;
+var teamCredits;
 var ads;
 var professions;
 var specialties;
+var when_bookMarks;
+var when_myLists;
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
 	$("#accordion_r").html("<img src=\"../image/loading.gif\">");
@@ -55,6 +58,7 @@ function getTopics() {
 				createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
 				//createMyListHTML(); //My List의 HTML코드를 생성한다.
 				//loadYouTubePlayer();
+				refreshCheckBox();
 			})
 		.fail( function (message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -65,7 +69,21 @@ function getTopics() {
 
 function getMyLists() {
 	//var account = JSON.parse(sessionStorage.getItem("accounts"));
-	var when1 = $.ajax({
+	
+	getSubBookMarks();
+	getSubMyLists();
+	
+	$.when(when_bookMarks, when_myLists).done(function() {
+		console.log("2개 다 호출됨");
+		createBookMarkHTML();
+		sortMyLists();
+		createMyListHTML();
+		refreshCheckBox();
+	});
+}
+
+function getSubBookMarks() {
+	when_bookMarks = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
@@ -80,8 +98,10 @@ function getMyLists() {
 	}).fail(function (message){
 		console.log(message);
 	});
-	
-	var when2 = $.ajax({
+}
+
+function getSubMyLists() {
+	when_myLists = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
@@ -95,13 +115,6 @@ function getMyLists() {
 		}
 	}).fail(function (message){
 		console.log(message);
-	});
-	
-	$.when(when1, when2).done(function() {
-		console.log("2개 다 호출됨");
-		createBookMarkHTML();
-		sortMyLists();
-		createMyListHTML();
 	});
 }
 

@@ -15,6 +15,7 @@ function showSelectedList() { // 선택 된 리스트의 썸네일을 보여주�
 }
 
 function refreshCheckBox() { // Recommend, Topic, My List, Search 리스트의 체크박스를 새로고침 한다.
+	console.log("refreshCheckBox");
 	//$("input.checkbox").attr("checked", false);
 	var isSelected = false;
 	//$("input.checkbox").prop("checked", false);
