@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>JSON</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/hanna.css" />
-<link rel="stylesheet" href="/CSS/json.css" />
-<link rel="stylesheet" href="/CSS/confirm-dialog.css" />
+<link rel="stylesheet" href="/static/css/json.css" />
+<link rel="stylesheet" href="/static/css/confirm-dialog.css" />
 <script type="text/javascript">
 	if(sessionStorage.getItem("accounts") == null) {
 		alert("비정상적인 접근!");
@@ -49,11 +50,11 @@
 	<label id="drawer_menu_label" onclick="toggleMenu()"></label>
 	<header id="my_header">
 		<div>
-			<img src="/image/menu.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
+			<img src="/static/img/menu.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 			<span class="page_name" id="page_name">VIDEO</span>
 			<span class="page_name" >Health Breeze</span>
-			<img src="/image/send.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
-			<img src="/image/insertList.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer;">
+			<img src="/static/img/send.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
+			<img src="/static/img/insertList.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer;">
 		</div>
 	</header>
 	<div class="container" id="videoPage">
@@ -117,14 +118,14 @@
 			<div class="col-lg-5" style="padding-right: 0px;">
 				<div class="row">
 					<div class="col-md-12">
-						<img alt="팀 사진" class="img-responsive team_image" src="/image/dog.png">
+						<img alt="팀 사진" class="img-responsive team_image" src="/static/img/dog.png">
 					</div>
 				</div>
 				<div>
 					<div class="col-md-12" style="height: 50px;">
-						<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/image/ticket.png">
+						<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ticket.png">
 						<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain_ticket">28</span></div>
-						<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/image/amount_used.png">
+						<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/amount_used.png">
 					</div>
 				</div>
 				<div class="row" style="background-color: rgb(210,210,210); clear: both;">
@@ -132,7 +133,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						<img alt="팀 사진" class="img-responsive" src="/image/silhouette.png">
+						<img alt="팀 사진" class="img-responsive" src="/static/img/silhouette.png">
 					</div>
 					<div class="col-md-8">
 						<div>김동현</div>
@@ -167,20 +168,23 @@
 	</div>
 	<div class="modal fade" id="modal_setting" role="dialog"></div>
 	<label id="confirm-bg"></label>
-	<script src="/js/jquery-2.1.4.min.js"></script>
-	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
 	<!-- <script src="/js/bootbox.min.js"></script> -->
 	<!-- <script src="/js/json2.js"></script>  -->
-	<script src="/js/init.js"></script>
-	<script src="/js/misc.js"></script>
-	<script src="/js/login2.js"></script>
-	<script src="/js/flowplayer-3.2.13.min.js"></script>
-	<script src="/js/youtube.js"></script>
-	<script src="/js/flowplayer.js"></script>
-	<script src="/js/createTabContentHTML.js"></script>
-	<script src="/js/selectVideo.js"></script>
-	<script src="/js/setting.js"></script>
-	<script src="/js/team_setting.js"></script>
+	<script src="/static/js/init.js"></script>
+	<script src="/static/js/misc.js"></script>
+	<!-- <script src="/js/login2.js"></script> -->
+	<script src="/static/js/flowplayer-3.2.13.min.js"></script>
+	<script src="/static/js/youtube.js"></script>
+	<script src="/static/js/flowplayer.js"></script>
+	<script src="/static/js/createTabContentHTML.js"></script>
+	<script src="/static/js/selectVideo.js"></script>
+	<script src="/static/js/setting.js"></script>
+	<script src="/static/js/team_setting.js"></script>
 	<script type="text/javascript">
 	$(function() {
 		getVideos(); // Videos 리스트 받아옴

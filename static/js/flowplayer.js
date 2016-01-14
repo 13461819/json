@@ -14,5 +14,5 @@ function loadFlowPlayer() {
 	player_fp.setAttribute('class', 'video');
 	iframe_rwd.appendChild(player_fp);
 	
-	$f("playerFP", "../SWF/flowplayer-3.2.18.swf", 'http://localhost/barsandtone.flv');
+	$f("playerFP", "/static/flowplayer/flowplayer-3.2.18.swf", 'http://localhost/barsandtone.flv');
 }

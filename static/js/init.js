@@ -32,7 +32,7 @@ var when_bookMarks;
 var when_myLists;
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
-	$("#accordion_r").html("<img src=\"../image/loading.gif\">");
+	$("#accordion_r").html("<img src=\"/static/img//loading.gif\">");
 	$.getJSON("https://hbreeze4ani.appspot.com/api/v1/videos",
 					function(json) {
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.

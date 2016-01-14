@@ -227,7 +227,7 @@ function modalSendMessage() {
 						}
 					sendHTML +=	
 					'</select>' +
-					'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="../image/loading.gif" style="width: 24px;"></span>' +
+					'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
 				'</div>' +
 				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
 				'<div align="center">' +
@@ -308,7 +308,7 @@ function modalSendMessageLoading(modal) {
 				//'<div class="modal-body" style="text-align:center; vertical-align:middle; line-height: 592px;' +
 				'<div class="modal-body" style="text-align:center;' +
 					' height: 592px; font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
-						'<img src="../image/loading.gif">' +
+						'<img src="/static/img/loading.gif">' +
 					'</div>' +
 				'<div class="modal-footer">' +
 					'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
@@ -344,7 +344,7 @@ function getTeamCredit(index, where) {
 		url = "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams/credit?team_ids=" + team_ids;
 	}
 	
-	$("#remain-ticket-num").html('<img src="../image/loading.gif" style="width: 24px;">');
+	$("#remain-ticket-num").html('<img src="/static/img/loading.gif" style="width: 24px;">');
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
@@ -483,7 +483,7 @@ function insertList() {
 		success: function(json) {
 			var accordion_m = $("#accordion_m");
 			accordion_m.html("");
-			accordion_m.html("<img src=\"../image/loading.gif\">");
+			accordion_m.html("<img src=\"/static/img/loading.gif\">");
 			if(type == "PUT") {
 				targetList.videos = data.videos
 				when_myLists = true;
@@ -503,7 +503,7 @@ function insertList() {
 }
 
 function createTeamPage(index) {
-	$("#modal_setting").before('<div class="container" id="team' + index + '"><img src=\"../image/loading.gif\"></div>');
+	$("#modal_setting").before('<div class="container" id="team' + index + '"><img src=\"/static/img/loading.gif\"></div>');
 	$("#team" + index).html(getCreateTeamPageHTML(index));
 }
 
@@ -519,10 +519,10 @@ function getCreateTeamPageHTML(index) {
 			'</div>' +
 			'<div>' +
 				'<div class="col-md-12" style="height: 50px;">' +
-					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/ticket.png">' +
+					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ticket.png">' +
 					'<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain-ticket-num' + index + '">' +
-						'<img src="../image/loading.gif" style="width: 24px;"></span></div>' +
-					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="../image/amount_used.png">' +
+						'<img src="/static/img/loading.gif" style="width: 24px;"></span></div>' +
+					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/amount_used.png">' +
 				'</div>' +
 			'</div>' +
 			'<div class="row" style="background-color: rgb(210,210,210); clear: both;">' +
@@ -568,7 +568,7 @@ function getCreateTeamPageHTML(index) {
 function onTopicLbtn() {
 	var accordion_t = $("#accordion_t");
 	if(accordion_t.html() == "") {
-		accordion_t.html("<img src=\"../image/loading.gif\">");
+		accordion_t.html("<img src=\"/static/img/loading.gif\">");
 		console.log("I'll make topics HTML now, just one time!")
 		getTopics();
 	}
@@ -577,7 +577,7 @@ function onTopicLbtn() {
 function onMyListLbtn() {
 	var accordion_m = $("#accordion_m");
 	if(accordion_m.html() == "") {
-		accordion_m.html("<img src=\"../image/loading.gif\">");
+		accordion_m.html("<img src=\"/static/img/loading.gif\">");
 		console.log("I'll make My List HTML now, just one time!")
 		getMyLists();
 	}
@@ -599,7 +599,7 @@ function clickTeamPage(index) {
 function checkTeamPage(index) {
 	$(".teamCheck").remove();
 	var targetTeamPage = $(".teamPage" + index);
-	targetTeamPage.append('<img class="teamCheck" src="../image/check.png">');
+	targetTeamPage.append('<img class="teamCheck" src="/static/img/check.png">');
 }
 
 function myListMenu() {
