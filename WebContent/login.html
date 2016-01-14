@@ -1,58 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../CSS/confirm-dialog.css" />
-<style type="text/css">
-</style>
+	
+	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HealthBreeze</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link href="/CSS/app_style.css" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" href="/CSS/confirm-dialog.css" />
+	<script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
 </head>
+
 <body>
-	<div class="container container-login">
-		<div id="loginbox" style="margin-top: 50px;"
-			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="panel-title">로그인</div>
-				</div>
-				<div style="padding-top: 30px;" class="panel-body">
-					<div style="display: none" id="login-alert"
-						class="alert alert-danger col-sm-12"></div>
-					<form id="loginform" class="form-horizontal" role="form">
-						<div style="margin-bottom: 25px" class="input-group">
-							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-user"></i></span> <input id="login-useremail"
-								type="text" class="form-control" name="username" value=""
-								placeholder="이메일을 입력하세요.">
-						</div>
-						<div style="margin-bottom: 25px" class="input-group">
-							<span class="input-group-addon"><i
-								class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
-								type="password" class="form-control" name="password" onkeyup="return searchKeyPress(event)"
-								placeholder="비밀번호를 입력하세요.">
-						</div>
-						<!-- <div class="input-group">
-							<div class="checkbox">
-								<label> <input id="login-remember" type="checkbox"
-									name="remember" value="1"> 로그인 저장
-								</label>
-							</div>
-						</div>  -->
-						<div style="margin-top: 10px" class="form-group">
-							<!-- Button -->
-							<div class="col-sm-12 controls">
-								<a id="btn-login" href="#" class="btn btn-success" onclick="login()">로그인 </a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
+	 
+
+	<div class="container">
+	<label id="confirm-bg"></label>
+	<div class="row">
+		<div class="col-lg-10 col-lg-offset-1 headerImg">
+			<img width="100%" src="/image/tv_banner.png">
 		</div>
 	</div>
-	<label id="confirm-bg"></label>
-	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
-	<script src="../bootstrap/js/bootstrap.min.js"></script>
-	<script src="../JavaScript/login.js"></script>
+
+	<form onsubmit="return validateForm();" class="form-horizontal" role="form" method="POST" accept-charset="utf-8" id="login">
+		<div class="col-lg-10 col-lg-offset-1 form-login">
+			<div>
+				<input value="dhkim@hichart.net" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
+			</div>
+			<div>
+				<input value="kimc1310" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
+			</div>
+			<div class="g-recaptcha" style="margin-bottom: 10px;" align="center" data-sitekey="6LeeDRQTAAAAABRFHbgAfjTt6InTCZ50QzUouojm"></div>
+			<div>
+				<input type="submit" class="btw btn-primary btn-lg" style="padding: 10px 50px;" value="Login">
+			</div>
+		</div>
+	</form>
+</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+	<script src="/js/misc.js"></script>
+	<script type="text/javascript">
+	function validateForm() {
+//		var recaptcha = document.getElementById("g-recaptcha-response").value;
+		var recaptcha = grecaptcha.getResponse();
+		if (recaptcha) {
+			data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
+			console.log(data);
+			sessionStorage.setItem("g-recaptcha-response", recaptcha);
+			var deviceId = localStorage.getItem("deviceId");
+			if (deviceId) {
+				data.deviceId = deviceId;
+			}
+			postToServer(data);
+			return false;
+		} else {
+			alert("Please check not Robot!");
+			return false;
+		}
+		return false;
+	}
+
+	function postToServer(json) {
+		$.ajax({
+			type:'POST',
+			url: 'https://hbreeze4ani.appspot.com/api/v1/login',
+			dataType: 'json',
+//			data: $("#login").serialize(),
+			data: JSON.stringify(json),
+			contentType: 'application/json; charset=utf-8',
+			success: function(result)
+			{
+				localStorage.setItem("deviceId", result.deviceId);
+				sessionStorage.setItem('accounts', JSON.stringify(result));
+				location.replace('index.html');
+			},
+			error: function(result)
+			{
+				var response = JSON.parse(result.responseText);
+				console.log(result);
+				switch (response.code) {
+				case 2002:	// device does not exist.
+					delete json.deviceId;
+					localStorage.removeItem("deviceId");
+					postToServer(json);
+					break;
+				case 2003:	// web device already exist.
+					showConfirmDialog(
+						'Confirm your action',
+						'Your web device already exist!<br>Do you want to replace with new one?<br>Or add new web device to your account?',
+						'Replace', function(){ json.forcing = 0; postToServer(json);},
+						'Add',  function(){ json.forcing = 1; postToServer(json);},
+						'Cancel', function(){}
+					);/*
+					if (confirm('Your device for web already exist!\nDo you want to replace?')) {
+						json.forcing = 0;
+						postToServer(json);
+					} else if (confirm('Or add new device to your account?')) {
+						json.forcing = 1;
+						postToServer(json);
+					}*/
+					break;
+				case 2004:	// invalid id/password
+					alert('Please check your e-mail id and password!')
+					location.reload();
+					break;
+				default:
+					alert('Logon error!')
+					location.reload();
+					break;
+				}
+			}
+		});
+	}
+	</script>
 </body>
 </html>

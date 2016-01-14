@@ -573,7 +573,7 @@ function createMyListHTML() {
 				'<div class="drop-down">' +
 				'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" onclick="myListMenu()"></span>' + 
 				'<div id="myDropdown" class="drop-down-content">' +
-				'<a data-toggle="modal" data-target="#modal_setting" onclick="changeListName(' + (i - 1) + ');">이름 변경</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ');">이름 변경</a>'+
 				'<a onclick="deleteList(' + (i - 1) + ');">삭제</a>'+
 				'<a data-toggle="modal" data-target="#modal_setting">편집</a>'+
 				'</div>' +

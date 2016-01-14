@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../CSS/confirm-dialog.css" />
+<style type="text/css">
+</style>
+</head>
+<body>
+	<div class="container container-login">
+		<div id="loginbox" style="margin-top: 50px;"
+			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">로그인</div>
+				</div>
+				<div style="padding-top: 30px;" class="panel-body">
+					<div style="display: none" id="login-alert"
+						class="alert alert-danger col-sm-12"></div>
+					<form id="loginform" class="form-horizontal" role="form">
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-user"></i></span> <input id="login-useremail"
+								type="text" class="form-control" name="username" value=""
+								placeholder="이메일을 입력하세요.">
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+							<span class="input-group-addon"><i
+								class="glyphicon glyphicon-lock"></i></span> <input id="login-password"
+								type="password" class="form-control" name="password" onkeyup="return searchKeyPress(event)"
+								placeholder="비밀번호를 입력하세요.">
+						</div>
+						<!-- <div class="input-group">
+							<div class="checkbox">
+								<label> <input id="login-remember" type="checkbox"
+									name="remember" value="1"> 로그인 저장
+								</label>
+							</div>
+						</div>  -->
+						<div style="margin-top: 10px" class="form-group">
+							<!-- Button -->
+							<div class="col-sm-12 controls">
+								<a id="btn-login" href="#" class="btn btn-success" onclick="login()">로그인 </a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<label id="confirm-bg"></label>
+	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../JavaScript/login.js"></script>
+</body>
+</html>

@@ -45,7 +45,7 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 			.fail( function (message) {
 				alert("서버와 통신 오류로 로그인할 수 없습니다!");
 				sessionStorage.removeItem("accounts");
-				location.replace("login2.html");
+				location.replace("login.html");
 			});
 }
 
@@ -63,7 +63,7 @@ function getTopics() {
 		.fail( function (message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login2.html");
+			location.replace("login.html");
 		});
 }
 
@@ -161,7 +161,7 @@ function getAds() {
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login2.html");
+			location.replace("login.html");
 		}
 	});
 }
@@ -180,7 +180,7 @@ function getCredit() {
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login2.html");
+			location.replace("login.html");
 		}
 	});
 }
@@ -197,7 +197,7 @@ function getProfessions() {
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login2.html");
+			location.replace("login.html");
 		}
 	});
 }
@@ -214,7 +214,7 @@ function getSpecialties() {
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login2.html");
+			location.replace("login.html");
 		}
 	});
 }
@@ -304,3 +304,16 @@ function sortMyLists() { // 분류된 팀을 오름차순 정렬한다.
 		return (a.name > b.name) ? 1 : -1;
 	});
 }
+
+window.onclick = function(event) {
+	  if (!event.target.matches('.my_list_menu')) {
+	    var dropdowns = document.getElementsByClassName("drop-down-content");
+	    var i;
+	    for (i = 0; i < dropdowns.length; i++) {
+	      var openDropdown = dropdowns[i];
+	      if (openDropdown.classList.contains('drop-down-show')) {
+	        openDropdown.classList.remove('drop-down-show');
+	      }
+	    }
+	  }
+	}
