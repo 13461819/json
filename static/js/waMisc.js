@@ -643,6 +643,10 @@ function modalChangeListName(index) {
 
 function changeListName(index) {
 	var name =  $("#input_change_list_name").val();
+	if(name == undefined || name == "") {
+		alert("리스트 이름을 입력해주세요");
+		return;
+	}
 	var data = myLists[index];
 	data.name = name;
 	$.ajax({
