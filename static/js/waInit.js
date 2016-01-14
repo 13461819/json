@@ -45,7 +45,7 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 			.fail( function (message) {
 				alert("서버와 통신 오류로 로그인할 수 없습니다!");
 				sessionStorage.removeItem("accounts");
-				location.replace("login.html");
+				location.replace("start.html");
 			});
 }
 
@@ -63,7 +63,7 @@ function getTopics() {
 		.fail( function (message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login.html");
+			location.replace("start.html");
 		});
 }
 
@@ -161,7 +161,7 @@ function getAds() {
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login.html");
+			location.replace("start.html");
 		}
 	});
 }
@@ -180,7 +180,7 @@ function getCredit() {
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login.html");
+			location.replace("start.html");
 		}
 	});
 }
@@ -197,7 +197,7 @@ function getProfessions() {
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login.html");
+			location.replace("start.html");
 		}
 	});
 }
@@ -214,7 +214,7 @@ function getSpecialties() {
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
 			sessionStorage.removeItem("accounts");
-			location.replace("login.html");
+			location.replace("start.html");
 		}
 	});
 }
