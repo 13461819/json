@@ -291,10 +291,11 @@ a.list-group-item{
 	width: 100%;
 }
 
-#team_page {
+div[id^="team_page"] {
 	background-color: rgb(230,230,230);
 }
-#team_page > div {
+
+div[id^="team_page"] > div {
 	color: rgb(80,50,110);
 	font-size: 30px;
 	margin: 30px;
@@ -302,7 +303,8 @@ a.list-group-item{
 	-moz-transition: all 0.6s ease;
 	transition: all 0.6s ease;
 }
-#team_page > div:HOVER {
+
+div[id^="team_page"] > div:HOVER {
 	font-size: 33px;
 	cursor: pointer;
 }
@@ -353,4 +355,3 @@ a.list-group-item{
 .drop-down-show {
 	display:block;
 }
-

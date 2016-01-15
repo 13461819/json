@@ -56,17 +56,20 @@ function removeFromSelectedList(id) { // 선택 된 비디오의 썸네일을 �
 
 function toggleCheckList(id, isChecked) { //체크박스를 클릭하면 해당 비디오를 선택 리스트에 넣고 뺀다.
 	if(isChecked){
-		selectedVideos.push(id);		
-		//$("input.checkbox" + id).attr("checked", true);
+		if(selectedVideos.length < 7) {
+			selectedVideos.push(id);
+		} else {
+			//$("input.checkbox" + id).attr("checked", true);
+			$("input.checkbox" + id).prop("checked", false);
+			alert("비디오는 최대 7개까지 선택할 수 있습니다!");
+		}
 	} 
 	else {
 		var index = selectedVideos.indexOf(id);
 		if(index >= 0) {
 			selectedVideos.splice(index, 1);
 		}
-		$("input.checkbox" + id).prop("checked", false);
-		
-		
+		$("input.checkbox" + id).prop("checked", false);		
 		$(".list" + id).css("background-color", "white");
 		/*
 		$(".list" + id).mouseenter(function() {

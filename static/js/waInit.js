@@ -75,6 +75,7 @@ function getMyLists() {
 	
 	$.when(when_bookMarks, when_myLists).done(function() {
 		console.log("2개 다 호출됨");
+		sortBookMarks();
 		createBookMarkHTML();
 		sortMyLists();
 		createMyListHTML();
@@ -129,19 +130,19 @@ function getTeamTitle() {
 		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams",
 		success: function(json) {
 			teams = json;
+			sortTeams();
 			for(var i = 0; i < teams.length; i++) {
-				if(teams[i].id == localStorage.getItem("currentTeam")) {
+				if(teams[i].id == Number(localStorage.getItem("currentTeam"))) {
 					currentTeamIndex = i;
 					break;
 				} else {
 					currentTeamIndex = 0;
 				}
 			}
-			sortTeams();
 			//console.log(teams);
 			//sessionStorage.setItem("teams", JSON.stringify(json));
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="drawer_menu_sub teamPage' + i + '" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
 			checkTeamPage(currentTeamIndex);
 		}
@@ -298,10 +299,17 @@ function sortTeams() { // 분류된 팀을 오름차순 정렬한다.
 	});
 }
 
-function sortMyLists() { // 분류된 팀을 오름차순 정렬한다.
+function sortMyLists() { // MyLists를 오름차순 정렬한다.
 	console.log('sortMyLists');
 	myLists.sort( function(a, b) {
 		return (a.name > b.name) ? 1 : -1;
+	});
+}
+
+function sortBookMarks() { // BookMarks를 오름차순 정렬한다.
+	console.log('sortBookMarks');
+	bookMarks.sort( function(a, b) {
+		return (videos[a].title > videos[b].title) ? 1 : -1;
 	});
 }
 

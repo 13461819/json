@@ -163,13 +163,14 @@ function toggleMenu() {
 }
 
 function toggleCont(contID, title) {
-	var cont = $(".container");
-	var targetCont = $("#" + contID);
-	cont.css("display", "none");
-	targetCont.css("display", "block");
-	var page_name = $("#page_name");
-	page_name.text(title);
+	$(".container").css("display", "none");
+	$("#" + contID).css("display", "block");
+	changeHeaderTitle(title);
 	toggleMenu();
+}
+
+function changeHeaderTitle(title) {
+	$("#page_name").text(title);
 }
 
 function modalSendMessage() {

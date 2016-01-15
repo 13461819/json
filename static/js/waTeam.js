@@ -26,8 +26,36 @@ function createNewTeamPage() {
 }
 
 function createNewTeam() {
-	var newTeamName = $("#input_new_team_name").val();
-	console.log(newTeamName);
+	console.log("createNewTeamName");
+	var name = $("#input_new_team_name").val();
+	if(name == undefined || name == "") {
+		alert("팀 이름을 입력해주세요");
+		return;
+	}
+	var data = {};
+	data.name = name;
+	$.ajax({
+		type: "POST",
+		url: "https://hbreeze4ani.appspot.com/api/v1/teams",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			$('div[class^="teamPage"]').remove();
+			teams.push(json);
+			targetTeamId = json.id
+			sortTeams();
+			for(var i = 0; i < teams.length; i++) {
+				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
+				if(targetTeamId == teams[i].id) currentTeamIndex = i;
+			}
+			$(".container[id^=team]").remove();
+			clickTeamPage(currentTeamIndex);
+		}
+	}).fail( function (message){
+		console.log(message);
+	});
 }
 
 function changeTeamCredit(index) {
@@ -123,14 +151,14 @@ function getCreateTeamPageHTML(index) {
 				'<div class="col-md-12" style="text-align: center;">팀의 연락처 보기</div>' +
 			'</div>' +
 			'<div class="row">' +
-				'<div class="col-md-12" style="text-align: center;">이 팀을 떠나기</div>' +
+				'<div class="col-md-12" style="text-align: center; cursor: pointer;" onclick="deleteTeam(' + index + ')">이 팀을 떠나기</div>' +
 			'</div>' +
 		'</div>' +
-		'<div class="col-lg-7" id="team_page">' +
+		'<div class="col-lg-7" id="team_page' + index + '">' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
 				'onclick="showTeamSetting(\'팀 사진 변경\')">팀 사진 변경</div>' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
-				'onclick="showTeamSetting(\'팀 이름 변경\')">팀 이름 변경</div>' +
+				'onclick="modalChangeTeamName(' + index + ')">팀 이름 변경</div>' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
 				'onclick="showTeamSetting(\'연락처 설정\')">연락처 설정</div>' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
@@ -160,6 +188,95 @@ function clickTeamPage(index) {
 
 function checkTeamPage(index) {
 	$(".teamCheck").remove();
-	var targetTeamPage = $(".teamPage" + index);
-	targetTeamPage.append('<img class="teamCheck" src="/static/img/check.png">');
+	$(".teamPage" + index).append('<img class="teamCheck" src="/static/img/check.png">');
+}
+
+function modalChangeTeamName(index) {
+	var modal = $("#modal_setting");
+	var changeTeamNameHTML = "";
+	modal.html(changeTeamNameHTML);
+	changeTeamNameHTML +=
+	'<div class="modal-dialog">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"' +
+				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+				'<h2 class="modal-title">팀 이름 변경</h2>' +
+			'</div>' +
+			'<div class="modal-body"' +
+			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+				'<div class="form-group">' +
+					'<label for="inputdefault">팀 이름</label>' +
+					'<input class="form-control" placeholder="' + teams[index].name + '" id="input_change_team_name" type="text">' +
+				'</div>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeTeamName(' + index +')">팀 이름 변경</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	modal.html(changeTeamNameHTML);
+}
+
+function changeTeamName(index) {
+	var name =  $("#input_change_team_name").val();
+	if(name == undefined || name == "") {
+		alert("팀 이름을 입력해주세요");
+		return;
+	}
+	var data = teams[index];
+	var targetTeamId;
+	data.name = name;
+	
+	$.ajax({
+		type: "PUT",
+		url: "https://hbreeze4ani.appspot.com/api/v1/teams/" + teams[index].id,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			$('div[class^="teamPage"]').remove();
+			teams[index] = data;
+			targetTeamId = teams[index].id
+			sortTeams();
+			for(var i = 0; i < teams.length; i++) {
+				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
+				if(targetTeamId == teams[i].id) currentTeamIndex = i;
+			}
+			$(".container[id^=team]").remove();
+			clickTeamPage(currentTeamIndex);
+			toggleMenu();
+		}
+	}).fail( function (message){
+		console.log(message);
+	});
+}
+
+function deleteTeam(index) {
+	if( confirm("\"" + teams[index].name + "\" 팀을 정말 떠나시겠습니까?") ) {
+		$.ajax({
+			type: "DELETE",
+			url: "https://hbreeze4ani.appspot.com/api/v1/teams/" + teams[index].id,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			},
+			success: function(json){
+				teams.splice(index, 1);
+				$('div[class^="teamPage"]').remove();
+				sortTeams();
+				for(var i = 0; i < teams.length; i++) {
+					$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
+				}
+				$(".container[id^=team]").remove();
+				toggleCont('videoPage', 'VIDEO');
+				toggleMenu();
+				checkTeamPage(0);
+				localStorage.setItem("currentTeam", teams[0].id);
+			},
+			error: function(message){
+				console.log(message);
+			}
+		});
+	}
 }
