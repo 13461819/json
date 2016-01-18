@@ -30,10 +30,16 @@ var professions;
 var specialties;
 var when_bookMarks;
 var when_myLists;
+var hbUrl = hbUrl + "";
+var hbApiPath = hbApiPath + "";
+
+function setToken() {
+	accounts.token = accounts.token;
+}
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
 	$("#accordion_r").html("<img src=\"/static/img//loading.gif\">");
-	$.getJSON("https://hbreeze4ani.appspot.com/api/v1/videos",
+	$.getJSON(hbUrl + hbApiPath + "/videos",
 					function(json) {
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
 						categorizeVideos(json); // 첫 12개의 인덱스에는 카테고리에 맞게 비디오를 분류해서 2차원 배열을 채운다.
@@ -51,7 +57,7 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 
 function getTopics() {
 	console.log("getTopics");
-	$.getJSON("https://hbreeze4ani.appspot.com/api/v1/topics",
+	$.getJSON(hbUrl + hbApiPath + "/topics",
 			function(json) {
 				createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
 				sortTopics(); // 객체의 순서를 정렬한다.
@@ -87,9 +93,9 @@ function getSubBookMarks() {
 	when_bookMarks = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/bookmarks",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/bookmarks",
 		success: function(json) {
 			bookMarks = json;
 			console.log("붘맠 호출됨");
@@ -105,9 +111,9 @@ function getSubMyLists() {
 	when_myLists = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists",
 		success: function(json) {
 			myLists = json;
 			console.log("마맅 호출됨");
@@ -125,9 +131,9 @@ function getTeamTitle() {
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/teams",
 		success: function(json) {
 			teams = json;
 			sortTeams();
@@ -155,7 +161,7 @@ function getAds() {
 	console.log("getAds");
 	$.ajax({
 		type: "GET",
-		url: "https://hbreeze4ani.appspot.com/api/v1/ads?country=" + accounts.country + "&profession=" + accounts.profession + "&specialty=" + accounts.specialty,
+		url: hbUrl + hbApiPath + "/ads?country=" + accounts.country + "&profession=" + accounts.profession + "&specialty=" + accounts.specialty,
 		success: function(json){
 			ads = json;
 		},
@@ -172,9 +178,9 @@ function getCredit() {
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/credit",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/credit",
 		success: function(json) {
 			credit = json;
 		},
@@ -190,7 +196,7 @@ function getProfessions() {
 	console.log("getProfessions");
 	$.ajax({
 		type: "GET",
-		url: "https://hbreeze4ani.appspot.com/api/v1/professions?lang=ko",
+		url: hbUrl + hbApiPath + "/professions?lang=ko",
 		success: function(json){
 			professions = json;
 			//console.log(professions);
@@ -207,7 +213,7 @@ function getSpecialties() {
 	console.log("getSpecialties");
 	$.ajax({
 		type: "GET",
-		url: "https://hbreeze4ani.appspot.com/api/v1/specialties?lang=ko",
+		url: hbUrl + hbApiPath + "/specialties?lang=ko",
 		success: function(json){
 			specialties = json;
 			//console.log(specialties);

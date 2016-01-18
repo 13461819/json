@@ -36,7 +36,7 @@ function createNewTeam() {
 	data.name = name;
 	$.ajax({
 		type: "POST",
-		url: "https://hbreeze4ani.appspot.com/api/v1/teams",
+		url: bhUrl + bhApiPath + "/teams",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
@@ -78,9 +78,9 @@ function getTeamCredit(index, where) {
 	
 	var url = "";
 	if(where == "teamPage") {
-		url = "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams/credit?team_ids=" + teams[index].id;
+		url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + teams[index].id;
 	} else {
-		url = "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/teams/credit?team_ids=" + team_ids;
+		url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + team_ids;
 	}
 	
 	$("#remain-ticket-num").html('<img src="/static/img/loading.gif" style="width: 24px;">');
@@ -230,7 +230,7 @@ function changeTeamName(index) {
 	
 	$.ajax({
 		type: "PUT",
-		url: "https://hbreeze4ani.appspot.com/api/v1/teams/" + teams[index].id,
+		url: bhUrl + bhApiPath + "/teams/" + teams[index].id,
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
@@ -257,7 +257,7 @@ function deleteTeam(index) {
 	if( confirm("\"" + teams[index].name + "\" 팀을 정말 떠나시겠습니까?") ) {
 		$.ajax({
 			type: "DELETE",
-			url: "https://hbreeze4ani.appspot.com/api/v1/teams/" + teams[index].id,
+			url: bhUrl + bhApiPath + "/teams/" + teams[index].id,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 			},

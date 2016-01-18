@@ -8,9 +8,9 @@ function changeListName(index) {
 	data.name = name;
 	$.ajax({
 		type: "PUT",
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
+		url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		data : JSON.stringify(data),
 		success: function(json) {
@@ -32,9 +32,9 @@ function deleteList(index) {
 	if( confirm("\"" + myLists[index].name + "\" 리스트를 정말 삭제하시겠습니까?") ) {
 		$.ajax({
 			type: "DELETE",
-			url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
+			url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+				xhr.setRequestHeader("Authorization", accounts.token)
 			},
 			success: function(json){
 				myLists.splice(index, 1);
@@ -132,7 +132,7 @@ function modalInsertList() {
 function insertList() {
 	var index = $("input[name='list_name']:checked").val();
 	var type = "";
-	var url = "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists";
+	var url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists";
 	var data = {};
 	data.videos = [];
 	
@@ -154,7 +154,7 @@ function insertList() {
 		type: type,
 		url: url,
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		data : JSON.stringify(data),
 		success: function(json) {
@@ -211,9 +211,9 @@ function createNewList() {
 	data.videos = [];
 	$.ajax({
 		type: "POST",
-		url: "https://hbreeze4ani.appspot.com/api/v1/accounts/" + accounts.userId + "/mylists",
+		url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		data : JSON.stringify(data),
 		success: function(json) {

@@ -238,9 +238,9 @@ function sendMessage() {
 	
 	$.ajax({
 		type: "POST",
-		url: "https://hbreeze4ani.appspot.com/api/v1/teams/" + team_id +"/video_rx",
+		url: bhUrl + bhApiPath + "/teams/" + team_id +"/video_rx",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		data : JSON.stringify(data),
 		success: function(json) {
