@@ -254,7 +254,7 @@ function modalEditList(index) {
 					count = 0;
 				}
 				itemHTML =
-				'<div class="row">' +
+				'<div class="row editItem" id="editItem' + i + '" >' +
 					'<div class="col-sm-11">' +
 						'<div class="row">' +
 							'<div class="col-sm-2">' +
@@ -267,7 +267,7 @@ function modalEditList(index) {
 						'</div>' +
 					'</div>' +
 					'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
-						'<input type="checkbox">' +
+						'<input type="checkbox" class="editCheck" onclick="editCheckClick()" value="' + i + '">' +
 					'</div>' +
 				'</div>';
 				count++;
@@ -297,4 +297,12 @@ function modalEditList(index) {
 
 function editList() {
 	console.log("수정하겠다");
+}
+
+function editCheckClick() {
+	$(".editItem").css("background-color", "rgb(238, 238, 238)");
+	var checked = $(".editCheck:checked"); 
+	$.each(checked, function(index, value) {
+		$("#editItem" + value.value).css("background-color", "rgb(135, 214, 244)");
+	});
 }

@@ -369,3 +369,11 @@ div[id^="team_page"] > div:HOVER {
 	overflow: auto; 
 	overflow-x: hidden;
 }
+
+.editCheck {
+	cursor: pointer;
+}
+
+.editItem {
+	border-bottom: 1px solid rgb(209, 209, 209);
+}
