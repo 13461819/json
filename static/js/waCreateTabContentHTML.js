@@ -575,7 +575,7 @@ function createMyListHTML() {
 				'<div id="myDropdown' + (i - 1) + '" class="drop-down-content">' +
 				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ')">이름 변경</a>'+
 				'<a onclick="deleteList(' + (i - 1) + ')">삭제</a>'+
-				'<a data-toggle="modal" data-target="#modal_setting">편집</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalEditList(' + (i - 1) + ')">편집</a>'+
 				'</div>' +
 				'</div>' +
 				'</span>' +

@@ -355,3 +355,17 @@ div[id^="team_page"] > div:HOVER {
 .drop-down-show {
 	display:block;
 }
+
+.edit-list-icon {
+	position: relative;
+	top: 5px;
+	float: right;
+	cursor: pointer;
+	margin-right: 30px;
+}
+
+.modal-edit-list-body {
+	max-height: 500px;
+	overflow: auto; 
+	overflow-x: hidden;
+}
