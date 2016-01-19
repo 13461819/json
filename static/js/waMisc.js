@@ -238,7 +238,7 @@ function sendMessage() {
 	
 	$.ajax({
 		type: "POST",
-		url: bhUrl + bhApiPath + "/teams/" + team_id +"/video_rx",
+		url: hbUrl + hbApiPath + "/teams/" + team_id +"/video_rx",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", accounts.token)
 		},

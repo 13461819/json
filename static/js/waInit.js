@@ -18,7 +18,6 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
-var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 var teams;
 var myLists;
 var bookMarks;
@@ -30,11 +29,12 @@ var professions;
 var specialties;
 var when_bookMarks;
 var when_myLists;
-var hbUrl = hbUrl + "";
-var hbApiPath = hbApiPath + "";
+var hbUrl = "https://hbreeze4ani.appspot.com";
+var hbApiPath = "/api/v1";
 
 function setToken() {
-	accounts.token = accounts.token;
+	console.log("setToken");
+	accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
 }
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
@@ -50,7 +50,6 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 					})
 			.fail( function (message) {
 				alert("서버와 통신 오류로 로그인할 수 없습니다!");
-				sessionStorage.removeItem("accounts");
 				location.replace("start.html");
 			});
 }
@@ -68,14 +67,11 @@ function getTopics() {
 			})
 		.fail( function (message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		});
 }
 
 function getMyLists() {
-	//var account = JSON.parse(sessionStorage.getItem("accounts"));
-	
 	getSubBookMarks();
 	getSubMyLists();
 	
@@ -99,8 +95,6 @@ function getSubBookMarks() {
 		success: function(json) {
 			bookMarks = json;
 			console.log("붘맠 호출됨");
-			//sessionStorage.setItem("my_lists", JSON.stringify(json));
-			//createMyListHTML(); //My List의 HTML코드를 생성한다.
 		}
 	}).fail(function (message){
 		console.log(message);
@@ -117,8 +111,6 @@ function getSubMyLists() {
 		success: function(json) {
 			myLists = json;
 			console.log("마맅 호출됨");
-			//sessionStorage.setItem("my_lists", JSON.stringify(json));
-			//createMyListHTML(); //My List의 HTML코드를 생성한다.
 		}
 	}).fail(function (message){
 		console.log(message);
@@ -126,7 +118,6 @@ function getSubMyLists() {
 }
 
 function getTeamTitle() {
-	//var account = JSON.parse(sessionStorage.getItem("accounts"));
 	console.log("getTeamTitle");
 	$.ajax({
 		type: "GET",
@@ -146,7 +137,6 @@ function getTeamTitle() {
 				}
 			}
 			//console.log(teams);
-			//sessionStorage.setItem("teams", JSON.stringify(json));
 			for(var i = 0; i < json.length; i++) {
 				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
@@ -167,7 +157,6 @@ function getAds() {
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		}
 	});
@@ -186,7 +175,6 @@ function getCredit() {
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		}
 	});
@@ -203,7 +191,6 @@ function getProfessions() {
 		},
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		}
 	});
@@ -220,7 +207,6 @@ function getSpecialties() {
 		},
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		}
 	});
@@ -235,8 +221,6 @@ function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스
 
 function createTopics(json) { // "자신만의 비디오 리스트"를 가지고 있는 소주제 객체를 배열에 할당한다.
 	console.log('createTopics');
-	//var specialty = JSON.parse(sessionStorage.getItem("accounts")).specialty;
-	//var profession = JSON.parse(sessionStorage.getItem("accounts")).profession;
 	var specialty = accounts.specialty;
 	var profession = accounts.profession;
 	profession -= profession % 100; 

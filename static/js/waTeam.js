@@ -36,7 +36,7 @@ function createNewTeam() {
 	data.name = name;
 	$.ajax({
 		type: "POST",
-		url: bhUrl + bhApiPath + "/teams",
+		url: hbUrl + hbApiPath + "/teams",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
@@ -78,9 +78,9 @@ function getTeamCredit(index, where) {
 	
 	var url = "";
 	if(where == "teamPage") {
-		url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + teams[index].id;
+		url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + teams[index].id;
 	} else {
-		url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + team_ids;
+		url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/teams/credit?team_ids=" + team_ids;
 	}
 	
 	$("#remain-ticket-num").html('<img src="/static/img/loading.gif" style="width: 24px;">');
@@ -104,7 +104,6 @@ function getTeamCredit(index, where) {
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			sessionStorage.removeItem("accounts");
 			location.replace("start.html");
 		}
 	});
@@ -128,10 +127,10 @@ function getCreateTeamPageHTML(index) {
 			'</div>' +
 			'<div>' +
 				'<div class="col-md-12" style="height: 50px;">' +
-					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ticket.png">' +
+					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_ticket.png">' +
 					'<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain-ticket-num' + index + '">' +
 						'<img src="/static/img/loading.gif" style="width: 24px;"></span></div>' +
-					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/amount_used.png">' +
+					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_graph.png">' +
 				'</div>' +
 			'</div>' +
 			'<div class="row" style="background-color: rgb(210,210,210); clear: both;">' +
@@ -188,7 +187,7 @@ function clickTeamPage(index) {
 
 function checkTeamPage(index) {
 	$(".teamCheck").remove();
-	$(".teamPage" + index).append('<img class="teamCheck" src="/static/img/check.png">');
+	$(".teamPage" + index).append('<img class="teamCheck" src="/static/img/ic_action_accept.png">');
 }
 
 function modalChangeTeamName(index) {
@@ -230,7 +229,7 @@ function changeTeamName(index) {
 	
 	$.ajax({
 		type: "PUT",
-		url: bhUrl + bhApiPath + "/teams/" + teams[index].id,
+		url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 		},
@@ -257,7 +256,7 @@ function deleteTeam(index) {
 	if( confirm("\"" + teams[index].name + "\" 팀을 정말 떠나시겠습니까?") ) {
 		$.ajax({
 			type: "DELETE",
-			url: bhUrl + bhApiPath + "/teams/" + teams[index].id,
+			url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
 			},

@@ -8,7 +8,7 @@ function changeListName(index) {
 	data.name = name;
 	$.ajax({
 		type: "PUT",
-		url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", accounts.token)
 		},
@@ -32,7 +32,7 @@ function deleteList(index) {
 	if( confirm("\"" + myLists[index].name + "\" 리스트를 정말 삭제하시겠습니까?") ) {
 		$.ajax({
 			type: "DELETE",
-			url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
+			url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader("Authorization", accounts.token)
 			},
@@ -132,7 +132,7 @@ function modalInsertList() {
 function insertList() {
 	var index = $("input[name='list_name']:checked").val();
 	var type = "";
-	var url = bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists";
+	var url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists";
 	var data = {};
 	data.videos = [];
 	
@@ -211,7 +211,7 @@ function createNewList() {
 	data.videos = [];
 	$.ajax({
 		type: "POST",
-		url: bhUrl + bhApiPath + "/accounts/" + accounts.userId + "/mylists",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", accounts.token)
 		},
@@ -229,12 +229,10 @@ function createNewList() {
 	});
 }
 
-function modalEditList(index) {
-	var modal = $("#modal_setting");
+function getModalEditListHTML(index) {
 	var editListHTML = "", itemHTML = "", categoryHTML = "";
 	var previousCategoryIndex, currentCategoryIndex, count = 0;
 	var targetVideos = myLists[index].videos;
-	modal.html(editListHTML);
 	editListHTML =	
 		'</div>' +
 		'<div class="modal-footer">' +
@@ -280,10 +278,10 @@ function modalEditList(index) {
 							'<div class="modal-header"' +
 								'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255); border: none;">' +
 								'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-								'<h2 class="modal-title">' + myLists[index].name +
-									'<span class="edit-list-icon glyphicon glyphicon-trash"></span>' +
-									'<span class="edit-list-icon glyphicon glyphicon-chevron-down"></span>' +
-									'<span class="edit-list-icon glyphicon glyphicon-chevron-up"></span>' +
+								'<h2 class="modal-title" id="edit-modal-title">' + myLists[index].name +
+									'<span class="edit-list-icon glyphicon glyphicon-trash" onclick="editListRemove(' + index + ')"></span>' +
+									'<span class="edit-list-icon glyphicon glyphicon-chevron-down" onclick="editListDown(' + index + ')"></span>' +
+									'<span class="edit-list-icon glyphicon glyphicon-chevron-up" onclick="editListUp(' + index + ')"></span>' +
 								'</h2>' +
 							'</div>' +
 							'<div class="modal-body modal-edit-list-body"' +
@@ -292,7 +290,13 @@ function modalEditList(index) {
 							categories[previousCategoryIndex] +
 							'<span class="label label-default label-as-badge">' + count + '</span></div>' +
 							editListHTML;
-	modal.html(editListHTML);
+				return editListHTML;
+}
+
+function modalEditList(index) {
+	var modal = $("#modal_setting");
+	
+	modal.html(getModalEditListHTML(index));
 }
 
 function editList() {
@@ -305,4 +309,38 @@ function editCheckClick() {
 	$.each(checked, function(index, value) {
 		$("#editItem" + value.value).css("background-color", "rgb(135, 214, 244)");
 	});
+}
+
+function editListUp(index) {
+	var targetVideos = myLists[index].videos;
+	var checked = $(".editCheck:checked");
+	var test = ["ddf","ssa","ssaz"];
+	var modal = $("#modal_setting");
+	var targetIndex = 0;
+	$.each(checked, function(i, v) {
+		targetIndex = Number(v.value);
+		if(targetIndex == 0) return true;
+		targetVideos.splice(targetIndex - 1, 0, targetVideos.splice(targetIndex, 1)[0]);
+	});
+	
+	modal.html(getModalEditListHTML(index));
+	console.log(checked);
+	$.each(checked, function(i, v) {
+		$(".editCheck[value^=" + v.value + "]").prop("checked", true);
+		$("#editItem" + v.value).css("background-color", "rgb(135, 214, 244)");
+	});
+}
+
+function editListDown(index) {
+	var targetVideos = myLists[index].videos;
+	var checked = $(".editCheck:checked");
+	var modal = $("#modal_setting");
+	var targetIndex = 0;
+	$.each(checked, function(i, v) {
+		targetIndex = Number(v.value);
+		if(targetIndex == (targetVideos.length - 1)) return true;
+		targetVideos.splice(Number(targetIndex + 1), 0, targetVideos.splice(targetIndex, 1)[0]);
+	});
+	
+	modal.html(getModalEditListHTML(index));
 }
