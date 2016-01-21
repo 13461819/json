@@ -10,7 +10,7 @@
 	        box-sizing: border-box;
 	position: fixed;
 	margin: 0 auto;
-	display: none;
+	//display: none;
 	left: 50vw;
 	top: 50vh;
 	margin-left: -250px;
@@ -90,6 +90,6 @@
 	top: 0px;
 	left: 0px;
 	position: fixed;
-	width: 0px;
-	height: 0px;
+	width: 100vw;
+	height: 100vh;
 }

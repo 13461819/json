@@ -18,6 +18,7 @@ function showSetting(settingName) {
 			/*'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';*/
@@ -85,7 +86,14 @@ function getAccount() {
 	'<div class="row" style="margin-bottom: 30px;">' +
 		'<div class="col-md-6" style="text-align: left;"><strong>계정 삭제</strong></div>' +
 		'<div class="col-md-6" style="text-align: right;"><span class="glyphicon glyphicon-chevron-right"></span></div>' +
-	'</div>';
+	'</div>' +
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
@@ -93,12 +101,12 @@ function getProfile() {
 	var settingHTML = "";
 	settingHTML += 
 				'<div class="row" style="margin-bottom: 30px;">' +
-					'<img src="' + accounts.picture + '" class="img-responsive"' +
+					'<img src="' + (accounts.picture ? accounts.picture : "/static/img/ic_item_profile_large.png") + '" class="img-responsive"' +
 						'width="50%" style="margin-left: auto; margin-right: auto;">' +
 				'</div>' +
 				'<div class="form-group">' +
-					'<label for="inputdefault">이름</label> <input class="form-control"' +
-						'id="input_name" placeholder="이름을 입력하세요." type="text" value="' + accounts.nickName + '">' +
+					'<label for="inputdefault">이름</label> <input autofocus class="form-control"' +
+						'id="input_profile_name" onkeyup="return keyUp(event)" placeholder="' + accounts.nickName + '" type="text" value="' + accounts.nickName + '">' +
 				'</div>' +
 				
 				'<div class="form-group">' +
@@ -128,6 +136,7 @@ function getProfile() {
 			'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateProfile()">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -165,7 +174,14 @@ function getNotice() {
 		'<span>진동</span>' +
 		'<input type="checkbox" style="float: right;"/>' +
 	'</div>' +
-	'<hr style="border-color: rgb(214, 214, 214);">';
+	'<hr style="border-color: rgb(214, 214, 214);">' +
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
@@ -180,19 +196,40 @@ function getPassword() {
 		'<span>암호 변경</span>' +
 		'<span class="glyphicon glyphicon-chevron-right" style="float: right;"></span>' +
 	'</div>' +
-	'<div style="font-size: 16px; padding-bottom: 30px;">암호를 분실하시면 앱을 재설치해야 합니다.</div>';
+	'<div style="font-size: 16px; padding-bottom: 30px;">암호를 분실하시면 앱을 재설치해야 합니다.</div>'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
 function getTicket() {
 	var settingHTML = "";
-	settingHTML += '설명처방 티켓충전 - 현재 작성 중입니다.';
+	settingHTML += '설명처방 티켓충전 - 현재 작성 중입니다.'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
 function getDownloaded() {
 	var settingHTML = "";
-	settingHTML += '다운로드된 비디오 - 현재 작성 중입니다.';
+	settingHTML += '다운로드된 비디오 - 현재 작성 중입니다.'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
@@ -211,7 +248,14 @@ function getSendMethod() {
 				'<label><input type="radio" name="optradio">이메일(E-mail)</label>' +
 			'</div>' +
 		'</form>' +
-	'</div>';
+	'</div>'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
@@ -247,12 +291,26 @@ function getLanguage() {
 		'<span>日本語(Japanese)</span>' +
 		'<input type="checkbox" style="float: right;">' +
 		'<hr style="border-color: rgb(214, 214, 214)">' +	
-	'</div>';
+	'</div>'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }
 
 function getHelp() {
 	var settingHTML = "";
-	settingHTML += '사용법 안내 - 현재 작성 중입니다.';
+	settingHTML += '사용법 안내 - 현재 작성 중입니다.'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
 	return settingHTML;
 }

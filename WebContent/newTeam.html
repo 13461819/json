@@ -3,7 +3,22 @@
 <head>
 <meta charset="EUC-KR">
 <title>새로운 팀 만들기</title>
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+.modal-footer {
+	padding: 15px 50px;
+	text-align: left;
+}
+
+.modal-footer>button {
+	width: 15%;
+}
+
+.modal-footer>button:last-child {
+	float: right;
+}
+</style>
 </head>
 <body>
 	<div class="container">
@@ -27,12 +42,16 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
-	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
 </body>
 </html>

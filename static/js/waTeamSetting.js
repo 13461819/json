@@ -18,6 +18,7 @@ function showTeamSetting(settingName) {
 			'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -47,6 +48,9 @@ function getModalTeamSetting(settingName) {
 		break;
 	case '암호로 설명처방 보호':
 		settingHTML = getPasswordSecurity();
+		break;
+	case '팀의 연락처 보기':
+		settingHTML = getTeamContact();
 		break;
 	default:
 		break;
@@ -93,5 +97,11 @@ function getManagerChange() {
 function getPasswordSecurity() {
 	var settingHTML = "";
 	settingHTML += '암호로 설명처방 보호 - 현재 작성 중입니다.';
+	return settingHTML;
+}
+
+function getTeamContact() {
+	var settingHTML = "";
+	settingHTML += '팀의 연락처 보기 - 현재 작성 중입니다.';
 	return settingHTML;
 }

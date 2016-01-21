@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JSON</title>
+<title>HealthBreeze</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/hanna.css" />
 <link rel="stylesheet" href="/static/css/waIndex.css" />
+<link href="/static/css/waConfirm.css" rel="stylesheet">
 
 </head>
 <body>
@@ -45,7 +45,7 @@
 		<div>
 			<img src="/static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 			<span class="page_name" id="page_name">VIDEO</span>
-			<span class="page_name" >Health Breeze</span>
+			<span class="page_name" >HealthBreeze</span>
 			<img src="/static/img/ic_action_send_now.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
 			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer;">
 		</div>
@@ -129,6 +129,21 @@
 	<script src="/static/js/waSetting.js"></script>
 	<script src="/static/js/waTeamSetting.js"></script>
 	<script type="text/javascript">
+	/*var accounts = {
+			  "picture": "https://lh3.googleusercontent.com/rZUV72Nw9Z0l8ukg-vrwUI56-dVAOociTpIwwSKKBMNdinUnf0jgHwk6-R0vnhHHCuemfOQlb12mdmX37pz0LA",
+			  "userId": 5398744128290816,
+			  "profession": 101,
+			  "specialty": 4007,
+			  "deviceId": 5655608640405504,
+			  "password": "9dlUIEyJUEdJ30iYRyBuAJX0O3caBGlz",
+			  "multiLogin": true,
+			  "expiredDate": 1453864403000,
+			  "msIsdn": "821049334688",
+			  "country": "KR",
+			  "sessionKey": "RDQOJNboXYzBg1PW",
+			  "nickName": "김동현",
+			  "needLicense": false
+			};*/
 	var accounts = JSON.parse(sessionStorage.getItem("accounts"));
 	$(function() {
 		setToken();

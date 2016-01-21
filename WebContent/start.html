@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href="/static/css/waStart.css" rel="stylesheet">
-	<link href="/static/css/waIndex.css" rel="stylesheet">
+	<link href="/static/css/waConfirm.css" rel="stylesheet">
 	<script src='https://www.google.com/recaptcha/api.js' async defer></script>
 
 </head>
@@ -54,7 +54,8 @@
 //		var recaptcha = document.getElementById("g-recaptcha-response").value;
 		var recaptcha = grecaptcha.getResponse();
 		if (recaptcha) {
-			data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
+			//data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
+			data = { "email": $("#email").val(), "password": $("#passwd").val(), "account": "login", "deviceType" : "I" };
 			console.log(data);
 			var deviceId = localStorage.getItem("deviceId");
 			if (deviceId) {
@@ -72,7 +73,7 @@
 	function postToServer(json) {
 		$.ajax({
 			type:'POST',
-			url: 'https://hbreeze4ani.appspot.com/api/v1/login',
+			url: 'https://hbreeze4ani.appspot.com/api/v1/accounts',
 			dataType: 'json',
 //			data: $("#login").serialize(),
 			data: JSON.stringify(json),

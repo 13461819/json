@@ -14,15 +14,17 @@ function createNewTeamPage() {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">팀 이름</label>' +
-					'<input class="form-control" placeholder="만드실 팀 이름을 입력하세요." id="input_new_team_name" type="text">' +
+					'<input autofocus class="form-control" onkeyup="return keyUp(event)" placeholder="만드실 팀 이름을 입력하세요." id="input_new_team_name" type="text">' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewTeam()">팀 만들기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewTeam()">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
 	modal.html(createNewTeamHTML);
+	$("#input_new_team_name").focus();
 }
 
 function createNewTeam() {
@@ -95,8 +97,10 @@ function getTeamCredit(index, where) {
 			for(var i = 0; i < teamCredits.length; i++) {
 				if(teamCredits[i].team == teams[index].id) {
 					if(where == "teamPage") {
+						console.log("teamPage");
 						$("#remain-ticket-num" + index).html(teamCredits[i].credit);
 					} else {
+						console.log("sendPage");
 						$("#remain-ticket-num").html(teamCredits[i].credit);
 					}
 				}
@@ -109,20 +113,57 @@ function getTeamCredit(index, where) {
 	});
 }
 
-
 function createTeamPage(index) {
 	$("#modal_setting").before('<div class="container" id="team' + index + '"><img src=\"/static/img/loading.gif\"></div>');
-	$("#team" + index).html(getCreateTeamPageHTML(index));
+	
+	var whenTeamsMembers = $.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members",
+		success: function(json) {
+			teamsMembers = json;
+		},
+		error: function(message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			location.replace("start.html");
+		}
+	});
+	
+	var whenTeamsMembersAccounts = $.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members/accounts",
+		success: function(json) {
+			teamsMembersAccounts = json;
+			sortTeamsMembersAccounts();
+		},
+		error: function(message) {
+			alert("서버와 통신 오류로 로그인할 수 없습니다!");
+			location.replace("start.html");
+		}
+	});
+	
+	$.when(whenTeamsMembers, whenTeamsMembersAccounts).done(function() {
+		$("#team" + index).html(getCreateTeamPageHTML(index));
+		getTeamCredit(index, "teamPage");
+	});
+	
 }
 
 function getCreateTeamPageHTML(index) {
 	var team = teams[index];
+	var teamsMembersAccount, teamsMember;
+	var managerHTML = "", memberHTML = "", tempHTML = "";
 	var teamHTML =
 	'<div class="row">' +
 		'<div class="col-lg-5" style="padding-right: 0px;">' +
 			'<div class="row">' +
 				'<div class="col-md-12">' +
-					'<img alt="팀 사진" style="height: 182px;" class="img-responsive team_image" src="' + team.banner + '">' +
+					'<img alt="팀 사진" style="height: 182px;" class="img-responsive team_image" src="' + (team.banner ? team.banner : "/static/img/team_banner.png") + '">' +
 				'</div>' +
 			'</div>' +
 			'<div>' +
@@ -132,27 +173,89 @@ function getCreateTeamPageHTML(index) {
 						'<img src="/static/img/loading.gif" style="width: 24px;"></span></div>' +
 					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_graph.png">' +
 				'</div>' +
-			'</div>' +
-			'<div class="row" style="background-color: rgb(210,210,210); clear: both;">' +
-				'<div class="col-md-12">관리자</div>' +
-			'</div>' +
-			'<div class="row">' +
-				'<div class="col-md-4">' +
-					'<img alt="관리자 사진" class="img-responsive" src="' + accounts.picture + '">' +
-				'</div>' +
-				'<div class="col-md-8">' +
-					'<div>' + accounts.nickName + '</div>' +
-					'<div>의사(인턴)</div>' +
-					'<div>호스피스</div>' +
-				'</div>' +
-			'</div>' +
-			'<div class="row">' +
-				'<div class="col-md-12" style="text-align: center;">팀의 연락처 보기</div>' +
-			'</div>' +
-			'<div class="row">' +
-				'<div class="col-md-12" style="text-align: center; cursor: pointer;" onclick="deleteTeam(' + index + ')">이 팀을 떠나기</div>' +
-			'</div>' +
-		'</div>' +
+			'</div><div id="teamInfo' + index + '" style="clear: both;">';
+			for(var i = 0; i < teamsMembersAccounts.length; i++) {
+				teamsMembersAccount = teamsMembersAccounts[i];
+				for(var j = 0; j < teamsMembers.length; j++) {
+					teamsMember = teamsMembers[j];
+					if(teamsMembersAccount.id == teamsMember.account) {
+						switch (teamsMember.authorization) {
+						case 10:
+							managerHTML +=
+								'<div class="row">' +
+									'<div class="col-md-3">' +
+										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
+									'</div>' +
+									'<div class="col-md-9" style="font-size: 22px;">' +
+										'<div>' + teamsMembersAccount.nickName + '</div>';
+										for(var k = 0; k < professions.length; k++) {
+											if(professions[k].id == teamsMembersAccount.profession) {
+												managerHTML += '<div>' + professions[k].name + '</div>';
+											}
+										}
+										for(var k = 0; k < specialties.length; k++) {
+											if(specialties[k].id == teamsMembersAccount.specialty) {
+												managerHTML += '<div>' + specialties[k].name + '</div>';
+											}
+										}
+										managerHTML +=
+									'</div>' +
+								'</div>';
+							break;
+						case 5:
+							memberHTML +=
+								'<div class="row">' +
+									'<div class="col-md-3">' +
+										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
+									'</div>' +
+									'<div class="col-md-9" style="font-size: 22px;">' +
+										'<div>' + teamsMembersAccount.nickName + '</div>';
+										for(var k = 0; k < professions.length; k++) {
+											if(professions[k].id == teamsMembersAccount.profession) {
+												memberHTML += '<div>' + professions[k].name + '</div>';
+											}
+										}
+										for(var k = 0; k < specialties.length; k++) {
+											if(specialties[k].id == teamsMembersAccount.specialty) {
+												memberHTML += '<div>' + specialties[k].name + '</div>';
+											}
+										}
+										memberHTML +=
+									'</div>' +
+								'</div>';
+							break;
+						case 0:
+							tempHTML +=
+								'<div class="row">' +
+									'<div class="col-md-3">' +
+										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
+									'</div>' +
+									'<div class="col-md-9" style="font-size: 22px;">' +
+										'<div>' + teamsMembersAccount.nickName + '</div>';
+										for(var k = 0; k < professions.length; k++) {
+											if(professions[k].id == teamsMembersAccount.profession) {
+												tempHTML += '<div>' + professions[k].name + '</div>';
+											}
+										}
+										for(var k = 0; k < specialties.length; k++) {
+											if(specialties[k].id == teamsMembersAccount.specialty) {
+												tempHTML += '<div>' + specialties[k].name + '</div>';
+											}
+										}
+										tempHTML +=
+									'</div>' +
+								'</div>';
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			}		
+		teamHTML +=	(managerHTML ? '<div style="background-color: rgb(210,210,210);">관리자</div>' + managerHTML:"") + 
+					(memberHTML ? '<div style="background-color: rgb(210,210,210);">팀원</div>' + memberHTML:"") + 
+					(tempHTML ? '<div style="background-color: rgb(210,210,210);">대기</div>' + tempHTML:"") + 
+		'</div></div>' +
 		'<div class="col-lg-7" id="team_page' + index + '">' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
 				'onclick="showTeamSetting(\'팀 사진 변경\')">팀 사진 변경</div>' +
@@ -168,6 +271,9 @@ function getCreateTeamPageHTML(index) {
 				'onclick="showTeamSetting(\'관리자 변경\')">관리자 변경</div>' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
 				'onclick="showTeamSetting(\'암호로 설명처방 보호\')">암호로 설명처방 보호</div>' +
+			'<div data-toggle="modal" data-target="#modal_setting"' +
+				'onclick="showTeamSetting(\'팀의 연락처 보기\')">팀의 연락처 보기</div>' +
+			'<div onclick="deleteTeamConfirm(' + index + ')">이 팀을 떠나기</div>' +
 		'</div>' +
 	'</div>';
 	return teamHTML;
@@ -206,11 +312,12 @@ function modalChangeTeamName(index) {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">팀 이름</label>' +
-					'<input class="form-control" placeholder="' + teams[index].name + '" id="input_change_team_name" type="text">' +
+					'<input class="form-control" onfocus="this.value = this.value;" onkeyup="return keyUp(event,' + index + ')" autofocus value="' + teams[index].name + '" placeholder="' + teams[index].name + '" id="input_change_team_name" type="text">' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeTeamName(' + index +')">팀 이름 변경</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeTeamName(' + index +')">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -252,30 +359,37 @@ function changeTeamName(index) {
 	});
 }
 
+function deleteTeamConfirm(index) {
+	showConfirmDialog(
+			'ARE YOU SURE?',
+			'Are you sure to leave "' + teams[index].name +'" team?',
+			'Leave', function(){ deleteTeam(index) },
+			'Cancel', function(){}
+		);
+}
+
 function deleteTeam(index) {
-	if( confirm("\"" + teams[index].name + "\" 팀을 정말 떠나시겠습니까?") ) {
-		$.ajax({
-			type: "DELETE",
-			url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
-			},
-			success: function(json){
-				teams.splice(index, 1);
-				$('div[class^="teamPage"]').remove();
-				sortTeams();
-				for(var i = 0; i < teams.length; i++) {
-					$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
-				}
-				$(".container[id^=team]").remove();
-				toggleCont('videoPage', 'VIDEO');
-				toggleMenu();
-				checkTeamPage(0);
-				localStorage.setItem("currentTeam", teams[0].id);
-			},
-			error: function(message){
-				console.log(message);
+	$.ajax({
+		type: "DELETE",
+		url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+		},
+		success: function(json){
+			teams.splice(index, 1);
+			$('div[class^="teamPage"]').remove();
+			sortTeams();
+			for(var i = 0; i < teams.length; i++) {
+				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
-		});
-	}
+			$(".container[id^=team]").remove();
+			toggleCont('videoPage', 'VIDEO');
+			toggleMenu();
+			checkTeamPage(0);
+			localStorage.setItem("currentTeam", teams[0].id);
+		},
+		error: function(message){
+			console.log(message);
+		}
+	});
 }

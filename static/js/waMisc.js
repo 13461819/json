@@ -207,11 +207,11 @@ function modalSendMessage() {
 					'번호 : ' + 
 					'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
 					'<input id="sendMessagePhoneNumber" type="number" placeholder="휴대폰번호"> &nbsp;' +
-					'<button onclick="sendMessage()" data-dismiss="modal">확인</button>' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -245,6 +245,10 @@ function sendMessage() {
 		data : JSON.stringify(data),
 		success: function(json) {
 			console.log(json);
+			selectedVideos = [];
+			showSelectedList();
+			$("input.checkbox").prop("checked", false);			
+			$(".list-group-item").css("background-color", "white");
 		}
 	}).fail( function (message){
 		console.log(message);
@@ -325,4 +329,34 @@ function showConfirmDialog(title, msg) {
 	$("#confirm-bg")
 	.css("width", "100vw")
 	.css("height", "100vh");
+}
+
+function keyUp(e, index) {
+	e = e || window.event;
+	if (e.keyCode == 13) {
+		switch (e.target.id) {
+		case 'input_new_team_name':
+			createNewTeam();
+			break;
+		case 'input_change_team_name':
+			changeTeamName(index);
+			break;
+		case 'input_profile_name':
+			break;
+		case 'input_new_list_name':
+			createNewList();
+			break;
+		case 'input_insert_new_list_name':
+			insertList();
+			break;
+		case 'input_change_list_name':
+			changeListName(index);
+			break;
+		default:
+			break;
+		}
+		$("#modal_setting").modal('hide');
+		return false;
+	}
+	return true;
 }

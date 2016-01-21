@@ -73,11 +73,12 @@ function modalChangeListName(index) {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">목록 이름</label>' +
-					'<input class="form-control" placeholder="' + myLists[index].name + '" id="input_change_list_name" type="text">' +
+					'<input class="form-control" onkeyup="return keyUp(event,' + index + ')" value="' + myLists[index].name + '" placeholder="' + myLists[index].name + '" id="input_change_list_name" type="text" onfocus="this.value = this.value;"  autofocus >' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeListName(' + index +')">목록 이름 변경</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeListName(' + index +')">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -106,7 +107,7 @@ function modalInsertList() {
 					'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 					'<form role="form" id="radio_insert_list_name">' +
 						'<div class="radio">' +
-							'<label><input type="radio" name="list_name" value="" >새 목록에 추가&nbsp;&nbsp;<input type="text" placeholder="새 목록 이름" id="input_insert_new_list_name"></label>' +
+							'<label><input type="radio" autofocus name="list_name" value="" >새 목록에 추가&nbsp;&nbsp;<input onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name"></label>' +
 						'</div>';
 						for(var i = 0; i < myLists.length; i++) {
 							insertHTML +=
@@ -117,11 +118,11 @@ function modalInsertList() {
 						insertHTML +=
 						'<br>' +
 					 '</form>' +
-					 '<button data-dismiss="modal" onclick="insertList()">추가하기</button>' +
 					 //'<button onclick="insertList()">추가하기</button>' +
 				'</div>' +
 				'<div class="modal-footer">' +
-					'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="insertList()">저장</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
 				'</div>' +
 			'</div>' +
 		'</div>';
@@ -147,8 +148,6 @@ function insertList() {
 		data.videos = myLists[index].videos;
 	}	
 	data.videos = data.videos.concat(selectedVideos);
-	console.log(index);
-	console.log(data);
 	
 	$.ajax({
 		type: type,
@@ -166,7 +165,10 @@ function insertList() {
 			createBookMarkHTML();
 			sortMyLists();
 			createMyListHTML();
-			refreshCheckBox();
+			selectedVideos = [];
+			showSelectedList();
+			$("input.checkbox").prop("checked", false);			
+			$(".list-group-item").css("background-color", "white");
 		}
 	}).fail( function (message){
 		console.log(message);
@@ -189,11 +191,12 @@ function createNewListPage() {
 			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">목록 이름</label>' +
-					'<input class="form-control" placeholder="내 목록 이름" id="input_new_list_name" type="text">' +
+					'<input class="form-control" autofocus onkeyup="return keyUp(event)" placeholder="내 목록 이름" id="input_new_list_name" type="text">' +
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewList()">목록 만들기</button>' +
+			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewList()">저장</button>' +
+			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';

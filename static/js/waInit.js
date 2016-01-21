@@ -18,7 +18,7 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
-var teams;
+var teams, teamsMembers, teamsMembersAccounts;
 var myLists;
 var bookMarks;
 var currentTeamIndex;
@@ -38,7 +38,7 @@ function setToken() {
 }
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
-	$("#accordion_r").html("<img src=\"/static/img//loading.gif\">");
+	$("#accordion_r").html("<img src=\"/static/img/loading.gif\">");
 	$.getJSON(hbUrl + hbApiPath + "/videos",
 					function(json) {
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
@@ -300,6 +300,13 @@ function sortBookMarks() { // BookMarks를 오름차순 정렬한다.
 	console.log('sortBookMarks');
 	bookMarks.sort( function(a, b) {
 		return (videos[a].title > videos[b].title) ? 1 : -1;
+	});
+}
+
+function sortTeamsMembersAccounts() { // teamsMembersAccounts를 이름 오름차순으로 정렬한다.
+	console.log('sortTeamsMembersAccounts');
+	teamsMembersAccounts.sort( function(a, b) {
+		return (a.nickName > b.nickName) ? 1 : -1;
 	});
 }
 

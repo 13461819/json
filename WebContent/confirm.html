@@ -3,7 +3,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>custom confirm</title>
-<link rel="stylesheet" href="../CSS/confirm-dialog.css" />
+<link href="/static/css/waConfirmTest.css" rel="stylesheet">
 </head>
 <body>
 	<button onclick="submitLogin()">로그인</button>
@@ -19,11 +19,9 @@
 			</div>
 			<hr>
 			<div class="confirm-footer">
-				<span class="confirm-btn confirm-btn5" onclick="alert('Delete!')">Delete</span>
-				<span class="confirm-btn confirm-btn5" onclick="alert('Delete!')">Delete</span>
-				<span class="confirm-btn confirm-btn5" onclick="alert('Delete!')">Delete</span>
-				<span class="confirm-btn confirm-btn5" onclick="alert('Delete!')">Delete</span>
-				<span class="confirm-btn confirm-btn5" onclick="alert('Delete!')">Delete</span>
+				<span class="confirm-btn confirm-btn3" onclick="alert('Delete!')">Delete</span>
+				<span class="confirm-btn confirm-btn3" onclick="alert('Delete!')">Delete</span>
+				<span class="confirm-btn confirm-btn3" onclick="alert('Delete!')">Delete</span>
 			</div>
 		</div>
 	</div>
@@ -37,36 +35,32 @@
 		.css("height", "100vh");
 	}
 	
-	function cancel() {
+	function closeConfirmDialog() {
+		console.log("closeConfirmDialog");
 		$(".confirm-dialog")
 		.css("display", "none");
-		$("#background-layer")
+		$("#confirm-bg")
 		.css("width", "0px")
 		.css("height", "0px");
+		$(".confirm-dialog").remove();
 	}
-	
-	function confirmDialog(msg, btn1Text, func1, btn2Text, func2, btn3Text, func3, btn4Text, func4) {
+
+	function showConfirmDialog(title, msg) {
 		var html = "";
 		var count = 0;
 		var texts = [];
 		var funcs = [];
-		texts[0] = btn1Text;
-		texts[1] = btn2Text;
-		texts[2] = btn3Text;
-		texts[3] = btn4Text;
-		funcs[0] = func1;
-		funcs[1] = func2;
-		funcs[2] = func3;
-		funcs[3] = func4;
-		if(func1 != null) count++;
-		if(func2 != null) count++;
-		if(func3 != null) count++;
-		if(func4 != null) count++;
+		for(var i = 0, argument = 2; argument < arguments.length; i++, argument+=2) {
+			texts[i] = arguments[argument];
+			funcs[i] = arguments[argument+1];
+			count++;
+		}
+		
 		html +=
 			'<div class="confirm-dialog">' +
 				'<div class="confirm-content">' +
 					'<div class="confirm-header">' +
-						'Confirm your action' +
+						title +
 					'</div>' +
 					'<div class="confirm-body">' +
 						msg +
@@ -74,15 +68,32 @@
 					'<hr>' +
 					'<div class="confirm-footer">';
 					for(var i = 0; i < count; i++) {
-						html += '<span class="btn-selector btn-selector' + count + '" onclick="' + funcs[0] + '">' + texts[0] + '</span>';
+						html += '<span id="confirm-btn' + i + '" class="confirm-btn confirm-btn' + count + '">' + texts[i] + '</span>';
 					}
 					html +=
 					'</div>' +
 				'</div>' +
 			'</div>';
-			return html;	
+		
+		$("#confirm-bg").before(html);
+		
+		for (var i = 0; i < count; i++) {
+			$("#confirm-btn" + i).click((function(func) {
+				return function () {
+					func();
+					closeConfirmDialog();
+				}
+			})(funcs[i]));
+		}
+		
+		$(".confirm-dialog")
+		.css("display", "block");
+		$("#confirm-bg")
+		.css("width", "100vw")
+		.css("height", "100vh");
 	}
 	</script>
-	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </body>
 </html>
