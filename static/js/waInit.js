@@ -18,7 +18,7 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
-var teams, teamsMembers, teamsMembersAccounts;
+var teams, teamsMembers = [], teamsMembersAccounts = [];
 var myLists;
 var bookMarks;
 var currentTeamIndex;
@@ -303,9 +303,9 @@ function sortBookMarks() { // BookMarks를 오름차순 정렬한다.
 	});
 }
 
-function sortTeamsMembersAccounts() { // teamsMembersAccounts를 이름 오름차순으로 정렬한다.
+function sortTeamsMembersAccounts(index) { // teamsMembersAccounts를 이름 오름차순으로 정렬한다.
 	console.log('sortTeamsMembersAccounts');
-	teamsMembersAccounts.sort( function(a, b) {
+	teamsMembersAccounts[index].sort( function(a, b) {
 		return (a.nickName > b.nickName) ? 1 : -1;
 	});
 }
@@ -313,8 +313,7 @@ function sortTeamsMembersAccounts() { // teamsMembersAccounts를 이름 오름�
 window.onclick = function(event) {
 	  if (!event.target.matches('.my_list_menu')) {
 	    var dropdowns = document.getElementsByClassName("drop-down-content");
-	    var i;
-	    for (i = 0; i < dropdowns.length; i++) {
+	    for (var i = 0; i < dropdowns.length; i++) {
 	      var openDropdown = dropdowns[i];
 	      if (openDropdown.classList.contains('drop-down-show')) {
 	        openDropdown.classList.remove('drop-down-show');

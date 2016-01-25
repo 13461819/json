@@ -123,7 +123,7 @@ function createTeamPage(index) {
 		},
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members",
 		success: function(json) {
-			teamsMembers = json;
+			teamsMembers[index] = json;
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -138,8 +138,8 @@ function createTeamPage(index) {
 		},
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members/accounts",
 		success: function(json) {
-			teamsMembersAccounts = json;
-			sortTeamsMembersAccounts();
+			teamsMembersAccounts[index] = json;
+			sortTeamsMembersAccounts(index);
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -161,90 +161,30 @@ function getCreateTeamPageHTML(index) {
 	var teamHTML =
 	'<div class="row">' +
 		'<div class="col-lg-5" style="padding-right: 0px;">' +
-			'<div class="row">' +
-				'<div class="col-md-12">' +
-					'<img alt="팀 사진" style="height: 182px;" class="img-responsive team_image" src="' + (team.banner ? team.banner : "/static/img/team_banner.png") + '">' +
-				'</div>' +
-			'</div>' +
 			'<div>' +
-				'<div class="col-md-12" style="height: 50px;">' +
-					'<img alt="남은 티켓 수" style="float: left; width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_ticket.png">' +
-					'<div style="float: left; width: 80%; text-align: center; font-size: 20px;">관리자의 남은 티켓 : <span id="remain-ticket-num' + index + '">' +
-						'<img src="/static/img/loading.gif" style="width: 24px;"></span></div>' +
-					'<img alt="티켓 사용 량" style="float: right;  width: 10%; height: 35px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_graph.png">' +
-				'</div>' +
-			'</div><div id="teamInfo' + index + '" style="clear: both;">';
-			for(var i = 0; i < teamsMembersAccounts.length; i++) {
-				teamsMembersAccount = teamsMembersAccounts[i];
-				for(var j = 0; j < teamsMembers.length; j++) {
-					teamsMember = teamsMembers[j];
+				'<img alt="팀 사진" style="height: 182px;" class="img-responsive team_image" src="' + (team.banner ? team.banner : "/static/img/team_banner.png") + '">' +
+			'</div>' +
+			'<div style="height: 50px;">' +
+				'<img alt="남은 티켓 수" style="float: left; height: 50px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_ticket.png">' +
+				'<div style="float: left; width: 75%; text-align: center; line-height: 50px; vertical-align: middle; font-size: 20px;">관리자의 남은 티켓 : <span id="remain-ticket-num' + index + '">' +
+					'<img src="/static/img/loading.gif" style="width: 24px;"></span></div>' +
+				'<img data-toggle="modal" data-target="#modal_setting" onclick="modalShowUsedTicket(' + index + ')" alt="티켓 사용 량" title="사용량 보기" style="cursor: pointer; float: right; height: 50px; vertical-align: middle;" class="img-responsive" src="/static/img/ic_item_graph.png">' +
+			'</div>' +
+			'<div id="teamInfo' + index + '" style="clear: both;">';
+			for(var i = 0; i < teamsMembersAccounts[index].length; i++) {
+				teamsMembersAccount = teamsMembersAccounts[index][i];
+				for(var j = 0; j < teamsMembers[index].length; j++) {
+					teamsMember = teamsMembers[index][j];
 					if(teamsMembersAccount.id == teamsMember.account) {
 						switch (teamsMember.authorization) {
 						case 10:
-							managerHTML +=
-								'<div class="row">' +
-									'<div class="col-md-3">' +
-										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
-									'</div>' +
-									'<div class="col-md-9" style="font-size: 22px;">' +
-										'<div>' + teamsMembersAccount.nickName + '</div>';
-										for(var k = 0; k < professions.length; k++) {
-											if(professions[k].id == teamsMembersAccount.profession) {
-												managerHTML += '<div>' + professions[k].name + '</div>';
-											}
-										}
-										for(var k = 0; k < specialties.length; k++) {
-											if(specialties[k].id == teamsMembersAccount.specialty) {
-												managerHTML += '<div>' + specialties[k].name + '</div>';
-											}
-										}
-										managerHTML +=
-									'</div>' +
-								'</div>';
+							managerHTML += getTeamMemberHTML(teamsMembersAccount);
 							break;
 						case 5:
-							memberHTML +=
-								'<div class="row">' +
-									'<div class="col-md-3">' +
-										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
-									'</div>' +
-									'<div class="col-md-9" style="font-size: 22px;">' +
-										'<div>' + teamsMembersAccount.nickName + '</div>';
-										for(var k = 0; k < professions.length; k++) {
-											if(professions[k].id == teamsMembersAccount.profession) {
-												memberHTML += '<div>' + professions[k].name + '</div>';
-											}
-										}
-										for(var k = 0; k < specialties.length; k++) {
-											if(specialties[k].id == teamsMembersAccount.specialty) {
-												memberHTML += '<div>' + specialties[k].name + '</div>';
-											}
-										}
-										memberHTML +=
-									'</div>' +
-								'</div>';
+							memberHTML += getTeamMemberHTML(teamsMembersAccount);
 							break;
 						case 0:
-							tempHTML +=
-								'<div class="row">' +
-									'<div class="col-md-3">' +
-										'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
-									'</div>' +
-									'<div class="col-md-9" style="font-size: 22px;">' +
-										'<div>' + teamsMembersAccount.nickName + '</div>';
-										for(var k = 0; k < professions.length; k++) {
-											if(professions[k].id == teamsMembersAccount.profession) {
-												tempHTML += '<div>' + professions[k].name + '</div>';
-											}
-										}
-										for(var k = 0; k < specialties.length; k++) {
-											if(specialties[k].id == teamsMembersAccount.specialty) {
-												tempHTML += '<div>' + specialties[k].name + '</div>';
-											}
-										}
-										tempHTML +=
-									'</div>' +
-								'</div>';
+							tempHTML += getTeamMemberHTML(teamsMembersAccount);
 							break;
 						default:
 							break;
@@ -255,7 +195,8 @@ function getCreateTeamPageHTML(index) {
 		teamHTML +=	(managerHTML ? '<div style="background-color: rgb(210,210,210);">관리자</div>' + managerHTML:"") + 
 					(memberHTML ? '<div style="background-color: rgb(210,210,210);">팀원</div>' + memberHTML:"") + 
 					(tempHTML ? '<div style="background-color: rgb(210,210,210);">대기</div>' + tempHTML:"") + 
-		'</div></div>' +
+			'</div>' +
+		'</div>' +
 		'<div class="col-lg-7" id="team_page' + index + '">' +
 			'<div data-toggle="modal" data-target="#modal_setting"' +
 				'onclick="showTeamSetting(\'팀 사진 변경\')">팀 사진 변경</div>' +
@@ -277,6 +218,79 @@ function getCreateTeamPageHTML(index) {
 		'</div>' +
 	'</div>';
 	return teamHTML;
+}
+
+function modalShowUsedTicket(index) {
+	var modal = $("#modal_setting");
+	var showUsedTicketHTML = "";
+	var teamsMembersAccount, teamsMember;
+	var managerHTML = "", memberHTML = "", tempHTML = "";
+	modal.html(showUsedTicketHTML);
+	showUsedTicketHTML +=
+	'<div class="modal-dialog">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"' +
+				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+				'<h2 class="modal-title">팀원별 티켓 사용량</h2>' +
+			'</div>' +
+			'<div class="modal-body"' +
+			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+				'<div class="form-group">';
+				for(var i = 0; i < teamsMembersAccounts[index].length; i++) {
+					teamsMembersAccount = teamsMembersAccounts[index][i];
+					for(var j = 0; j < teamsMembers[index].length; j++) {
+						teamsMember = teamsMembers[index][j];
+						if(teamsMembersAccount.id == teamsMember.account) {
+							switch (teamsMember.authorization) {
+							case 10:
+								managerHTML += teamsMembersAccount.nickName + " : " + teamsMember.send_cnt + " 설명처방 사용<br>";
+								break;
+							case 5:
+								memberHTML += teamsMembersAccount.nickName + " : " + teamsMember.send_cnt + " 설명처방 사용<br>";
+								break;
+							case 0:
+								tempHTML += teamsMembersAccount.nickName + " : " + teamsMember.send_cnt + " 설명처방 사용<br>";
+								break;
+							default:
+								break;
+							}
+						}
+					}
+				}
+				showUsedTicketHTML += managerHTML + memberHTML + tempHTML +
+				'</div>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal">확인</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	modal.html(showUsedTicketHTML);
+}
+
+function getTeamMemberHTML(teamsMembersAccount) {
+	var teamMemberHTML = 
+		'<div class="row">' +
+		'<div class="col-md-3">' +
+			'<img alt="프로필 사진" class="img-responsive" src="' + (teamsMembersAccount.picture ? teamsMembersAccount.picture : "/static/img/ic_item_profile_large.png") + '">' +
+		'</div>' +
+		'<div class="col-md-9" style="font-size: 22px;">' +
+			'<div>' + teamsMembersAccount.nickName + '</div>';
+			for(var k = 0; k < professions.length; k++) {
+				if(professions[k].id == teamsMembersAccount.profession) {
+					teamMemberHTML += '<div>' + professions[k].name + '</div>';
+				}
+			}
+			for(var k = 0; k < specialties.length; k++) {
+				if(specialties[k].id == teamsMembersAccount.specialty) {
+					teamMemberHTML += '<div>' + specialties[k].name + '</div>';
+				}
+			}
+			teamMemberHTML +=
+		'</div>' +
+	'</div>';
+	return teamMemberHTML;
 }
 
 function clickTeamPage(index) {
@@ -333,7 +347,6 @@ function changeTeamName(index) {
 	var data = teams[index];
 	var targetTeamId;
 	data.name = name;
-	
 	$.ajax({
 		type: "PUT",
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
