@@ -29,6 +29,7 @@ var professions;
 var specialties;
 var when_bookMarks;
 var when_myLists;
+var selectedEditLists = [];
 var hbUrl = "https://hbreeze4ani.appspot.com";
 var hbApiPath = "/api/v1";
 

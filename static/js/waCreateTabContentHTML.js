@@ -352,9 +352,10 @@ function createMyListHTML() {
 				'<div class="drop-down">' +
 				'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" onclick="myListMenu(' + (i - 1) + ')"></span>' + 
 				'<div id="myDropdown' + (i - 1) + '" class="drop-down-content">' +
-				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ')">이름 변경</a>'+
-				'<a onclick="deleteList(' + (i - 1) + ')">삭제</a>'+
-				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalEditList(' + (i - 1) + ')">편집</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ')"><span class="glyphicon glyphicon-pencil"></span>&nbsp;이름 변경</a>'+
+				'<a onclick="deleteList(' + (i - 1) + ')"><span class="glyphicon glyphicon-trash"></span>&nbsp;삭제</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalEditList(' + (i - 1) + ')"><span class="glyphicon glyphicon-list"></span>&nbsp;편집</a>'+
+				'<a data-toggle="modal" data-target="#modal_setting" onclick=""><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생</a>'+
 				'</div>' +
 				'</div>' +
 				'</span>' +
