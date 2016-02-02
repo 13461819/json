@@ -1,67 +1,5 @@
-function createNewTeamPage() {
-	var modal = $("#modal_setting");
-	var createNewTeamHTML = "";
-	modal.html(createNewTeamHTML);
-	createNewTeamHTML +=
-	'<div class="modal-dialog">' +
-		'<div class="modal-content">' +
-			'<div class="modal-header"' +
-				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
-				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-				'<h2 class="modal-title">새로운 팀 만들기</h2>' +
-			'</div>' +
-			'<div class="modal-body"' +
-			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
-				'<div class="form-group">' +
-					'<label for="inputdefault">팀 이름</label>' +
-					'<input autofocus class="form-control" onkeyup="return keyUp(event)" placeholder="만드실 팀 이름을 입력하세요." id="input_new_team_name" type="text">' +
-				'</div>' +
-			'</div>' +
-			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewTeam()">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
-			'</div>' +
-		'</div>' +
-	'</div>';
-	modal.html(createNewTeamHTML);
-	$("#input_new_team_name").focus();
-}
-
-function createNewTeam() {
-	console.log("createNewTeamName");
-	var name = $("#input_new_team_name").val();
-	if(name == undefined || name == "") {
-		alert("팀 이름을 입력해주세요");
-		return;
-	}
-	var data = {};
-	data.name = name;
-	$.ajax({
-		type: "POST",
-		url: hbUrl + hbApiPath + "/teams",
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
-		},
-		data : JSON.stringify(data),
-		success: function(json) {
-			$('div[class^="teamPage"]').remove();
-			teams.push(json);
-			targetTeamId = json.id
-			sortTeams();
-			for(var i = 0; i < teams.length; i++) {
-				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
-				if(targetTeamId == teams[i].id) currentTeamIndex = i;
-			}
-			$(".container[id^=team]").remove();
-			clickTeamPage(currentTeamIndex);
-		}
-	}).fail( function (message){
-		console.log(message);
-	});
-}
-
 function changeTeamCredit(index) {
-	console.log("changeTeamCredit");0
+	console.log("changeTeamCredit");
 	for(var i = 0; i < teamCredits.length; i++) {
 		if(teamCredits[i].team == teams[index].id) {
 			$("#remain-ticket-num").html(teamCredits[i].credit);
@@ -89,7 +27,7 @@ function getTeamCredit(index, where) {
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		url: url,
 		success: function(json) {
@@ -119,7 +57,7 @@ function createTeamPage(index) {
 	var whenTeamsMembers = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members",
 		success: function(json) {
@@ -134,7 +72,7 @@ function createTeamPage(index) {
 	var whenTeamsMembersAccounts = $.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id + "/members/accounts",
 		success: function(json) {
@@ -295,7 +233,9 @@ function getTeamMemberHTML(teamsMembersAccount) {
 
 function clickTeamPage(index) {
 	checkTeamPage(index);
-	localStorage.setItem("currentTeam", teams[index].id);
+	waData.currentTeam = teams[index].id;
+	localStorage.setItem(accounts.email, JSON.stringify(waData));
+	//localStorage.setItem("currentTeam", teams[index].id);
 	currentTeamIndex = index;
 	var team = $("#team" + index);
 	if(team.html() == null) {
@@ -308,6 +248,18 @@ function clickTeamPage(index) {
 function checkTeamPage(index) {
 	$(".teamCheck").remove();
 	$(".teamPage" + index).append('<img class="teamCheck" src="/static/img/ic_action_accept.png">');
+	$("#drawer_menu").css("left", "-300px");
+	$("#drawer_menu_label").css({
+		"height" : "0px",
+		"width" : "0px"
+	});
+	isMenuOn = false;
+	currentTeamIndex = index;
+	console.log(waData);
+	console.log(teams[index].id);
+	waData.currentTeam = teams[index].id;
+	console.log(waData);
+	localStorage.setItem(accounts.email, JSON.stringify(waData));
 }
 
 function modalChangeTeamName(index) {
@@ -351,7 +303,7 @@ function changeTeamName(index) {
 		type: "PUT",
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		data : JSON.stringify(data),
 		success: function(json) {
@@ -386,7 +338,7 @@ function deleteTeam(index) {
 		type: "DELETE",
 		url: hbUrl + hbApiPath + "/teams/" + teams[index].id,
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey))
+			xhr.setRequestHeader("Authorization", accounts.token)
 		},
 		success: function(json){
 			teams.splice(index, 1);
@@ -399,7 +351,9 @@ function deleteTeam(index) {
 			toggleCont('videoPage', 'VIDEO');
 			toggleMenu();
 			checkTeamPage(0);
-			localStorage.setItem("currentTeam", teams[0].id);
+			waData.currentTeam = teams[0].id;
+			localStorage.setItem(accounts.email, JSON.stringify(waData));
+			//localStorage.setItem("currentTeam", teams[0].id);
 		},
 		error: function(message){
 			console.log(message);

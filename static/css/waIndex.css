@@ -39,6 +39,7 @@
 }
 
 .list-group-item {
+	cursor: pointer;
 	background-color: white;
 	border-bottom: 1px solid rgb(209, 209, 209);
 	padding: 0px;
@@ -117,48 +118,8 @@ a.list-group-item{
 	margin: 0px;
 }
 
-.container {
-	overflow-x: hidden;
-	position: relative;
-	left: 0px;
-	margin-left: 0px;
-	z-index: 100;
-	padding: 0px;
-	-webkit-transition: all 0.6s ease;
-	-moz-transition: all 0.6s ease;
-	transition: all 0.6s ease;
-}
-
-#my_header {
-	height: 60px;
-	background-color: rgb(0,197,247);
-	/*background-color: rgb(0,197,47);*/
-	z-index: 102;
-}
-
-#menu_image {
-	float: left;
-	margin-top: 15px;
-	margin-left: 25px;
-	width: 30px;
-}
-
-.list-manipulation{
-	float: right;
-	width: 60px;
-	display: none;
-}
-
-.page_name {
-	position: relative;
-	color: white;
-	font-size: 35px;
-	margin-left: 40px;
-	vertical-align: middle;
-	top: 5px;
-}
-
 .drawer_menu>.drawer_menu_sub {
+	cursor: pointer;
 	padding: 17px;
 	padding-left: 30px;
 	font-size: 18px;
@@ -205,6 +166,47 @@ a.list-group-item{
 
 .drawer_menu_sub:HOVER + #settings {
 	max-height: 500px;
+}
+
+.container {
+	overflow-x: hidden;
+	position: relative;
+	left: 0px;
+	margin-left: 0px;
+	z-index: 100;
+	padding: 0px;
+	-webkit-transition: all 0.6s ease;
+	-moz-transition: all 0.6s ease;
+	transition: all 0.6s ease;
+}
+
+#my_header {
+	height: 60px;
+	background-color: rgb(0,197,247);
+	/*background-color: rgb(0,197,47);*/
+	z-index: 102;
+}
+
+#menu_image {
+	float: left;
+	margin-top: 15px;
+	margin-left: 25px;
+	width: 30px;
+}
+
+.list-manipulation{
+	float: right;
+	width: 60px;
+	display: none;
+}
+
+.page_name {
+	position: relative;
+	color: white;
+	font-size: 35px;
+	margin-left: 40px;
+	vertical-align: middle;
+	top: 5px;
 }
 
 .team_image {

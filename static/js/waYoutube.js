@@ -90,10 +90,32 @@ function onPlayerReady(event) {
   }
 }
 
-var done = false;
 function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.PLAYING && !done) {
-    //setTimeout(stopVideo, 6000);
-    done = true;
-  }
+	var currentPlayIndex = youtubeIndex % youtubePlayList.length;
+	var currentVideos;
+	var currentId;
+	var title = $("#title");
+	var description = $("#description");
+	if(event.data == YT.PlayerState.ENDED) {
+		if(isAds) {
+			playerYT.loadVideoById(youtubePlayList[currentPlayIndex]); 
+			currentVideos = myLists[currentPlayMyListIndex].videos;
+			currentId = currentVideos[currentPlayIndex];
+			title.html(videos[currentId].title);
+			description.html(replaceDescription(videos[currentId].description));
+			isAds = false;
+		} else {
+			playerYT.loadVideoById(youtubeAds[(youtubeIndex++ % youtubeAds.length)]);
+			title.html("&nbsp;");
+			description.html("&nbsp;");
+			isAds = true;
+		}
+		if(youtubeIndex == getLCM(youtubeAds.length, youtubePlayList.length)) youtubeIndex = 0;
+	}
+}
+
+function getLCM(num1, num2) {
+	var LCM = (num1 > num2) ? num1 : num2;
+	while(LCM % num1 || LCM % num2) LCM++;
+	return LCM;
 }

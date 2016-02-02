@@ -3,19 +3,21 @@
 <head>
 <meta charset="EUC-KR">
 <title>custom confirm</title>
-<link href="/static/css/waConfirmTest.css" rel="stylesheet">
+<link href="/static/css/waConfirm.css" rel="stylesheet">
 </head>
 <body>
 	<button onclick="submitLogin()">로그인</button>
 	<button onclick="(function(e, obj){ alert(e + ', ' + obj); })(event, this)">실험</button>
 	<button onclick="{alert(2);}">실험2</button>
-	<div class="confirm-dialog">
+	<div class="confirm-dialog" style="display: block;">
 		<div class="confirm-content">
 			<div class="confirm-header">
-				Confirm your action
+			asd
 			</div>
 			<div class="confirm-body">
 				Are you really sure that you want to delete or add Device ID?
+				<br>Are you really sure that you want to delete or add Device ID?
+				<br>Are you really sure that you want to delete or add Device ID?
 			</div>
 			<hr>
 			<div class="confirm-footer">

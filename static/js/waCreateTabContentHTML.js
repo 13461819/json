@@ -341,7 +341,7 @@ function createMyListHTML() {
 			i + 
 			
 			'" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>' + 
-			
+		
 			myLists[i - 1].name +
 				
 			'<span class="label label-default label-as-badge">';
@@ -355,12 +355,13 @@ function createMyListHTML() {
 				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ')"><span class="glyphicon glyphicon-pencil"></span>&nbsp;이름 변경</a>'+
 				'<a onclick="deleteList(' + (i - 1) + ')"><span class="glyphicon glyphicon-trash"></span>&nbsp;삭제</a>'+
 				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalEditList(' + (i - 1) + ')"><span class="glyphicon glyphicon-list"></span>&nbsp;편집</a>'+
-				'<a data-toggle="modal" data-target="#modal_setting" onclick=""><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생</a>'+
+				'<a onclick="playMyListYoutube(' + (i - 1) + ')"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생(Youtube)</a>'+
+				'<a onclick="playMyListFlowPlayer(' + (i - 1) + ')"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생(FlowPlayer)</a>'+
 				'</div>' +
 				'</div>' +
 				'</span>' +
 				'</div>' +
-				'<div id="collapse_m' + 
+				'<div id="collapse_m' +  
 				
 				i + 
 				

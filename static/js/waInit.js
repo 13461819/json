@@ -18,10 +18,11 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
+var targetVideos = [];
 var teams, teamsMembers = [], teamsMembersAccounts = [];
 var myLists;
 var bookMarks;
-var currentTeamIndex;
+var currentTeamIndex, currentPlayMyListIndex;
 var credit;
 var teamCredits;
 var ads;
@@ -30,12 +31,29 @@ var specialties;
 var when_bookMarks;
 var when_myLists;
 var selectedEditLists = [];
+var youtubeAds = ["EOaoAf69zOg", "jh1IHMJI5lc", "F7viKAPDmT0", "Snl61MzlotM", "egywPKPjS7Y", "aAHbscecDcI"];
+var youtubePlayList = [];
+var isAds = false, youtubeIndex = 0;
 var hbUrl = "https://hbreeze4ani.appspot.com";
 var hbApiPath = "/api/v1";
+var waData = {};
+
+function getWaData() {
+	if(localStorage.getItem(accounts.email)) {
+		waData = JSON.parse(localStorage.getItem(accounts.email));
+	} else {
+		waData.sendMethod = 0;
+		waData.videoLang = [false, false, false, false, false];
+	}
+	console.log(waData);
+}
 
 function setToken() {
 	console.log("setToken");
-	accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
+	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4OjM1VG1EQ2ViSTJvNmRCbTc=";
+	delete accounts.sessionKey;
+	console.log(accounts);
 }
 
 function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
@@ -95,6 +113,9 @@ function getSubBookMarks() {
 		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/bookmarks",
 		success: function(json) {
 			bookMarks = json;
+			for(var i = 0; i < bookMarks.length; i++) {
+				if(videos[bookMarks[i]] == undefined) bookMarks.splice(i, 1);
+			}
 			console.log("붘맠 호출됨");
 		}
 	}).fail(function (message){
@@ -111,6 +132,11 @@ function getSubMyLists() {
 		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists",
 		success: function(json) {
 			myLists = json;
+			for(var i = 0; i < myLists.length; i++) {
+				for(var j = 0; j < myLists[i].videos.length; j++){
+					if(videos[myLists[i].videos[j]] == undefined) myLists[i].videos.splice(j, 1);
+				}
+			}
 			console.log("마맅 호출됨");
 		}
 	}).fail(function (message){
@@ -130,7 +156,7 @@ function getTeamTitle() {
 			teams = json;
 			sortTeams();
 			for(var i = 0; i < teams.length; i++) {
-				if(teams[i].id == Number(localStorage.getItem("currentTeam"))) {
+				if(teams[i].id == Number(waData.currentTeam)) {
 					currentTeamIndex = i;
 					break;
 				} else {
@@ -139,7 +165,7 @@ function getTeamTitle() {
 			}
 			//console.log(teams);
 			for(var i = 0; i < json.length; i++) {
-				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="clickTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
+				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="checkTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
 			checkTeamPage(currentTeamIndex);
 		}
@@ -167,12 +193,13 @@ function getCredit() {
 	console.log("getCredit");
 	$.ajax({
 		type: "GET",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/credit",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", accounts.token)
 		},
-		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/credit",
 		success: function(json) {
 			credit = json;
+			$("#currentMyTicket").html(credit.credit);
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -185,7 +212,7 @@ function getProfessions() {
 	console.log("getProfessions");
 	$.ajax({
 		type: "GET",
-		url: hbUrl + hbApiPath + "/professions?lang=ko",
+		url: hbUrl + hbApiPath + "/professions?lang=" + accounts.language,
 		success: function(json){
 			professions = json;
 			//console.log(professions);
@@ -201,7 +228,7 @@ function getSpecialties() {
 	console.log("getSpecialties");
 	$.ajax({
 		type: "GET",
-		url: hbUrl + hbApiPath + "/specialties?lang=ko",
+		url: hbUrl + hbApiPath + "/specialties?lang=" + accounts.language,
 		success: function(json){
 			specialties = json;
 			//console.log(specialties);
@@ -236,7 +263,7 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 				|| video_specialties.length == 0) {  // video_specialties값을 가지고 topics를 구성한다.
 			if( (-1 < video_professions.indexOf(profession))
 					|| video_professions.length == 0) {
-				if( (-1 < countries.indexOf("KR"))
+				if( (-1 < countries.indexOf(accounts.country))
 						|| countries.length == 0) {
 					topics.push(json[i]);
 				}
@@ -312,7 +339,9 @@ function sortTeamsMembersAccounts(index) { // teamsMembersAccounts를 이름 오
 }
 
 window.onclick = function(event) {
-	  if (!event.target.matches('.my_list_menu')) {
+	event = event || window.event;
+	var target = event.target || event.srcElement;
+	  if (-1 == target.className.indexOf('my_list_menu')) {
 	    var dropdowns = document.getElementsByClassName("drop-down-content");
 	    for (var i = 0; i < dropdowns.length; i++) {
 	      var openDropdown = dropdowns[i];

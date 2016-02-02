@@ -1,6 +1,6 @@
 .confirm-dialog {
 	background-color: rgba(226, 226, 226, 1);
-	width: 500px;
+	width: 450px;
 	/*height: 165px;*/
 	/*overflow: hidden;*/
 	border-radius: 10px;
@@ -13,7 +13,7 @@
 	display: none;
 	left: 50vw;
 	top: 50vh;
-	margin-left: -250px;
+	margin-left: -225px;
 	margin-top: -70px;
 	z-index: 102;
 	/*opacity: 0;*/
@@ -24,7 +24,8 @@
 }
 
 .confirm-header {
-	line-height: 50px;
+	/*line-height: 50px;*/
+	padding-top: 11px;
 	font-size: 20px;
 	font-weight: bolder;
 	vertical-align: bottom;
@@ -33,6 +34,7 @@
 .confirm-body {
 	/*height: 70px;*/
 	padding: 0px 20px;
+	padding-top: 11px;
 	padding-bottom: 20px;
 }
 

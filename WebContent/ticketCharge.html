@@ -3,8 +3,9 @@
 <head>
 <meta charset="EUC-KR">
 <title>설명처방 티켓 충전</title>
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../CSS/ticket_charge.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/waTicketCharge.css" />
 </head>
 <body>
 	<div class="container">
@@ -16,13 +17,13 @@
 				</div>
 				<div class="modal-body">
 					<div id="remain-info">
-						<img class="img-remain img-remain-ticket" alt=" '그림 설명 : 헬스브리즈 티켓의 이미지입니다.' " src="../image/ticket.png">
+						<img class="img-remain img-remain-ticket" alt=" '그림 설명 : 헬스브리즈 티켓의 이미지입니다.' " src="/static/img/ic_item_ticket.png">
 						남은 설명처방 티켓 : <span id="remain_ticket_count">28</span>
-						<img class="img-remain img-remain-graph" alt=" '그림 설명 : 헬스브리스 티켓 사용량을 나타내는 그래프 이미지입니다.' " src="../image/amount_used.png">
+						<img class="img-remain img-remain-graph" alt=" '그림 설명 : 헬스브리스 티켓 사용량을 나타내는 그래프 이미지입니다.' " src="/static/img/amount_used.png">
 					</div>
 					<p>티켓은 팀의 관리자일때 적용됩니다.</p>
 					<div>
-						<img class="img-charge-ticket img-charge-ticket-100" alt=" '그림 설명 : 100장의 티켓 이미지입니다.' " src="../image/100.png">
+						<img class="img-charge-ticket img-charge-ticket-100" alt=" '그림 설명 : 100장의 티켓 이미지입니다.' " src="/static/img/100.png">
 						<div>
 							100 티켓(헬스브리즈)<br>
 							기본티켓
@@ -33,7 +34,7 @@
 					</div>
 					<hr>
 					<div>
-						<img class="img-charge-ticket img-charge-ticket-220" alt=" '그림 설명 : 220장의 티켓 이미지입니다.' " src="../image/220.png">
+						<img class="img-charge-ticket img-charge-ticket-220" alt=" '그림 설명 : 220장의 티켓 이미지입니다.' " src="/static/img/220.png">
 						<div>220 티켓(헬스브리즈)<br>
 						보너스 10% 티켓의 혜택을 누리세요!!!</div>
 						<div class="ticket-price">
@@ -42,7 +43,7 @@
 					</div>
 					<hr>
 					<div>
-						<img class="img-charge-ticket img-charge-ticket-480" alt=" '그림 설명 : 480장의 티켓 이미지입니다.' " src="../image/480.png">
+						<img class="img-charge-ticket img-charge-ticket-480" alt=" '그림 설명 : 480장의 티켓 이미지입니다.' " src="/static/img/480.png">
 						<div>480 티켓(헬스브리즈)<br>
 						보너스 20% 티켓의 혜택을 누리세요!!!</div>
 						<div class="ticket-price">
@@ -51,7 +52,7 @@
 					</div>
 					<hr>
 					<div>
-						<img class="img-charge-ticket img-charge-ticket-1500" alt=" '그림 설명 : 1500장의 티켓 이미지입니다.' " src="../image/1500.png">
+						<img class="img-charge-ticket img-charge-ticket-1500" alt=" '그림 설명 : 1500장의 티켓 이미지입니다.' " src="/static/img/1500.png">
 						<div>1500 티켓(헬스브리즈)<br>
 						보너스 50% 티켓의 혜택을 누리세요!!!</div>
 						<div class="ticket-price">
@@ -76,18 +77,18 @@
 
 		</div>
 	</div>
-	<script src="../JavaScript/jquery-2.1.4.min.js"></script>
-	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
 	<script type="text/javascript">
+	var coupon = $(".form-group");
 	function inputCoupon() {
-		var coupon = $(".form-coupon");
 		coupon.css("max-height", "100px");
-		coupon.css("margin-bottom", "15px");
 	}
 	function submitCoupon() {
-		var coupon = $(".form-coupon");
 		coupon.css("max-height", "0px");
-		coupon.css("margin-bottom", "0px");
 	}
 	</script>
 	

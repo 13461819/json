@@ -74,11 +74,15 @@
 }
 
 .form-coupon {
+}
+
+.form-group {
 	max-height: 0px;
 	overflow: hidden;
-	-webkit-transition : max-height 1s ease, margin-bottom 0.3s ease;
-	-moz-transition: max-height 1s ease, margin-bottom 0.3s ease;
-	transition: max-height 1s ease, margin-bottom 0.3s ease;
+	margin-bottom: 0px;
+	-webkit-transition : all 1s ease;
+	-moz-transition: all 1s ease;
+	transition: all 1s ease;
 }
 
 .form-control {

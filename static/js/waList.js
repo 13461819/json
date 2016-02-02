@@ -145,10 +145,9 @@ function insertList() {
 		type = "PUT";
 		url = url + "/" + myLists[index].id;
 		data.name = myLists[index].name;
-		data.videos = myLists[index].videos;
+		data.videos = JSON.parse(JSON.stringify(myLists[index].videos));
 	}	
 	data.videos = data.videos.concat(selectedVideos);
-	
 	$.ajax({
 		type: type,
 		url: url,
@@ -232,14 +231,17 @@ function createNewList() {
 	});
 }
 
-function getModalEditListHTML(index) {
+function getModalEditListHTML(index, newOpen) {
 	var editListHTML = "", itemHTML = "", categoryHTML = "";
 	var previousCategoryIndex, currentCategoryIndex, count = 0;
-	var targetVideos = myLists[index].videos;
+	if(newOpen) {
+		targetVideos = JSON.parse(JSON.stringify(myLists[index].videos));
+		selectedEditLists = [];
+	}
 	editListHTML =	
 		'</div>' +
 		'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="editList()">저장</button>' +
+		'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="editList(' + index + ')">저장</button>' +
 		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 		'</div>' +
 	'</div>' +
@@ -289,7 +291,7 @@ function getModalEditListHTML(index) {
 								'</h2>' +
 							'</div>' +
 							'<div class="modal-body modal-edit-list-body"' +
-							'style="font-size: 18px; padding: 0px; background-color: rgb(238, 238, 238);">' + 
+							'style="font-size: 18px; padding: 0px; background-color: rgb(238, 238, 238);">' +
 							'<div style="font-size: 14px; background-color: rgb(209, 209, 209); padding: 5px 20px;">' +
 							categories[previousCategoryIndex] +
 							'<span class="label label-default label-as-badge">' + count + '</span></div>' +
@@ -300,44 +302,95 @@ function getModalEditListHTML(index) {
 function modalEditList(index) {
 	var modal = $("#modal_setting");
 	modal.html("");
-	modal.html(getModalEditListHTML(index));
+	modal.html(getModalEditListHTML(index, true));
 }
 
-function editList() {
-	console.log("수정하겠다");
+function editList(index) {
+	var type = "PUT";
+	var url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id;
+	var data = {};
+	data.name = myLists[index].name;
+	data.videos = targetVideos;
+
+	$.ajax({
+		type: type,
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", accounts.token)
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			var accordion_m = $("#accordion_m");
+			accordion_m.html("");
+			accordion_m.html("<img src=\"/static/img/loading.gif\">");
+			myLists[index] = json;
+			sortBookMarks();
+			createBookMarkHTML();
+			sortMyLists();
+			createMyListHTML();
+			$("input.checkbox").prop("checked", false);
+			$(".list-group-item").css("background-color", "white");
+		}
+	}).fail( function (message){
+		console.log(message);
+	});
 }
 
 function editCheckClick(id) {
-	var index = selectedEditLists.indexOf(id);
+	var index = selectedEditLists.indexOf(Number(id));
 	if( -1 < index) {
 		selectedEditLists.splice(index, 1);
 	} else {
-		selectedEditLists.push(id);
+		selectedEditLists.push(Number(id));
 	}
 	refreshEditList();	
 }
 
 function editListUp(index) {
-	var targetVideos = myLists[index].videos;
 	var modal = $("#modal_setting");
-	var targetIndex = 0;
-	$.each(selectedEditLists, function(i, v) {
-		targetIndex = targetVideos.indexOf(Number(v));
-		targetVideos.splice((targetIndex - 1 > -1 ? targetIndex - 1 : 0), 0, targetVideos.splice(targetIndex, 1)[0]);
-	});
+	
+	var targetIndex = [];
+	var temp;
+	for(var i = targetVideos.length; i--;) {
+		if(-1 < selectedEditLists.indexOf(targetVideos[i])) {
+			if(i == 0) break;
+			targetIndex.push(i);
+			if (-1 == selectedEditLists.indexOf(targetVideos[(i - 1)])) {
+				temp = targetVideos[(i - 1)];
+				for(var j = targetIndex.length; j-- ;) {
+					targetVideos[targetIndex[j] - 1] = targetVideos[targetIndex[j]];
+				}
+				targetVideos[targetIndex[0]] = temp;
+				i--;
+				targetIndex = [];
+			}
+		}
+	}
 	modal.html("");
 	modal.html(getModalEditListHTML(index));
 	refreshEditList();
 }
 
 function editListDown(index) {
-	var targetVideos = myLists[index].videos;
 	var modal = $("#modal_setting");
 	var targetIndex = 0;
-	$.each(selectedEditLists, function(i, v) {
-		targetIndex = targetVideos.indexOf(Number(v));
-		targetVideos.splice(targetIndex + 1, 0, targetVideos.splice(targetIndex, 1)[0]);
-	});
+	var targetIndex = [];
+	var temp;
+	for(var i = 0; i < targetVideos.length; i++) {
+		if(-1 < selectedEditLists.indexOf(targetVideos[i])) {
+			if(i == (targetVideos.length - 1)) break;
+			targetIndex.push(i);
+			if (-1 == selectedEditLists.indexOf(targetVideos[(i + 1)])) {
+				temp = targetVideos[(i + 1)];
+				for(var j = targetIndex.length; j-- ;) {
+					targetVideos[targetIndex[j] + 1] = targetVideos[targetIndex[j]];
+				}
+				targetVideos[targetIndex[0]] = temp;
+				i++;
+				targetIndex = [];
+			}
+		}
+	}
 	modal.html("");
 	modal.html(getModalEditListHTML(index));
 	refreshEditList();
@@ -349,4 +402,37 @@ function refreshEditList() {
 		$(".editCheck[value^=" + v + "]").prop("checked", true);
 		$("#editItem" + v).css("background-color", "rgb(135, 214, 244)");
 	});
+}
+
+function playMyListYoutube(index) {
+	loadYouTubePlayer();
+	youtubePlayList = [];
+	currentPlayMyListIndex = index;
+	$.each(myLists[index].videos, function(i, v) {
+		youtubePlayList.push(videos[v].youtube);
+	});
+	playerYT.loadVideoById(youtubePlayList[0]);
+	$("#title").html(videos[myLists[index].videos[0]].title);
+	$("#description").html(replaceDescription(videos[myLists[index].videos[0]].description));
+}
+
+function playMyListFlowPlayer(index) {
+	loadFlowPlayer();
+	youtubePlayList = [];
+	currentPlayMyListIndex = index;
+	$.each(myLists[index].videos, function(i, v) {
+		youtubePlayList.push(videos[v].youtube);
+	});
+}
+
+function editListRemove(index) {
+	var modal = $("#modal_setting");
+	var targetIndex = 0;
+	$.each(selectedEditLists, function(i, v) {
+		targetIndex = targetVideos.indexOf(Number(v));
+		targetVideos.splice(targetIndex, 1);
+	});
+	modal.html("");
+	modal.html(getModalEditListHTML(index));
+	refreshEditList();
 }

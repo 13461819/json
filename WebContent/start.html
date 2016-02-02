@@ -57,7 +57,7 @@
 			//data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
 			data = { "email": $("#email").val(), "password": $("#passwd").val(), "account": "login", "deviceType" : "I" };
 			console.log(data);
-			var deviceId = localStorage.getItem("deviceId");
+			var deviceId = JSON.parse(localStorage.getItem($("#email").val())).deviceId;
 			if (deviceId) {
 				data.deviceId = deviceId;
 			}
@@ -80,8 +80,9 @@
 			contentType: 'application/json; charset=utf-8',
 			success: function(result)
 			{
-				localStorage.setItem("deviceId", result.deviceId);
-				sessionStorage.setItem('accounts', JSON.stringify(result));
+				var waData = JSON.parse(localStorage.getItem(json.email));
+				waData.deviceId = result.deviceId;
+				localStorage.setItem(json.email, JSON.stringify(waData));
 				location.replace('index.html');
 			},
 			error: function(result)
@@ -91,7 +92,10 @@
 				switch (response.code) {
 				case 2002:	// device does not exist.
 					delete json.deviceId;
-					localStorage.removeItem("deviceId");
+					var waData = JSON.parse(localStorage.getItem(json.email));
+					delete waData.deviceId;
+					localStorage.setItem(json.email, JSON.stringify(waData));
+					//localStorage.removeItem("deviceId");
 					postToServer(json);
 					break;
 				case 2003:	// web device already exist.

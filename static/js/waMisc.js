@@ -175,7 +175,30 @@ function changeHeaderTitle(title) {
 
 function modalSendMessage() {
 	var modal = $("#modal_setting");
-	var sendHTML = 
+	var sendHTML = "";
+	if(teams == "" || teams == null || teams == undefined) {
+		sendHTML = 
+			'<div class="modal-dialog">' +
+				'<div class="modal-content" id="sendMessagePage">' +
+					'<div class="modal-header"' +
+						'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+						'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+						'<h2 class="modal-title">메시지 전송</h2>' +
+					'</div>' +
+					'<div class="modal-body"' +
+						'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+						'<div align="center">' +
+						'안내) HealthBreeze 모바일 앱에서 팀을 만드셔야 합니다.<br>안내) To send Video(s), you should make a Team on the HealthBreeze mobile application.' +
+						'</div>' +
+					'</div>' +
+					'<div class="modal-footer">' +
+						'<button type="button" class="btn btn-success" data-dismiss="modal">확인</button>' +
+					'</div>' +
+				'</div>' +
+			'</div>';
+			modal.html(sendHTML);
+	} else {
+	sendHTML = 
 	'<div class="modal-dialog">' +
 		'<div class="modal-content" id="sendMessagePage">' +
 			'<div class="modal-header"' +
@@ -201,7 +224,11 @@ function modalSendMessage() {
 				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
 				'<div align="center">' +
 					'선택된 비디오 : ' + selectedVideos.length + '개' +
-					'<br><br>' +
+					'<br>' +
+				'</div>' +
+				'<div align="center">' +
+					'메모 : ' + 
+					'<textarea rows="3" cols="50" name="comment">메모를 입력하세요.</textarea>' +
 				'</div>' +
 				'<div align="center">' +
 					'번호 : ' + 
@@ -217,6 +244,7 @@ function modalSendMessage() {
 	'</div>';
 	modal.html(sendHTML);
 	getTeamCredit(currentTeamIndex);
+	}
 }
 
 function sendMessage() {
@@ -257,7 +285,7 @@ function sendMessage() {
 
 function onTopicLbtn() {
 	var accordion_t = $("#accordion_t");
-	if(accordion_t.html() == "") {
+	if(accordion_t.html() == "" || accordion_t.html() == "<img src=\"/static/img/loading.gif\">") {
 		accordion_t.html("<img src=\"/static/img/loading.gif\">");
 		console.log("I'll make topics HTML now, just one time!")
 		getTopics();
@@ -266,7 +294,7 @@ function onTopicLbtn() {
 
 function onMyListLbtn() {
 	var accordion_m = $("#accordion_m");
-	if(accordion_m.html() == "") {
+	if(accordion_m.html() == "" || accordion_m.html() == "<img src=\"/static/img/loading.gif\">") {
 		accordion_m.html("<img src=\"/static/img/loading.gif\">");
 		console.log("I'll make My List HTML now, just one time!")
 		getMyLists();
@@ -298,7 +326,7 @@ function showConfirmDialog(title, msg) {
 		'<div class="confirm-dialog">' +
 			'<div class="confirm-content">' +
 				'<div class="confirm-header">' +
-					title +
+				((title == null) ? '' : title) +
 				'</div>' +
 				'<div class="confirm-body">' +
 					msg +
@@ -359,4 +387,60 @@ function keyUp(e, index) {
 		return false;
 	}
 	return true;
+}
+
+function couponKeyUp(event) {
+	event = event || window.event;
+	var prev = $(event.target).prev('.form-control');
+	var curr = $(event.target)
+	var next = $(event.target).next('.form-control');
+	switch (event.keyCode) {
+	case 8:
+		if(event.target.value.length == 0) $(event.target).prev('.form-control').focus();
+		break;
+	case 13:
+		if(!next.length && curr.val().length == 4) submitCoupon();
+		break;
+	default:
+		if(curr.val().length == 4) next.focus();
+		break;
+	}
+}
+
+function ticketFocus(event) {
+	event = event || window.event;
+	var prev = $(event.target).prev('.form-control');
+	var curr = $(event.target)
+	if(prev.length != 0 && curr.val().length == 0 && (prev.val().length != 4)) $(event.target).prev('.form-control').focus();
+}
+
+function submitCoupon() {
+	var data = {};
+	var couponText = "";
+	for( var i = 0; i < 4; i++) couponText += $("#couponText" + i).val();
+	data.code = couponText;
+	$.ajax({
+		type: "POST",
+		url: hbUrl + hbApiPath + "/coupons",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", accounts.token)
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			showConfirmDialog(
+				null,
+				'쿠폰 ' + json.credit + "개가 충전되었습니다.",
+				'OK', function(){}
+			);
+		}
+	}).fail( function (message){
+		console.log(message);
+		showConfirmDialog(
+			message.responseJSON.message,
+			'존재하지 않는 쿠폰입니다.',
+			'OK', function(){}
+		);
+	});
+	$("#modal_setting").modal('hide');
 }
