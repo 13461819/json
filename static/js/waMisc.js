@@ -176,6 +176,7 @@ function changeHeaderTitle(title) {
 function modalSendMessage() {
 	var modal = $("#modal_setting");
 	var sendHTML = "";
+	//modal.html("");
 	if(teams == "" || teams == null || teams == undefined) {
 		sendHTML = 
 			'<div class="modal-dialog">' +
@@ -197,9 +198,86 @@ function modalSendMessage() {
 				'</div>' +
 			'</div>';
 			modal.html(sendHTML);
+			modal.modal('show');
+	} else if(waData.sendMethod == 0) {
+		console.log("처방시 지정");
+		$("#send_image").after(
+			'<div id="dropDownSendMethod" class="drop-down-content" style="top: 60px; z-index: 101">' +
+				'<a onclick="send2SMS()"><span class="glyphicon glyphicon-phone"></span>&nbsp;문자 (SMS)</a>' +
+				'<a onclick="send2Email()"><span class="glyphicon glyphicon-envelope"></span>&nbsp;이메일(E-mail)</a>' +
+			'</div>');
+		$("#dropDownSendMethod").toggleClass("drop-down-show");
+	} else if(waData.sendMethod == 1) {
+		send2SMS();
 	} else {
-	sendHTML = 
-	'<div class="modal-dialog">' +
+		send2Email();
+	} 
+}
+
+function send2SMS() {
+	$("#dropDownSendMethod").removeClass("drop-down-show");
+	var modal = $("#modal_setting");
+	modal.html(getSendSMSHTML());
+	modal.modal('show');
+	getTeamCredit(currentTeamIndex);
+}
+
+function send2Email() {
+	$("#dropDownSendMethod").removeClass("drop-down-show");
+	var modal = $("#modal_setting");
+	modal.html(getSendEmailHTML());
+	modal.modal('show');
+	getTeamCredit(currentTeamIndex);
+}
+
+function getSendSMSHTML() {
+	var sendHTML = '<div class="modal-dialog" style="top: 90px;">' +
+	'<div class="modal-content" id="sendMessagePage">' +
+		'<div class="modal-header"' +
+			'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+			'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+			'<h2 class="modal-title">메시지 전송</h2>' +
+		'</div>' +
+		'<div class="modal-body"' +
+			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+			'<div align="center">' +
+				'<select id="sendMessageTeam" onchange="changeTeamCredit(this.selectedIndex)">';
+					for(var i = 0; i < teams.length; i++) {
+						if(i == currentTeamIndex) {
+							sendHTML += '<option selected="selected" value="' +i + '">' + teams[i].name + '</option>';
+						} else {
+							sendHTML += '<option value="' + i + '">' + teams[i].name + '</option>';
+						}
+					}
+				sendHTML +=	
+				'</select>' +
+				'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
+			'</div>' +
+			'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
+			'<div align="center">' +
+				'선택된 비디오 : ' + selectedVideos.length + '개' +
+				'<br>' +
+			'</div>' +
+//			'<div align="center">' +
+//				'<textarea rows="3" cols="50" name="comment">메모를 입력하세요.</textarea>' +
+//			'</div>' +
+			'<div align="center">' +
+				'번호 : ' + 
+				'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
+				'<input id="sendMessagePhoneNumber" type="number" placeholder="휴대폰번호"> &nbsp;' +
+			'</div>' +
+		'</div>' +
+		'<div class="modal-footer">' +
+			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
+			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'</div>' +
+		'</div>' +
+	'</div>';
+	return sendHTML;
+}
+
+function getSendEmailHTML() {
+	var sendHTML = '<div class="modal-dialog" style="top: 90px;">' +
 		'<div class="modal-content" id="sendMessagePage">' +
 			'<div class="modal-header"' +
 				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
@@ -227,7 +305,6 @@ function modalSendMessage() {
 					'<br>' +
 				'</div>' +
 				'<div align="center">' +
-					'메모 : ' + 
 					'<textarea rows="3" cols="50" name="comment">메모를 입력하세요.</textarea>' +
 				'</div>' +
 				'<div align="center">' +
@@ -237,14 +314,16 @@ function modalSendMessage() {
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
+				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendEmail()">보내기</button>' +
 				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
-	modal.html(sendHTML);
-	getTeamCredit(currentTeamIndex);
-	}
+	return sendHTML;
+}
+
+function sendEmail() {
+	console.log("이메일로 보내기");
 }
 
 function sendMessage() {

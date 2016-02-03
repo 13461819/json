@@ -1,0 +1,24 @@
+설정메뉴 옆에서 나옴 → Drawer에 고정
+localStorage.setItem(accounts.email, waData);
+/*
+waData = {
+	"sendMethod" : 0, //전송방법 : 0, 1, 2
+	"videoLang" :  [true,false,false,false,false], //비디오 목록 언어 체크박스
+	"currentTeam" : 5730082031140864 // 팀ID
+	}
+*/
+<style>
+html [lang]:not([lang="xx"]) 적용함
+</style>
+
+confirm-dialog 넓이 줄이고 No-title 적용함
+My List 메뉴에서 youtube flowplayer메뉴 추가됨
+IE에서는 My List메뉴 외부 클릭으로 안닫기던 오류 수정
+"KR", "ko" → country, language로 수정
+삭제된 북마크 표시 못하던 오류 수정
+My List 재생시에 youtubes, Ads 한개씩 순차적으로 보여주도록 수정
+리스트 수정 구현완료
+sendMessage 팀 없을경우 팀 만들라고 화면에 표시
+티켓충전 → 쿠폰등록으로 수정, 설정 클릭시 $.ajax()로 쿠폰값 최신화
+전송방법, 비디오 목록 언어 설정 저장기능 추가
+전송 버튼 누르면 drop-down 나오도록 수정 → 세부 전송은 아직 미완성

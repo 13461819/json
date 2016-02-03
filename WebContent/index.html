@@ -56,7 +56,9 @@ html [lang]:not([lang="en"]) {
 			<img src="/static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 			<span class="page_name" id="page_name">VIDEO</span>
 			<span class="page_name" >HealthBreeze</span>
-			<img src="/static/img/ic_action_send_now.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
+			<div class="drop-down">
+				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
+			</div>
 			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer;">
 		</div>
 	</header>

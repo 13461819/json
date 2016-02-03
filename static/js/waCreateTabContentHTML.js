@@ -248,57 +248,60 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 					for( var j = length; j-- ;) {
 						video_specialties = videos[i][j].specialties;
 						video_professions = videos[i][j].professions;
+						video_countries = videos[i][j].countries;
 						//title = videos[i][j].title;
 						if( (-1 < video_specialties.indexOf(specialty)) || video_specialties.length == 0) {
 							//console.log(video_specialties.indexOf(specialty));
 							if( (-1 < video_professions.indexOf(profession)) || video_professions.length == 0) {
 								//console.log(typeof videos[i][j].visible);
 								//console.log(video_professions.indexOf(profession));
-								if(videos[i][j].visible == true) {
-								count++;
-								id = videos[i][j].id;
-								subRecommendHTML += 
-									'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
-									
-									id + 
-									
-									')">' +
-									'<div class="row">' +
-									'<div class="col-sm-3">' +
-									'<img src="' + 
-									
-									videos[id].thumbnail + 
-									
-									'" class="img-responsive">' +
-									'</div>' +
-									'<div class="col-sm-9">' +
-									'<div class="row">' + 
-									
-									videos[id].title + 
-									
-									'</div>' +
-									'<div class="row" style="font-size:13px;">' +
-									
-									convertPlayTime(videos[id].playtime) +
-									
-									'</div>' +
-									'</div>' +
-									'</div>' +
-									
-									'</div></div>' +
-									
-									'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
-									'<input type="checkbox" class="checkbox checkbox' + 
-									
-									id + 
-									
-									'" onclick="toggleCheckList(' + 
-									
-									id + 
-									
-									', this.checked)">' +
-									'</div>' +
-									'</div>';
+								if( (-1 < video_countries.indexOf("KR")) || video_countries == 0) {
+									if(videos[i][j].visible == true) {
+									count++;
+									id = videos[i][j].id;
+									subRecommendHTML += 
+										'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+										
+										id + 
+										
+										')">' +
+										'<div class="row">' +
+										'<div class="col-sm-3">' +
+										'<img src="' + 
+										
+										videos[id].thumbnail + 
+										
+										'" class="img-responsive">' +
+										'</div>' +
+										'<div class="col-sm-9">' +
+										'<div class="row">' + 
+										
+										videos[id].title + 
+										
+										'</div>' +
+										'<div class="row" style="font-size:13px;">' +
+										
+										convertPlayTime(videos[id].playtime) +
+										
+										'</div>' +
+										'</div>' +
+										'</div>' +
+										
+										'</div></div>' +
+										
+										'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
+										'<input type="checkbox" class="checkbox checkbox' + 
+										
+										id + 
+										
+										'" onclick="toggleCheckList(' + 
+										
+										id + 
+										
+										', this.checked)">' +
+										'</div>' +
+										'</div>';
+									}
 								}
 							}
 						}

@@ -145,7 +145,7 @@ function insertList() {
 		type = "PUT";
 		url = url + "/" + myLists[index].id;
 		data.name = myLists[index].name;
-		data.videos = JSON.parse(JSON.stringify(myLists[index].videos));
+		data.videos = JSON.parse(JSON.stringify(myLists[index].videos)); //이렇게 해야 포인터만 복사되지 않고 깊은복사가 일어난다.
 	}	
 	data.videos = data.videos.concat(selectedVideos);
 	$.ajax({

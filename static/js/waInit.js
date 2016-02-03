@@ -51,7 +51,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4OjM1VG1EQ2ViSTJvNmRCbTc=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4OnlOTkhsQkJ6dkd1VFJwZ0g=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -283,7 +283,6 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 		//if(-1 < video_specialties.indexOf(3009)) {  // video_specialties값을 가지고 videos를 구성한다.
 			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
 			category_index = findIndexFromCode(json[i]);
-			
 			videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
 			videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
 		//}
@@ -341,7 +340,7 @@ function sortTeamsMembersAccounts(index) { // teamsMembersAccounts를 이름 오
 window.onclick = function(event) {
 	event = event || window.event;
 	var target = event.target || event.srcElement;
-	  if (-1 == target.className.indexOf('my_list_menu')) {
+	  if (-1 == target.className.indexOf('my_list_menu') && target.id != "send_image") {
 	    var dropdowns = document.getElementsByClassName("drop-down-content");
 	    for (var i = 0; i < dropdowns.length; i++) {
 	      var openDropdown = dropdowns[i];
