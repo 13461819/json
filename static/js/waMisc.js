@@ -304,13 +304,12 @@ function getSendEmailHTML() {
 					'선택된 비디오 : ' + selectedVideos.length + '개' +
 					'<br>' +
 				'</div>' +
+//				'<div align="center">' +
+//					'<textarea rows="3" cols="50" name="comment">메모를 입력하세요.</textarea>' +
+//				'</div>' +
 				'<div align="center">' +
-					'<textarea rows="3" cols="50" name="comment">메모를 입력하세요.</textarea>' +
-				'</div>' +
-				'<div align="center">' +
-					'번호 : ' + 
-					'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
-					'<input id="sendMessagePhoneNumber" type="number" placeholder="휴대폰번호"> &nbsp;' +
+					'이메일 : ' + 
+					'<input id="sendMessageEmail" type="email" style="width: 60%;" placeholder="이메일을 입력하세요."> &nbsp;'+
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
