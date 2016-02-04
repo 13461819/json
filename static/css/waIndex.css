@@ -131,7 +131,7 @@ a.list-group-item{
 .drawer_menu>.drawer_menu_sub:HOVER {
 	color: rgb(240, 240, 240);
 	background-color: rgb(160, 160, 160);
-	font-size: 20px;
+/* 	font-size: 20px; */
 }
 
 #settings {

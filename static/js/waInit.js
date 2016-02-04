@@ -261,34 +261,42 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 		video_specialties = json[i].specialties; 
 		video_professions = json[i].professions; 
 		video_countries = json[i].countries;
+		video_languages = json[i].languages;
 		if ( (-1 < video_specialties.indexOf(specialty))
 				|| video_specialties.length == 0) {  // video_specialties값을 가지고 topics를 구성한다.
 			if ( (-1 < video_professions.indexOf(profession))
 					|| video_professions.length == 0) {
-				if(video_countries.length == 0) {
-					topics.push(json[i]);
-					continue;
-				}
-				if (!waData.videoLang[0]) {
-					topics.push(json[i]);
-				} else {
-					if (waData.videoLang[1]) {
-						if ( waData.videoLang[2] && (-1 < video_countries.indexOf("US")) ) {
-							topics.push(json[i]);
-							continue;
-						}
-						if ( waData.videoLang[3] && (-1 < video_countries.indexOf("KR")) ) {
-							topics.push(json[i]);
-							continue;
-						}
-						if ( waData.videoLang[4] && (-1 < video_countries.indexOf("JP")) ) {
-							topics.push(json[i]);
-							continue;
-						}
+				if ( (-1 < video_countries.indexOf(accounts.country))
+						|| video_countries.length == 0 ) {
+					if(video_languages.length == 0) {
+						topics.push(json[i]);
+						continue;
+					}
+					if (!waData.videoLang[0]) {
+						topics.push(json[i]);
 					} else {
-						if ( -1 < video_countries.indexOf(accounts.country) ) {
-							topics.push(json[i]);
-							continue;
+						if (waData.videoLang[1]) {
+							if ( waData.videoLang[2] && (-1 < video_languages.indexOf("en")) ) {
+								topics.push(json[i]);
+								continue;
+							}
+							if ( waData.videoLang[3] && (-1 < video_languages.indexOf("ko")) ) {
+								topics.push(json[i]);
+								continue;
+							}
+							if ( waData.videoLang[4] && (-1 < video_languages.indexOf("jp")) ) {
+								topics.push(json[i]);
+								continue;
+							}
+							if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4]) {
+								topics.push(json[i]);
+								continue;
+							}
+						} else {
+							if ( -1 < video_languages.indexOf(accounts.language) ) {
+								topics.push(json[i]);
+								continue;
+							}
 						}
 					}
 				}

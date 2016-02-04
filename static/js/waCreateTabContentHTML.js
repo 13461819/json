@@ -249,39 +249,47 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 						video_specialties = videos[i][j].specialties;
 						video_professions = videos[i][j].professions;
 						video_countries = videos[i][j].countries;
+						video_language = videos[i][j].code.substr(7, 2);
 						//title = videos[i][j].title;
 						if( (-1 < video_specialties.indexOf(specialty)) || video_specialties.length == 0) {
 							//console.log(video_specialties.indexOf(specialty));
 							if( (-1 < video_professions.indexOf(profession)) || video_professions.length == 0) {
 								//console.log(typeof videos[i][j].visible);
 								//console.log(video_professions.indexOf(profession));
-								if(videos[i][j].visible == true) {
-								count++;
-								id = videos[i][j].id;
-									if(video_countries.length == 0) {
-										subRecommendHTML += getSubRecommendHTML(id);
-										continue;
-									}
-									if (!waData.videoLang[0]) {
-										subRecommendHTML += getSubRecommendHTML(id);
-									} else {
-										if (waData.videoLang[1]) {
-											if ( waData.videoLang[2] && (-1 < video_countries.indexOf("US")) ) {
-												subRecommendHTML += getSubRecommendHTML(id);
-												continue;
-											}
-											if ( waData.videoLang[3] && (-1 < video_countries.indexOf("KR")) ) {
-												subRecommendHTML += getSubRecommendHTML(id);
-												continue;
-											}
-											if ( waData.videoLang[4] && (-1 < video_countries.indexOf("JP")) ) {
-												subRecommendHTML += getSubRecommendHTML(id);
-												continue;
-											}
+								if( (-1 < video_countries.indexOf(accounts.country)) || video_countries.length == 0) {
+									if(videos[i][j].visible == true) {
+									id = videos[i][j].id;
+										if (!waData.videoLang[0]) {
+											count++;
+											subRecommendHTML += getSubRecommendHTML(id);
 										} else {
-											if ( -1 < video_countries.indexOf(accounts.country) ) {
-												subRecommendHTML += getSubRecommendHTML(id);
-												continue;
+											if (waData.videoLang[1]) {
+												if ( waData.videoLang[2] && video_language == "en" ) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
+												if ( waData.videoLang[3] && video_language == "ko" ) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
+												if ( waData.videoLang[4] && video_language == "jp" ) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
+												if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4]) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
+											} else {
+												if ( video_language == accounts.language ) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
 											}
 										}
 									}
