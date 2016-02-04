@@ -255,52 +255,35 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 							if( (-1 < video_professions.indexOf(profession)) || video_professions.length == 0) {
 								//console.log(typeof videos[i][j].visible);
 								//console.log(video_professions.indexOf(profession));
-								if( (-1 < video_countries.indexOf("KR")) || video_countries == 0) {
-									if(videos[i][j].visible == true) {
-									count++;
-									id = videos[i][j].id;
-									subRecommendHTML += 
-										'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
-										
-										id + 
-										
-										')">' +
-										'<div class="row">' +
-										'<div class="col-sm-3">' +
-										'<img src="' + 
-										
-										videos[id].thumbnail + 
-										
-										'" class="img-responsive">' +
-										'</div>' +
-										'<div class="col-sm-9">' +
-										'<div class="row">' + 
-										
-										videos[id].title + 
-										
-										'</div>' +
-										'<div class="row" style="font-size:13px;">' +
-										
-										convertPlayTime(videos[id].playtime) +
-										
-										'</div>' +
-										'</div>' +
-										'</div>' +
-										
-										'</div></div>' +
-										
-										'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
-										'<input type="checkbox" class="checkbox checkbox' + 
-										
-										id + 
-										
-										'" onclick="toggleCheckList(' + 
-										
-										id + 
-										
-										', this.checked)">' +
-										'</div>' +
-										'</div>';
+								if(videos[i][j].visible == true) {
+								count++;
+								id = videos[i][j].id;
+									if(video_countries.length == 0) {
+										subRecommendHTML += getSubRecommendHTML(id);
+										continue;
+									}
+									if (!waData.videoLang[0]) {
+										subRecommendHTML += getSubRecommendHTML(id);
+									} else {
+										if (waData.videoLang[1]) {
+											if ( waData.videoLang[2] && (-1 < video_countries.indexOf("US")) ) {
+												subRecommendHTML += getSubRecommendHTML(id);
+												continue;
+											}
+											if ( waData.videoLang[3] && (-1 < video_countries.indexOf("KR")) ) {
+												subRecommendHTML += getSubRecommendHTML(id);
+												continue;
+											}
+											if ( waData.videoLang[4] && (-1 < video_countries.indexOf("JP")) ) {
+												subRecommendHTML += getSubRecommendHTML(id);
+												continue;
+											}
+										} else {
+											if ( -1 < video_countries.indexOf(accounts.country) ) {
+												subRecommendHTML += getSubRecommendHTML(id);
+												continue;
+											}
+										}
 									}
 								}
 							}
@@ -317,6 +300,50 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 		count = 0;
 	}
 	$("#accordion_r").html(recommendHTML);
+}
+
+function getSubRecommendHTML(id) {
+	return  '<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+	
+	id + 
+	
+	')">' +
+	'<div class="row">' +
+	'<div class="col-sm-3">' +
+	'<img src="' + 
+	
+	videos[id].thumbnail + 
+	
+	'" class="img-responsive">' +
+	'</div>' +
+	'<div class="col-sm-9">' +
+	'<div class="row">' + 
+	
+	videos[id].title + 
+	
+	'</div>' +
+	'<div class="row" style="font-size:13px;">' +
+	
+	convertPlayTime(videos[id].playtime) +
+	
+	'</div>' +
+	'</div>' +
+	'</div>' +
+	
+	'</div></div>' +
+	
+	'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
+	'<input type="checkbox" class="checkbox checkbox' + 
+	
+	id + 
+	
+	'" onclick="toggleCheckList(' + 
+	
+	id + 
+	
+	', this.checked)">' +
+	'</div>' +
+	'</div>';
 }
 
 function createMyListHTML() {

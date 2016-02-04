@@ -15,7 +15,7 @@ var categories = [
 var videos_length = 12; // 카테고리의 갯수
 var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배열은 카테고리별 비디오 리스트가 있다.
 				 // 나머지 배열은 비디오 ID를 이용하여 HashMap으로 사용
-var topics = []; // 21개의 소주제 객체 리스트
+var rawTopics, topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
 var targetVideos = [];
@@ -77,7 +77,8 @@ function getTopics() {
 	console.log("getTopics");
 	$.getJSON(hbUrl + hbApiPath + "/topics",
 			function(json) {
-				createTopics(json); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
+				rawTopics = json;
+				createTopics(rawTopics); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
 				sortTopics(); // 객체의 순서를 정렬한다.
 				createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
 				//createMyListHTML(); //My List의 HTML코드를 생성한다.
@@ -255,17 +256,41 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 	var video_specialties = [];
 	var video_professions = [];
 	var countries = [];
+	topics = [];
 	for( var i = json.length; i-- ; ) {
 		video_specialties = json[i].specialties; 
 		video_professions = json[i].professions; 
-		countries = json[i].countries;
-		if( (-1 < video_specialties.indexOf(specialty))
+		video_countries = json[i].countries;
+		if ( (-1 < video_specialties.indexOf(specialty))
 				|| video_specialties.length == 0) {  // video_specialties값을 가지고 topics를 구성한다.
-			if( (-1 < video_professions.indexOf(profession))
+			if ( (-1 < video_professions.indexOf(profession))
 					|| video_professions.length == 0) {
-				if( (-1 < countries.indexOf(accounts.country))
-						|| countries.length == 0) {
+				if(video_countries.length == 0) {
 					topics.push(json[i]);
+					continue;
+				}
+				if (!waData.videoLang[0]) {
+					topics.push(json[i]);
+				} else {
+					if (waData.videoLang[1]) {
+						if ( waData.videoLang[2] && (-1 < video_countries.indexOf("US")) ) {
+							topics.push(json[i]);
+							continue;
+						}
+						if ( waData.videoLang[3] && (-1 < video_countries.indexOf("KR")) ) {
+							topics.push(json[i]);
+							continue;
+						}
+						if ( waData.videoLang[4] && (-1 < video_countries.indexOf("JP")) ) {
+							topics.push(json[i]);
+							continue;
+						}
+					} else {
+						if ( -1 < video_countries.indexOf(accounts.country) ) {
+							topics.push(json[i]);
+							continue;
+						}
+					}
 				}
 			}
 		}
@@ -282,6 +307,7 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 		//video_specialties = json[i].specialties;
 		//if(-1 < video_specialties.indexOf(3009)) {  // video_specialties값을 가지고 videos를 구성한다.
 			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
+			//if(-1 < json[i].countries.indexOf("KR")) console.log(json[i].countries);
 			category_index = findIndexFromCode(json[i]);
 			videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
 			videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.

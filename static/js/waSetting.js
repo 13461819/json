@@ -334,7 +334,6 @@ function getLanguage() {
 }
 
 function allLangVideo() {
-	console.log($("#ckbAllLangVideo"));
 	if ($("#ckbAllLangVideo").is(":checked")) {
 		$("#lblSpecifyLang").text("표시될 언어를 지정합니다.");
 		$("#lblBasicLangVideo").css("color", "rgb(51,51,51)");
@@ -387,7 +386,18 @@ function setVideoLang() {
 			$("#ckbBasicLangVideo").is(":checked"),
 			$("#ckbEngVideo").is(":checked"),
 			$("#ckbKorVideo").is(":checked"),
-			$("#ckbJapVideo").is(":checked") ];
+			$("#ckbJapVideo").is(":checked")];
+	if (rawTopics != undefined) {
+		$("#accordion_t").html("");
+		$("#accordion_t").html("<img src=\"/static/img/loading.gif\">");
+		createTopics(rawTopics); // 소주제별은 받아 온 API대로 각각의 객체를 그냥 배열에 넣는다. 
+		sortTopics(); // 객체의 순서를 정렬한다.
+		createTopicHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
+	}
+	$("#accordion_r").html("");
+	$("#accordion_r").html("<img src=\"/static/img/loading.gif\">");
+	createRecommendHTML();
+	refreshCheckBox();
 	localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 }
 
