@@ -276,7 +276,7 @@ function getSendMethod() {
 
 function saveSendMethod() {
 	waData.sendMethod = $("input[name='optradio']:checked").val();
-	localStorage.setItem(accounts.email, JSON.stringify(waData));
+	localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 }
 
 function getLanguage() {
@@ -388,7 +388,7 @@ function setVideoLang() {
 			$("#ckbEngVideo").is(":checked"),
 			$("#ckbKorVideo").is(":checked"),
 			$("#ckbJapVideo").is(":checked") ];
-	localStorage.setItem(accounts.email, JSON.stringify(waData));
+	localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 }
 
 function getHelp() {

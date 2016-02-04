@@ -39,8 +39,8 @@ var hbApiPath = "/api/v1";
 var waData = {};
 
 function getWaData() {
-	if(localStorage.getItem(accounts.email)) {
-		waData = JSON.parse(localStorage.getItem(accounts.email));
+	if (localStorage.getItem(getMyKey(accounts.email))) {
+		waData = JSON.parse(localStorage.getItem(getMyKey(accounts.email)));
 	} else {
 		waData.sendMethod = 0;
 		waData.videoLang = [false, false, false, false, false];
@@ -51,7 +51,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4OnlOTkhsQkJ6dkd1VFJwZ0g=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4Ok5JM2I2MG52VGRBTkp6bzc=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }

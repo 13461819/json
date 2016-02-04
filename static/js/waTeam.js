@@ -234,7 +234,7 @@ function getTeamMemberHTML(teamsMembersAccount) {
 function clickTeamPage(index) {
 	checkTeamPage(index);
 	waData.currentTeam = teams[index].id;
-	localStorage.setItem(accounts.email, JSON.stringify(waData));
+	localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 	//localStorage.setItem("currentTeam", teams[index].id);
 	currentTeamIndex = index;
 	var team = $("#team" + index);
@@ -259,7 +259,7 @@ function checkTeamPage(index) {
 	console.log(teams[index].id);
 	waData.currentTeam = teams[index].id;
 	console.log(waData);
-	localStorage.setItem(accounts.email, JSON.stringify(waData));
+	localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 }
 
 function modalChangeTeamName(index) {
@@ -352,7 +352,7 @@ function deleteTeam(index) {
 			toggleMenu();
 			checkTeamPage(0);
 			waData.currentTeam = teams[0].id;
-			localStorage.setItem(accounts.email, JSON.stringify(waData));
+			localStorage.setItem(getMyKey(accounts.email), JSON.stringify(waData));
 			//localStorage.setItem("currentTeam", teams[0].id);
 		},
 		error: function(message){
