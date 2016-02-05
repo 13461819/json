@@ -322,7 +322,36 @@ function getSendEmailHTML() {
 }
 
 function sendEmail() {
-	console.log("이메일로 보내기");
+	var team_id = teams[$("#sendMessageTeam").val()].id;
+	var patient_mdn = $("#sendMessageEmail").val();
+	var content = selectedVideos.join(",");
+	content = "[" + content + "]";
+	var data = {};
+	data.patient_mdn = patient_mdn;
+	data.content = content;
+	
+	console.log(team_id);
+	console.log(patient_mdn);
+	console.log(content);
+	console.log(JSON.stringify(data));
+	
+	$.ajax({
+		type: "POST",
+		url: hbUrl + hbApiPath + "/teams/" + team_id +"/video_rx",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", accounts.token)
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			selectedVideos = [];
+			showSelectedList();
+			$("input.checkbox").prop("checked", false);			
+			$(".list-group-item").css("background-color", "white");
+		}
+	}).fail( function (message){
+		console.log(message);
+	});
 }
 
 function sendMessage() {

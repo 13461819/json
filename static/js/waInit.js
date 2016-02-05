@@ -45,13 +45,15 @@ function getWaData() {
 		waData.sendMethod = 0;
 		waData.videoLang = [false, false, false, false, false];
 	}
+	if(waData.sendMethod == undefined) waData.sendMethod = 0;
+	if(waData.videoLang == undefined) waData.videoLang = [false, false, false, false, false];
 	console.log(waData);
 }
 
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzY4NzU1MjU4ODUxMzI4Ok5JM2I2MG52VGRBTkp6bzc=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OndZZkwyb2lFanJPcHdQdEg=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
