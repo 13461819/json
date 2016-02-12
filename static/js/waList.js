@@ -77,8 +77,8 @@ function modalChangeListName(index) {
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeListName(' + index +')">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="changeListName(' + index +')">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -101,10 +101,10 @@ function modalInsertList() {
 				'<div class="modal-header"' +
 					'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
 					'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-					'<h2 class="modal-title">내 목록에 추가</h2>' +
+					'<h3 class="modal-title" style="text-align: center">내 목록에 추가</h3>' +
 				'</div>' +
 				'<div class="modal-body"' +
-					'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+					'style="font-size: 18px; padding-top: 30px; padding-left:40px; background-color: rgb(238, 238, 238);">' +
 					'<form role="form" id="radio_insert_list_name">' +
 						'<div class="radio">' +
 							'<label><input type="radio" autofocus name="list_name" value="" >새 목록에 추가&nbsp;&nbsp;<input onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name"></label>' +
@@ -121,8 +121,8 @@ function modalInsertList() {
 					 //'<button onclick="insertList()">추가하기</button>' +
 				'</div>' +
 				'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="insertList()">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">닫기</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="insertList()">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">닫기</button>' +
 				'</div>' +
 			'</div>' +
 		'</div>';
@@ -194,8 +194,8 @@ function createNewListPage() {
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="createNewList()">저장</button>' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="createNewList()">저장</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -241,8 +241,8 @@ function getModalEditListHTML(index, newOpen) {
 	editListHTML =	
 		'</div>' +
 		'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="editList(' + index + ')">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="editList(' + index + ')">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 	'</div>' +
 '</div>';
@@ -258,7 +258,7 @@ function getModalEditListHTML(index, newOpen) {
 					count = 0;
 				}
 				itemHTML =
-				'<div class="row editItem" id="editItem' + targetVideos[i] + '" >' +
+				'<div class="row editItem" id="editItem' + targetVideos[i] + '" style="margin-right: 0px">' +
 					'<div class="col-sm-11">' +
 						'<div class="row">' +
 							'<div class="col-sm-2">' +

@@ -37,7 +37,7 @@ html [lang]:not([lang="en"]) {
 		<div>
 			<img src="/static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 <!-- 			<span class="page_name" id="page_name">VIDEO</span> -->
-			<span class="page_name" >HealthBreeze</span>
+			<span class="page_name" ><img style="cursor: pointer" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image"></span>
 			<div class="drop-down">
 				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
 			</div>
@@ -48,10 +48,10 @@ html [lang]:not([lang="en"]) {
 		<div class="row" id="main_body">
 			<div class="col-xs-4" style="min-width: 323px;">
 				<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#recommend" style="margin-right: 0px;">Recommend</a></li>
-					<li><a data-toggle="tab" href="#topic" style="margin-right: 0px;" onclick="onTopicLbtn()">Topic</a></li>
-					<li><a data-toggle="tab" href="#my_list" style="margin-right: 0px;" onclick="onMyListLbtn()">My List</a></li>
-					<li><a data-toggle="tab" href="#search" style="margin-right: 0px;"><span class="glyphicon glyphicon-search" style="font-size: 16px;"></span></a></li>
+					<li class="active"><a data-toggle="tab" href="#recommend" style="margin-right: 0px; border-radius: 0px">Recommend</a></li>
+					<li><a data-toggle="tab" href="#topic" style="margin-right: 0px; border-radius: 0px" onclick="onTopicLbtn()">Topic</a></li>
+					<li><a data-toggle="tab" href="#my_list" style="margin-right: 0px; border-radius: 0px" onclick="onMyListLbtn()">My List</a></li>
+					<li><a data-toggle="tab" href="#search" style="margin-right: 0px; border-radius: 0px"><span class="glyphicon glyphicon-search" style="font-size: 16px;"></span></a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="recommend" class="tab-pane fade in active">
@@ -92,7 +92,7 @@ html [lang]:not([lang="en"]) {
 						</div>
 					</div>
 					<footer>
-						<p class="text-info" id="description">섹션의 푸터</p>
+						<p class="text-info" id="description" style="margin-top: 15px">섹션의 푸터</p>
 						<!-- <button onclick="loadYouTubePlayer()">Youtube</button> -->
 						<!-- <button onclick="loadFlowPlayer()">FlowPlayer</button> -->
 						<!-- <button data-toggle="modal" data-target="#modal_setting" onclick="createNewListPage()">내 목록 만들기</button> -->

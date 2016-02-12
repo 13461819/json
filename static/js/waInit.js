@@ -18,42 +18,42 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var rawTopics, topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
-var targetVideos = [];
-var teams, teamsMembers = [], teamsMembersAccounts = [];
-var myLists;
-var bookMarks;
-var currentTeamIndex, currentPlayMyListIndex;
-var credit;
-var teamCredits;
-var ads;
-var professions;
-var specialties;
-var when_bookMarks;
-var when_myLists;
-var selectedEditLists = [];
+var targetVideos = []; // My List에서 반복재생을 하려고 하는 비디오 리스트
+var teams, teamsMembers = [], teamsMembersAccounts = []; // 각각의 API response 객체
+var myLists; // API response 객체
+var bookMarks; // API response 객체
+var currentTeamIndex, currentPlayMyListIndex; // 현재 체크되어있는 팀의 teams 인덱스, 현재 플레이 되고있는 리스트의 myLists 인덱스
+var credit; // API response 객체
+var teamCredits; // API response 객체
+var ads; // API response 객체
+var professions; // API response 객체
+var specialties; // API response 객체
+var when_bookMarks; // bookMarks API의 $.ajax() 참조자. $.when()에 쓰인다.
+var when_myLists; // myLists API의 $.ajax() 참조자. $.when()에 쓰인다.
+var selectedEditLists = []; // myList에서 edit 하려는 리스트의 클론 (깊은복사)
 var youtubeAds = ["EOaoAf69zOg", "jh1IHMJI5lc", "F7viKAPDmT0", "Snl61MzlotM", "egywPKPjS7Y", "aAHbscecDcI"];
 var youtubePlayList = [];
 var isAds = false, youtubeIndex = 0;
 var hbUrl = "https://hbreeze4ani.appspot.com";
 var hbApiPath = "/api/v1";
-var waData = {};
+var waData = {}; // localStrorage에 들어있는 WebApp의 데이터
 
 function getWaData() {
 	if (localStorage.getItem(getMyKey(accounts.email))) {
 		waData = JSON.parse(localStorage.getItem(getMyKey(accounts.email)));
 	} else {
 		waData.sendMethod = 0;
-		waData.videoLang = [false, false, false, false, false];
+		waData.videoLang = [false, false, false, false, false, false];
 	}
-	if(waData.sendMethod == undefined) waData.sendMethod = 0;
-	if(waData.videoLang == undefined) waData.videoLang = [false, false, false, false, false];
+	if (waData.sendMethod == undefined) waData.sendMethod = 0;
+	if (waData.videoLang == undefined) waData.videoLang = [false, false, false, false, false, false];
 	console.log(waData);
 }
 
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OndZZkwyb2lFanJPcHdQdEg=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OkFJUm40ZG45MVpGMnFiSUY=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -70,8 +70,9 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 						//getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
 					})
 			.fail( function (message) {
-				alert("서버와 통신 오류로 로그인할 수 없습니다!");
-				location.replace("start.html");
+//				alert("서버와 통신 오류로 로그인할 수 없습니다!");
+//				location.replace("start.html");
+				console.log(message);
 			});
 }
 
@@ -94,9 +95,10 @@ function getTopics() {
 }
 
 function getMyLists() {
-	getSubBookMarks();
-	getSubMyLists();
+	getSubBookMarks(); // 북마크를 받아온다.
+	getSubMyLists(); // 마이리스트를 받아온다.
 	
+	// 2개가 모두 호출이 완료되었을때
 	$.when(when_bookMarks, when_myLists).done(function() {
 		console.log("2개 다 호출됨");
 		sortBookMarks();
@@ -117,7 +119,9 @@ function getSubBookMarks() {
 		success: function(json) {
 			bookMarks = json;
 			for(var i = 0; i < bookMarks.length; i++) {
-				if(videos[bookMarks[i]] == undefined) bookMarks.splice(i, 1);
+				if(videos[bookMarks[i]] == undefined) { // 삭제된 비디오가 있으면 해당 비디오는 목록에서 제거한다.
+					bookMarks.splice(i, 1);
+				}
 			}
 			console.log("붘맠 호출됨");
 		}
@@ -137,7 +141,9 @@ function getSubMyLists() {
 			myLists = json;
 			for(var i = 0; i < myLists.length; i++) {
 				for(var j = 0; j < myLists[i].videos.length; j++){
-					if(videos[myLists[i].videos[j]] == undefined) myLists[i].videos.splice(j, 1);
+					if(videos[myLists[i].videos[j]] == undefined) { // 삭제된 비디오가 있으면 해당 비디오는 목록에서 제거한다.
+						myLists[i].videos.splice(j, 1);
+					}
 				}
 			}
 			console.log("마맅 호출됨");
@@ -158,7 +164,7 @@ function getTeamTitle() {
 		success: function(json) {
 			teams = json;
 			sortTeams();
-			for(var i = 0; i < teams.length; i++) {
+			for(var i = 0; i < teams.length; i++) { // waData에 선택된 팀 정보를 받아오고 없으면 첫번째 팀을 선택한다.
 				if(teams[i].id == Number(waData.currentTeam)) {
 					currentTeamIndex = i;
 					break;
@@ -167,10 +173,10 @@ function getTeamTitle() {
 				}
 			}
 			//console.log(teams);
-			for(var i = 0; i < json.length; i++) {
+			for(var i = 0; i < json.length; i++) { // drawer메뉴에 팀 이름을 추가한다.
 				$(".teamTitleEnd").before('<div class="teamPage' + i + ' drawer_menu_sub" onclick="checkTeamPage(\'' + i + '\')">' + teams[i].name + '</div>');
 			}
-			checkTeamPage(currentTeamIndex);
+			checkTeamPage(currentTeamIndex); // 팀 이름에 체크표시를 한다.
 		}
 	}).fail(function (message){
 		console.log(message);
@@ -265,7 +271,7 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 		video_countries = json[i].countries;
 		video_languages = json[i].languages;
 		if ( (-1 < video_specialties.indexOf(specialty))
-				|| video_specialties.length == 0) {  // video_specialties값을 가지고 topics를 구성한다.
+				|| video_specialties.length == 0) {
 			if ( (-1 < video_professions.indexOf(profession))
 					|| video_professions.length == 0) {
 				if ( (-1 < video_countries.indexOf(accounts.country))
@@ -290,7 +296,11 @@ function createTopics(json) { // "자신만의 비디오 리스트"를 가지고
 								topics.push(json[i]);
 								continue;
 							}
-							if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4]) {
+							if ( waData.videoLang[5] && (-1 < video_languages.indexOf("cn")) ) {
+								topics.push(json[i]);
+								continue;
+							}
+							if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4] && !waData.videoLang[5]) {
 								topics.push(json[i]);
 								continue;
 							}
@@ -318,6 +328,9 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 		//if(-1 < video_specialties.indexOf(3009)) {  // video_specialties값을 가지고 videos를 구성한다.
 			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
 			//if(-1 < json[i].countries.indexOf("KR")) console.log(json[i].countries);
+//			if (json[i].code.substr(7, 2) === "cn") {
+//				console.log(json[i]);
+//			}
 			category_index = findIndexFromCode(json[i]);
 			videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
 			videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.

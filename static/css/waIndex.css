@@ -26,12 +26,12 @@
 }
 
 .modal-footer {
-	padding: 15px 50px;
+	padding: 15px 200px;
 	text-align: left;
 }
 
 .modal-footer>button {
-	width: 15%;
+	width: 40%;
 }
 
 .modal-footer>button:last-child {

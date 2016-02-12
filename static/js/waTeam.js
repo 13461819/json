@@ -282,8 +282,8 @@ function modalChangeTeamName(index) {
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="changeTeamName(' + index +')">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="changeTeamName(' + index +')">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';

@@ -100,8 +100,8 @@ function getAccount() {
 	'</div>' +
 	'</div>' +
 	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 	'</div>' +
 '</div>' +
 '</div>';
@@ -133,8 +133,8 @@ function getProfile() {
 				'</div>'
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="updateProfile()">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="updateProfile()">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
@@ -175,8 +175,8 @@ function getNotice() {
 	'<hr style="border-color: rgb(214, 214, 214);">' +
 	'</div>' +
 	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 	'</div>' +
 '</div>' +
 '</div>';
@@ -197,8 +197,8 @@ function getPassword() {
 	'<div style="font-size: 16px; padding-bottom: 30px;">암호를 분실하시면 앱을 재설치해야 합니다.</div>'+
 	'</div>' +
 	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 	'</div>' +
 '</div>' +
 '</div>';
@@ -227,8 +227,8 @@ function getTicket() {
 			'</form>' +
 		'</div>' +
 		'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitCoupon()">저장</button>' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="submitCoupon()">저장</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 	'</div>' +
 	'</div>';
@@ -240,8 +240,8 @@ function getDownloaded() {
 	settingHTML += '다운로드된 비디오 - 현재 작성 중입니다.'+
 	'</div>' +
 	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 	'</div>' +
 '</div>' +
 '</div>';
@@ -266,8 +266,8 @@ function getSendMethod() {
 		'</div>'+
 		'</div>' +
 		'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="saveSendMethod()">저장</button>' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="saveSendMethod()">저장</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 	'</div>' +
 	'</div>';
@@ -310,23 +310,30 @@ function getLanguage() {
 				'<hr style="border-color: rgb(214, 214, 214)">' +	
 			'</div>' +
 			'<div id="lblKorVideo" style="margin: 0px 30px; color: rgb(' + (waData.videoLang[0] ? (waData.videoLang[1] ? '51, 51, 51' : '185, 185, 185') : '185, 185, 185') + ');">' +
-				'<span>한글(Korean)</span>' +
+				'<span>한글 (Korean)</span>' +
 				'<input type="checkbox" style="float: right;" id="ckbKorVideo" onclick="korVideo()"' +
 				(waData.videoLang[0] ? (waData.videoLang[1] ? '' : ' disabled ') : ' disabled ') +
 				(waData.videoLang[3] ? ' checked="checked" ' : '') + '>' +
 				'<hr style="border-color: rgb(214, 214, 214)">' +	
 			'</div>' +
-				'<div id="lblJapVideo" style="margin: 0px 30px; color: rgb(' + (waData.videoLang[0] ? (waData.videoLang[1] ? '51, 51, 51' : '185, 185, 185') : '185, 185, 185') + ');">' +
-				'<span>日本語(Japanese)</span>' +
+			'<div id="lblJapVideo" style="margin: 0px 30px; color: rgb(' + (waData.videoLang[0] ? (waData.videoLang[1] ? '51, 51, 51' : '185, 185, 185') : '185, 185, 185') + ');">' +
+				'<span>日本語 (Japanese)</span>' +
 				'<input type="checkbox" style="float: right;" id="ckbJapVideo" onclick="japVideo()"' +
 				(waData.videoLang[0] ? (waData.videoLang[1] ? '' : ' disabled ') : ' disabled ') +
 				(waData.videoLang[4] ? ' checked="checked" ' : '') + '>' +
 				'<hr style="border-color: rgb(214, 214, 214)">' +	
 			'</div>' +
+			'<div id="lblChnVideo" style="margin: 0px 30px; color: rgb(' + (waData.videoLang[0] ? (waData.videoLang[1] ? '51, 51, 51' : '185, 185, 185') : '185, 185, 185') + ');">' +
+				'<span>汉语 (Chinese)</span>' +
+				'<input type="checkbox" style="float: right;" id="ckbChnVideo" onclick="chnVideo()"' +
+				(waData.videoLang[0] ? (waData.videoLang[1] ? '' : ' disabled ') : ' disabled ') +
+				(waData.videoLang[5] ? ' checked="checked" ' : '') + '>' +
+				'<hr style="border-color: rgb(214, 214, 214)">' +	
+			'</div>' +
 		'</div>' +
 		'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="setVideoLang()">저장</button>' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="setVideoLang()">저장</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 	'</div>' +
 	'</div>';
@@ -349,6 +356,8 @@ function allLangVideo() {
 		$("#ckbKorVideo").prop("disabled", true);
 		$("#lblJapVideo").css("color", "rgb(185,185,185)");
 		$("#ckbJapVideo").prop("disabled", true);
+		$("#lblChnVideo").css("color", "rgb(185,185,185)");
+		$("#ckbChnVideo").prop("disabled", true);
 	}
 }
 
@@ -361,6 +370,8 @@ function basicLangVideo() {
 		$("#ckbKorVideo").prop("disabled", false);
 		$("#lblJapVideo").css("color", "rgb(51,51,51)");
 		$("#ckbJapVideo").prop("disabled", false);
+		$("#lblChnVideo").css("color", "rgb(51,51,51)");
+		$("#ckbChnVideo").prop("disabled", true);
 	} else {
 		$("#lblSelectLang").text("기본 언어만 표시됩니다.");
 		$("#lblEngVideo").css("color", "rgb(185,185,185)");
@@ -369,6 +380,8 @@ function basicLangVideo() {
 		$("#ckbKorVideo").prop("disabled", true);
 		$("#lblJapVideo").css("color", "rgb(185,185,185)");
 		$("#ckbJapVideo").prop("disabled", true);
+		$("#lblChnVideo").css("color", "rgb(185,185,185)");
+		$("#ckbChnVideo").prop("disabled", true);
 	}
 }
 
@@ -381,12 +394,17 @@ function korVideo() {
 function japVideo() {
 }
 
+function chnVideo() {
+	
+}
+
 function setVideoLang() {
 	waData.videoLang = [ $("#ckbAllLangVideo").is(":checked"),
 			$("#ckbBasicLangVideo").is(":checked"),
 			$("#ckbEngVideo").is(":checked"),
 			$("#ckbKorVideo").is(":checked"),
-			$("#ckbJapVideo").is(":checked")];
+			$("#ckbJapVideo").is(":checked"),
+			$("#ckbChnVideo").is(":checked")];
 	if (rawTopics != undefined) {
 		$("#accordion_t").html("");
 		$("#accordion_t").html("<img src=\"/static/img/loading.gif\">");
@@ -406,8 +424,8 @@ function getHelp() {
 	settingHTML += '사용법 안내 - 현재 작성 중입니다.'+
 	'</div>' +
 	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 	'</div>' +
 '</div>' +
 '</div>';

@@ -776,7 +776,7 @@ function showSetting(settingName) {
 			'</div>' +
 			'<div class="modal-footer">' +
 				'<div style="text-align: center;">저장하지 않은 정보는 삭제됩니다.</div>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';

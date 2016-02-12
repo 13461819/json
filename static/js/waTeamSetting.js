@@ -17,8 +17,8 @@ function showTeamSetting(settingName) {
 				getModalTeamSetting(settingName) +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';

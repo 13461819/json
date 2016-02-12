@@ -6,116 +6,45 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <style>
-.drawer_menu {
-	padding: 0px;
-	left: -300px;
-	top: 60px;
-	position: fixed;
-	width: 300px;
-	z-index: 102;
-	background-color: rgb(225,225,225);
-	height: 100vh;
-	-webkit-transition: all 0.6s ease;
-	-moz-transition: all 0.6s ease;
-	transition: all 0.6s ease;
+/* Martin Wolf CodePen Standard */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+* {
+  margin: 0;
+  padding: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.drawer_menu > h4 {
-	background-color : rgb(210,210,210);
-	font-weight: bolder;
-	padding: 6px;
-	padding-left: 20px;
-	margin: 0px;
+body {
+  padding: 3em 2em;
+  font-family: 'Open Sans', Arial, sans-serif;
+  color: #cf6824;
+  background: #f7f5eb;
 }
 
-.drawer_menu>.drawer_menu_sub {
-	padding: 17px;
-	padding-left: 30px;
-	font-size: 18px;
-	-webkit-transition: all 0.6s ease;
-	-moz-transition: all 0.6s ease;
-	transition: all 0.6s ease;
-}
-
-.drawer_menu>.drawer_menu_sub:HOVER {
-	color: rgb(240, 240, 240);
-	background-color: rgb(160, 160, 160);
-	font-size: 20px;
-}
-
-#settings {
-	background-color: rgb(190, 190, 190);
-	/*position: fixed;
-	top: 150px;*/
-	left: 300px;
-	color: rgb(50,50,50);
-	font-size: 15px;
-	/*max-height: 0px;*/
-	overflow: hidden;
-	-webkit-transition : max-height 0.6s ease;
-	-moz-transition: max-height 0.6s ease;
-	transition: max-height 0.6s ease;
-}
-
-#settings > div {
-	padding: 10px 20px;
-	-webkit-transition : color 0.3s ease;
-	-moz-transition: color 0.3s ease;
-	transition: color 0.3s ease;
-}
-
-#settings > div:HOVER {
-	color: rgb(240,240,240);
-	cursor: pointer;
-}
-
-#settings:HOVER {
-	max-height: 500px;
-}
-
-.drawer_menu_sub:HOVER + #settings {
-	max-height: 500px;
+/* END Martin Wolf CodePen Standard */
+h2 {
+  display: block;
+  /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 400px;
+  height: 72.8px;
+  /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: 26px;
+  line-height: 1.4;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 </style>
 </head>
 
 <body>
-	<nav id="drawer_menu" class="drawer_menu" style="left: 0px;">
-		<h4>메뉴</h4>
-		<!-- <div class="drawer_menu_sub" onclick="toggleCont('videoPage', 'VIDEO')"><span class="glyphicon glyphicon-play-circle"></span> 비디오</div>
-		<div class="drawer_menu_sub"><span class="glyphicon glyphicon-cog"></span> 설정</div>
-		<div id="settings">
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('계정')">계정</div>
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('프로필')">프로필</div>
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('처방티켓 쿠폰등록')">처방티켓 쿠폰등록</div>
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('다운로드된 비디오')">다운로드된 비디오</div>
-				<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('처방 전송 방법 지정')">처방 전송 방법 지정</div>
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('비디오 목록 탭 언어')">비디오 목록 탭 언어</div>
-			<div data-toggle="modal" data-target="#modal_setting"
-				onclick="showSetting('사용법 안내')">사용법 안내</div>
-		</div> -->
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('프로필')"><span class="glyphicon glyphicon-user"></span> 프로필</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('처방티켓 쿠폰등록')"><span class="glyphicon glyphicon-gift"></span> 처방티켓 쿠폰등록</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('다운로드된 비디오')"><span class="glyphicon glyphicon glyphicon-download-alt"></span> 다운로드된 비디오</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('처방 전송 방법 지정')"><span class="glyphicon glyphicon glyphicon-send"></span> 처방 전송 방법 지정</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('비디오 목록 탭 언어')"><span class="glyphicon glyphicon-globe"></span> 비디오 목록 탭 언어</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('사용법 안내')"><span class="glyphicon glyphicon-question-sign"></span> 사용법 안내</div>
-		<h4>팀</h4>
-		<div class="teamTitleEnd"></div>
-	</nav>
+	<h2>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.</h2>
 	<label id="confirm-bg"></label>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

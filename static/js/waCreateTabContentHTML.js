@@ -5,8 +5,8 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 	for(i = topics.length; i-- ;) {
 		topicHTML += 
 			
-			'<div class="panel panel-default" style="margin-top:0px;">' +
-			'<div class="panel-heading">' +
+			'<div class="panel panel-default" style="margin-top:0px; border-radius: 0px">' +
+			'<div class="panel-heading" style="padding: 5px 0px 5px 5px;  border-radius: 0px">' +
 			'<span class="panel-title" style="margin-top: 8px;">' +
 			'<a data-toggle="collapse" href="#collapse_t' + 
 			
@@ -16,7 +16,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			
 			i + 
 			
-			'\')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 14px;">' + 
 			'<span id="topicArrow' + 
 			
 			i + 
@@ -25,7 +25,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			
 			topics[i].name +
 			
-			'<span class="label label-default label-as-badge">' + 
+			'<span class="label label-default label-as-badge" style="position: relative; top: -1px">' + 
 			
 			topics[i].videos.length + 
 			
@@ -44,21 +44,21 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			id = topics[i].videos[j];
 			topicHTML += 
 				
-				'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+				'<div class="row list-group-item list' + id + '" style="margin-right: 0px"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
 				
 				id + 
 				
 				')">' +
 				'<div class="row">' +
-				'<div class="col-sm-3">' +
+				'<div class="col-sm-4">' +
 				'<img src="' + 
 				
 				videos[id].thumbnail + 
 				
 				'" class="img-responsive">' +
 				'</div>' +
-				'<div class="col-sm-9">' +
-				'<div class="row">' + 
+				'<div class="col-sm-8">' +
+				'<div class="row" style="overflow: hidden; height: 45px; padding-top: 4px">' + 
 				
 				videos[id].title + 
 				
@@ -80,7 +80,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 				
 				id + 
 				
-				', this.checked)">' +
+				', this.checked)" style="position: relative; top: 22px; float: right">' +
 				'</div>' +
 				'</div>';
 		}
@@ -104,8 +104,8 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 	}
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
-			'<div class="panel panel-default" style="margin-top:0px;">' +
-			'<div class="panel-heading">' +
+			'<div class="panel panel-default" style="margin-top:0px; border-radius: 0px">' +
+			'<div class="panel-heading" style="padding: 5px 0px 5px 5px;  border-radius: 0px">' +
 			'<span class="panel-title" style="margin-top: 8px;">' +
 			'<a data-toggle="collapse" href="#collapse_s' + 
 				
@@ -115,7 +115,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 			
 			i + 
 			
-			'\')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 14px;">' + 
 			'<span id="searchArrow' + 
 			
 			i + 
@@ -124,7 +124,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 			
 			categories[i] +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="label label-default label-as-badge" style="position: relative; top: -1px">';
 		
 			afterLength = 
 				'</span>' +
@@ -144,21 +144,21 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 							count++;
 							id = videos[i][j].id;
 							subSearchHTML += 
-								'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+								'<div class="row list-group-item list' + id + '" style="margin-right: 0px"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
 								
 								id + 
 								
 								')">' +
 								'<div class="row">' +
-								'<div class="col-sm-3">' +
+								'<div class="col-sm-4">' +
 								'<img src="' + 
 								
 								videos[id].thumbnail + 
 								
 								'" class="img-responsive">' +
 								'</div>' +
-								'<div class="col-sm-9">' +
-								'<div class="row">' + 
+								'<div class="col-sm-8">' +
+								'<div class="row" style="overflow: hidden; height: 45px; padding-top: 4px">' + 
 								
 								videos[id].title + 
 								
@@ -180,7 +180,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 								
 								id + 
 								
-								', this.checked)">' +
+								', this.checked)" style="position: relative; top: 22px; float: right">' +
 								'</div>' +
 								'</div>';
 						}
@@ -211,8 +211,8 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 	var video_professions = []; //비디오의 video_professions
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
-			'<div class="panel panel-default" style="margin-top:0px;">' +
-			'<div class="panel-heading">' +
+			'<div class="panel panel-default" style="margin-top:0px; border-radius: 0px">' +
+			'<div class="panel-heading" style="padding: 5px 0px 5px 5px; border-radius: 0px">' +
 			'<span class="panel-title" style="margin-top: 8px;">' +
 			'<a data-toggle="collapse" href="#collapse_r' + 
 				
@@ -222,7 +222,7 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 			
 			i + 
 			
-			'\')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 14px;">' + 
 			'<span id="recommendArrow' + 
 			
 			i + 
@@ -231,7 +231,7 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 			
 			categories[i] +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="label label-default label-as-badge" style="position: relative; top: -1px">';
 		
 			afterLength = 
 				'</span>' +
@@ -279,7 +279,12 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 													count++;
 													continue;
 												}
-												if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4]) {
+												if ( waData.videoLang[5] && video_language == "cn" ) {
+													subRecommendHTML += getSubRecommendHTML(id);
+													count++;
+													continue;
+												}
+												if( !waData.videoLang[2] && !waData.videoLang[3] && !waData.videoLang[4] && !waData.videoLang[5]) {
 													subRecommendHTML += getSubRecommendHTML(id);
 													count++;
 													continue;
@@ -311,21 +316,21 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 }
 
 function getSubRecommendHTML(id) {
-	return  '<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+	return  '<div class="row list-group-item list' + id + '" style="margin-right: 0px"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
 	
 	id + 
 	
 	')">' +
 	'<div class="row">' +
-	'<div class="col-sm-3">' +
+	'<div class="col-sm-4">' +
 	'<img src="' + 
 	
 	videos[id].thumbnail + 
 	
 	'" class="img-responsive">' +
 	'</div>' +
-	'<div class="col-sm-9">' +
-	'<div class="row">' + 
+	'<div class="col-sm-8">' +
+	'<div class="row" style="overflow: hidden; height: 45px; padding-top: 4px; padding-right: 6px">' + 
 	
 	videos[id].title + 
 	
@@ -349,7 +354,7 @@ function getSubRecommendHTML(id) {
 	
 	id + 
 	
-	', this.checked)">' +
+	', this.checked)" style="position: relative; top: 22px; float: right">' +
 	'</div>' +
 	'</div>';
 }
@@ -362,8 +367,8 @@ function createMyListHTML() {
 	var my_videos = [];
 	for( var i = 1; i < myLists.length + 1; i++) {
 		beforeLength = 
-			'<div class="panel panel-default" style="margin-top:0px;">' +
-			'<div class="panel-heading">' +
+			'<div class="panel panel-default" style="margin-top:0px; border-radius: 0px">' +
+			'<div class="panel-heading" style="padding: 5px 0px 5px 5px; border-radius: 0px">' +
 			'<span class="panel-title" style="margin-top: 8px;">' +
 			'<a data-toggle="collapse" href="#collapse_m' + 
 				
@@ -373,7 +378,7 @@ function createMyListHTML() {
 			
 			i + 
 			
-			'\')" style="font-size: 12px;">' + 
+			'\')" style="font-size: 14px;">' + 
 			'<span id="myListArrow' + 
 			
 			i + 
@@ -382,7 +387,7 @@ function createMyListHTML() {
 		
 			myLists[i - 1].name +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="label label-default label-as-badge" style="position: relative; top: -1px">';
 		
 			afterLength = 
 				'</span>' +
@@ -411,21 +416,21 @@ function createMyListHTML() {
 						count++;
 						id = my_videos[j];
 						subMyListHTML += 
-							'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+							'<div class="row list-group-item list' + id + '" style="margin-right: 0px"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
 							
 							id + 
 							
 							')">' +
 							'<div class="row">' +
-							'<div class="col-sm-3">' +
+							'<div class="col-sm-4">' +
 							'<img src="' + 
 							
 							videos[id].thumbnail + 
 							
 							'" class="img-responsive">' +
 							'</div>' +
-							'<div class="col-sm-9">' +
-							'<div class="row">' + 
+							'<div class="col-sm-8">' +
+							'<div class="row" style="overflow: hidden; height: 45px; padding-top: 4px">' + 
 							
 							videos[id].title + 
 							
@@ -447,7 +452,7 @@ function createMyListHTML() {
 							
 							id + 
 							
-							', this.checked)">' +
+							', this.checked)" style="position: relative; top: 22px; float: right">' +
 							'</div>' +
 							'</div>';
 					}
@@ -470,11 +475,11 @@ function createBookMarkHTML() {
 	var title = "", id = "";
 	var count = 0, length = 0;
 	beforeLength = 
-		'<div class="panel panel-default" style="margin-top:0px;">' +
-		'<div class="panel-heading">' +
+		'<div class="panel panel-default" style="margin-top:0px; border-radius: 0px">' +
+		'<div class="panel-heading" style="padding: 5px 0px 5px 5px; border-radius: 0px">' +
 		'<span class="panel-title" style="margin-top: 8px;">' +
-		'<a data-toggle="collapse" href="#collapse_m0" onclick="arrowRotate(\'myListArrow0\')" style="font-size: 12px;">' + 
-		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>북마크<span class="label label-default label-as-badge">';
+		'<a data-toggle="collapse" href="#collapse_m0" onclick="arrowRotate(\'myListArrow0\')" style="font-size: 14px;">' + 
+		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign" style="font-size:15px;"></span>북마크<span class="label label-default label-as-badge" style="position: relative; top: -1px">';
 		afterLength = 
 			'</span>' +
 			'</a>' + 
@@ -486,21 +491,21 @@ function createBookMarkHTML() {
 					count++;
 					id = bookMarks[i];
 					subBookMarkHTML += 
-						'<div class="row list-group-item list' + id + '"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
+						'<div class="row list-group-item list' + id + '" style="margin-right: 0px"><div class="col-sm-11"><div onclick="replaceAndLoadYoutubeByID(' + 
 						
 						id + 
 						
 						')">' +
 						'<div class="row">' +
-						'<div class="col-sm-3">' +
+						'<div class="col-sm-4">' +
 						'<img src="' + 
 						
 						videos[id].thumbnail + 
 						
 						'" class="img-responsive">' +
 						'</div>' +
-						'<div class="col-sm-9">' +
-						'<div class="row">' + 
+						'<div class="col-sm-8">' +
+						'<div class="row" style="overflow: hidden; height: 45px; padding-top: 4px">' + 
 						
 						videos[id].title + 
 						
@@ -522,7 +527,7 @@ function createBookMarkHTML() {
 						
 						id + 
 						
-						', this.checked)">' +
+						', this.checked)" style="position: relative; top: 22px; float: right">' +
 						'</div>' +
 						'</div>';
 				}

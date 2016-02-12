@@ -1,6 +1,6 @@
-function createDivPlayerYT() {
+function createDivPlayerYT() { // 유튜브 플레이어를 넣을 div를 만든다
 	var player_yt = document.querySelector("#playerYT");
-	if(player_yt) {
+	if (player_yt) {
 		player_yt.setAttribute('style', 'display: block');
 		return;
 	}
@@ -11,9 +11,9 @@ function createDivPlayerYT() {
 	iframe_rwd.appendChild(player_yt);
 }
 
-function createDivPlayerFP() {
+function createDivPlayerFP() { // 플로우 플레이어를 넣을 div를 만든다
 	var player_fp = document.querySelector("#playerFP");
-	if(player_fp) {
+	if (player_fp) {
 		player_fp.setAttribute('style', 'display: block');
 		return;
 	}
@@ -24,16 +24,16 @@ function createDivPlayerFP() {
 	iframe_rwd.appendChild(player_fp);
 }
 
-function disablePlayerYT() {
+function disablePlayerYT() { //유튜브 플레이어가 있는 div를 숨긴다
 	var player_yt = document.querySelector("#playerYT");
-	if(player_yt) {
+	if (player_yt) {
 		player_yt.setAttribute('style', 'display: none');
 	}
 }
 
-function disablePlayerFP() {
+function disablePlayerFP() { //플로우 플레이어가 있는 div를 숨긴다
 	var player_fp = document.querySelector("#playerFP");
-	if(player_fp) {
+	if (player_fp) {
 		player_fp.setAttribute('style', 'display: none');
 	}
 }
@@ -65,7 +65,7 @@ var accordion_resize = function() { // 화면 크기가 변경되면 리스트�
 
 var arrow; // 각 리스트에 있는 카테고리 제목의 +, - 모양 아이콘
 
-function arrowRotate(arrowID) {
+function arrowRotate(arrowID) { //클릭할때마다 "+", "-" 토글한다.
 	console.log("arrowRotate");
 	arrow = $("#" + arrowID);
 	if(arrow.hasClass("glyphicon-plus-sign")) {
@@ -146,7 +146,7 @@ function myListArrowRotate(arrowID) {
 }
 
 var isMenuOn = false;
-function toggleMenu() {
+function toggleMenu() { // drawer메뉴 꺼냈다가 넣었다가 토글
 	var menu = $("#drawer_menu");
 	var label = $("#drawer_menu_label");
 	if(isMenuOn) {
@@ -162,18 +162,18 @@ function toggleMenu() {
 	}
 }
 
-function toggleCont(contID, title) {
+function toggleCont(contID, title) { // VIDEO와 TEAM 페이지를 토글한다.
 	$(".container").css("display", "none");
 	$("#" + contID).css("display", "block");
 	changeHeaderTitle(title);
 	toggleMenu();
 }
 
-function changeHeaderTitle(title) {
+function changeHeaderTitle(title) { // title의 text를 변경한다.
 	$("#page_name").text(title);
 }
 
-function modalSendMessage() {
+function modalSendMessage() { // 보내기 버튼을 누르면 제일 먼저 실행되는 함수.
 	var modal = $("#modal_setting");
 	var sendHTML = "";
 	//modal.html("");
