@@ -19,6 +19,13 @@
 	overflow-x: hidden;
 }
 
+#accordion_s {
+	min-height: 300px; 
+	background-color: rgb(251, 251, 251); 
+	overflow: auto; 
+	overflow-x: hidden;
+}
+
 .modal-dialog {
 	margin: 0px;
 	left: 20vw;

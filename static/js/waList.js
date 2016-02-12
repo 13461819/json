@@ -400,7 +400,7 @@ function refreshEditList() {
 	$(".editItem").css("background-color", "rgb(238, 238, 238)");
 	$.each(selectedEditLists, function(i, v) {
 		$(".editCheck[value^=" + v + "]").prop("checked", true);
-		$("#editItem" + v).css("background-color", "rgb(135, 214, 244)");
+		$("#editItem" + v).css("background-color", "rgb(204, 241, 255)");
 	});
 }
 

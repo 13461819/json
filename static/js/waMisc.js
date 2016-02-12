@@ -264,12 +264,12 @@ function getSendSMSHTML() {
 			'<div align="center">' +
 				'번호 : ' + 
 				'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
-				'<input id="sendMessagePhoneNumber" type="number" placeholder="휴대폰번호"> &nbsp;' +
+				'<input id="sendMessagePhoneNumber" type="tel" placeholder="휴대폰번호"> &nbsp;' +
 			'</div>' +
 		'</div>' +
 		'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
-			'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 		'</div>' +
 	'</div>';
@@ -313,8 +313,8 @@ function getSendEmailHTML() {
 				'</div>' +
 			'</div>' +
 			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal" onclick="sendEmail()">보내기</button>' +
-				'<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="sendEmail()">보내기</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>' +
 	'</div>';
