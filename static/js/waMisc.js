@@ -200,12 +200,6 @@ function modalSendMessage() { // 보내기 버튼을 누르면 제일 먼저 실
 			modal.html(sendHTML);
 			modal.modal('show');
 	} else if(waData.sendMethod == 0) {
-		console.log("처방시 지정");
-		$("#send_image").after(
-			'<div id="dropDownSendMethod" class="drop-down-content" style="top: 60px; z-index: 101">' +
-				'<a onclick="send2SMS()"><span class="glyphicon glyphicon-phone"></span>&nbsp;문자 (SMS)</a>' +
-				'<a onclick="send2Email()"><span class="glyphicon glyphicon-envelope"></span>&nbsp;이메일(E-mail)</a>' +
-			'</div>');
 		$("#dropDownSendMethod").toggleClass("drop-down-show");
 	} else if(waData.sendMethod == 1) {
 		send2SMS();
@@ -233,15 +227,13 @@ function send2Email() {
 function getSendSMSHTML() {
 	var sendHTML = '<div class="modal-dialog" style="top: 90px;">' +
 	'<div class="modal-content" id="sendMessagePage">' +
-		'<div class="modal-header"' +
-			'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+		'<div class="modal-header">' +
 			'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 			'<h2 class="modal-title">메시지 전송</h2>' +
 		'</div>' +
-		'<div class="modal-body"' +
-			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+		'<div class="modal-body">' +
 			'<div align="center">' +
-				'<select id="sendMessageTeam" onchange="changeTeamCredit(this.selectedIndex)">';
+				'<select id="sendMessageTeam" onchange="changeTeamCredit(this.selectedIndex)" style="margin-bottom: 10px; width: 95%; text-align: center">';
 					for(var i = 0; i < teams.length; i++) {
 						if(i == currentTeamIndex) {
 							sendHTML += '<option selected="selected" value="' +i + '">' + teams[i].name + '</option>';
@@ -251,10 +243,10 @@ function getSendSMSHTML() {
 					}
 				sendHTML +=	
 				'</select>' +
-				'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
+				'<br>남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px"></span>' +
 			'</div>' +
-			'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
-			'<div align="center">' +
+			'<img src="' + ads[0].image_url + '" class="send-ads">' +
+			'<div align="center" style="margin-bottom: 10px">' +
 				'선택된 비디오 : ' + selectedVideos.length + '개' +
 				'<br>' +
 			'</div>' +
@@ -263,12 +255,12 @@ function getSendSMSHTML() {
 //			'</div>' +
 			'<div align="center">' +
 				'번호 : ' + 
-				'<input id="sendMessageCountryNumber" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
+				'<input id="sendMessageCountryNumber" value="' + accounts.countryCode + '" type="number" style="width: 15%;" placeholder="국가"> &nbsp;'+
 				'<input id="sendMessagePhoneNumber" type="tel" placeholder="휴대폰번호"> &nbsp;' +
 			'</div>' +
 		'</div>' +
 		'<div class="modal-footer">' +
-			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="sendMessage()">보내기</button>' +
+			'<button type="button" class="btn btn-info" onclick="confirmSendMessage()">보내기</button>' +
 			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 		'</div>' +
 		'</div>' +
@@ -279,15 +271,13 @@ function getSendSMSHTML() {
 function getSendEmailHTML() {
 	var sendHTML = '<div class="modal-dialog" style="top: 90px;">' +
 		'<div class="modal-content" id="sendMessagePage">' +
-			'<div class="modal-header"' +
-				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+			'<div class="modal-header">' +
 				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 				'<h2 class="modal-title">메시지 전송</h2>' +
 			'</div>' +
-			'<div class="modal-body"' +
-				'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+			'<div class="modal-body">' +
 				'<div align="center">' +
-					'<select id="sendMessageTeam" onchange="changeTeamCredit(this.selectedIndex)">';
+					'<select id="sendMessageTeam" onchange="changeTeamCredit(this.selectedIndex)" style="margin-bottom: 10px; width: 95%">';
 						for(var i = 0; i < teams.length; i++) {
 							if(i == currentTeamIndex) {
 								sendHTML += '<option selected="selected" value="' +i + '">' + teams[i].name + '</option>';
@@ -297,10 +287,10 @@ function getSendEmailHTML() {
 						}
 					sendHTML +=	
 					'</select>' +
-					'&nbsp;남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
+					'<br>남은 티켓 : <span id="remain-ticket-num"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
 				'</div>' +
-				'<img src="' + ads[0].image_url + '" style="max-width: 100%; padding: 15px; height: 437px;">' +
-				'<div align="center">' +
+				'<img src="' + ads[0].image_url + '" class="send-ads">' +
+				'<div align="center" style="margin-bottom: 10px">' +
 					'선택된 비디오 : ' + selectedVideos.length + '개' +
 					'<br>' +
 				'</div>' +
@@ -321,6 +311,64 @@ function getSendEmailHTML() {
 	return sendHTML;
 }
 
+function confirmDownload() {
+	showConfirmDialog(
+			'',
+			'Are you sure to leave "' + teams[index].name +'" team?',
+			'Leave', function(){ deleteTeam(index) },
+			'Cancel', function(){}
+		);
+}
+
+function confirmAddBookMark() {
+	showConfirmDialog(
+			'',
+			'Are you sure to add ' + selectedVideos.length + ' videos to bookmark?',
+			'Add', function(){ addMookMark() },
+			'Cancel', function(){}
+		);
+}
+
+function confirmLogout() {
+	showConfirmDialog(
+			'',
+			'Are you sure to Logout?',
+			'Logout', function() {window.location.replace('start.html')},
+			'Cancel', function(){}
+			);
+}
+
+function addMookMark() {
+	var data = {};
+	data.videos = selectedVideos;
+	$.ajax({
+		type: "POST",
+		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/bookmarks",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", accounts.token)
+		},
+		data: JSON.stringify(data),
+		success: function(json) {
+			var accordion_m = $("#accordion_m");
+			accordion_m.html("");
+			accordion_m.html("<img src=\"/static/img/loading.gif\">");
+			if (bookMarks) {
+				bookMarks = bookMarks.concat(json);
+				sortBookMarks();
+				createBookMarkHTML();
+				createMyListHTML();
+			}
+			selectedVideos = [];
+			showSelectedList();
+			$("input.checkbox").prop("checked", false);
+			$(".list-group-item").css("background-color", "white");
+			return;
+		}
+	}).fail( function(message){
+		console.log(message);
+	});
+}
+
 function sendEmail() {
 	var team_id = teams[$("#sendMessageTeam").val()].id;
 	var patient_mdn = $("#sendMessageEmail").val();
@@ -329,11 +377,6 @@ function sendEmail() {
 	var data = {};
 	data.patient_mdn = patient_mdn;
 	data.content = content;
-	
-	console.log(team_id);
-	console.log(patient_mdn);
-	console.log(content);
-	console.log(JSON.stringify(data));
 	
 	$.ajax({
 		type: "POST",
@@ -354,6 +397,24 @@ function sendEmail() {
 	});
 }
 
+function confirmSendMessage() {
+	var patient_cc =  $("#sendMessageCountryNumber").val();
+	if (patient_cc !== accounts.countryCode) {
+		showConfirmDialog(
+				'경고!',
+				'해외 전송은 5 티켓이 차감 됩니다. 진행하시겠습니까?',
+				'OK', function(){
+					sendMessage();
+					$("#modal_setting").modal('hide');
+				},
+				'Cancel', function(){}
+				);
+	} else {
+		sendMessage();
+		$("#modal_setting").modal('hide');
+	}
+}
+
 function sendMessage() {
 	var team_id = teams[$("#sendMessageTeam").val()].id;
 	var patient_cc =  $("#sendMessageCountryNumber").val();
@@ -364,12 +425,6 @@ function sendMessage() {
 	data.patient_cc = patient_cc;
 	data.patient_mdn = patient_mdn;
 	data.content = content;
-	
-	console.log(team_id);
-	console.log(patient_cc);
-	console.log(patient_mdn);
-	console.log(content);
-	console.log(JSON.stringify(data));
 	
 	$.ajax({
 		type: "POST",

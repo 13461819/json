@@ -52,11 +52,35 @@ function deleteList(index) {
 }
 
 function myListMenu(index) {
+	$("div[id]:not([id='myDropdown" + index + "'])").removeClass("drop-down-show");
+	$("#myDropdown" + index).css({
+		"top" : $("#myListMenu" + index).offset().top - $(window).scrollTop() + $("#myListMenu" + index).height()
+	});
 	$("#myDropdown" + index).toggleClass("drop-down-show");
+//	var accordion_m = $("#accordion_m"); 
+//	if (accordion_m.css("overflow") === "hidden") {
+//		$("#accordion_m").css("overflow", "auto");
+//	} else {
+//		$("#accordion_m").css("overflow", "hidden");
+//	}
+}
+
+function topicMenu(index) {
+	$("div[id]:not([id='topicDropdown" + index + "'])").removeClass("drop-down-show");
+	$("#topicDropdown" + index).css({
+		"top" : $("#topicMenu" + index).offset().top - $(window).scrollTop() + $("#topicMenu" + index).height()
+	});
+	$("#topicDropdown" + index).toggleClass("drop-down-show");
+//	var accordion_t = $("#accordion_t"); 
+//	if (accordion_t.css("overflow") === "hidden") {
+//		$("#accordion_t").css("overflow", "auto");
+//	} else {
+//		$("#accordion_t").css("overflow", "hidden");
+//	}
 }
 
 function modalChangeListName(index) {
-	$("#myDropdown").removeClass("drop-down-show");
+	$("div[id^='myDropdown']").removeClass("drop-down-show");
 	
 	var modal = $("#modal_setting");
 	var changeListNameHTML = "";
@@ -64,13 +88,11 @@ function modalChangeListName(index) {
 	changeListNameHTML +=
 	'<div class="modal-dialog">' +
 		'<div class="modal-content">' +
-			'<div class="modal-header"' +
-				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+			'<div class="modal-header">' +
 				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 				'<h2 class="modal-title">내 목록 이름 변경</h2>' +
 			'</div>' +
-			'<div class="modal-body"' +
-			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+			'<div class="modal-body">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">목록 이름</label>' +
 					'<input class="form-control" onkeyup="return keyUp(event,' + index + ')" value="' + myLists[index].name + '" placeholder="' + myLists[index].name + '" id="input_change_list_name" type="text" onfocus="this.value = this.value;"  autofocus >' +
@@ -98,16 +120,16 @@ function modalInsertList() {
 		insertHTML = 
 		'<div class="modal-dialog">' +
 			'<div class="modal-content" id="sendMessagePage">' +
-				'<div class="modal-header"' +
-					'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+				'<div class="modal-header">' +
 					'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-					'<h3 class="modal-title" style="text-align: center">내 목록에 추가</h3>' +
+					'<h3 class="modal-title">내 목록에 추가</h3>' +
 				'</div>' +
-				'<div class="modal-body"' +
-					'style="font-size: 18px; padding-top: 30px; padding-left:40px; background-color: rgb(238, 238, 238);">' +
+				'<div class="modal-body">' +
 					'<form role="form" id="radio_insert_list_name">' +
 						'<div class="radio">' +
-							'<label><input type="radio" autofocus name="list_name" value="" >새 목록에 추가&nbsp;&nbsp;<input onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name"></label>' +
+							'<label><input type="radio" autofocus name="list_name" value="" >새 목록에 추가' +
+								'<input style="width: 480px" onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name">' +
+							'</label>' +
 						'</div>';
 						for(var i = 0; i < myLists.length; i++) {
 							insertHTML +=
@@ -121,8 +143,8 @@ function modalInsertList() {
 					 //'<button onclick="insertList()">추가하기</button>' +
 				'</div>' +
 				'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="insertList()">저장</button>' +
-				'<button type="button" class="btn btn-info" data-dismiss="modal">닫기</button>' +
+					'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="insertList()">저장</button>' +
+					'<button type="button" class="btn btn-info" data-dismiss="modal">닫기</button>' +
 				'</div>' +
 			'</div>' +
 		'</div>';
@@ -181,13 +203,11 @@ function createNewListPage() {
 	createNewListHTML +=
 	'<div class="modal-dialog">' +
 		'<div class="modal-content">' +
-			'<div class="modal-header"' +
-				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">' +
+			'<div class="modal-header">' +
 				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 				'<h2 class="modal-title">내 목록 만들기</h2>' +
 			'</div>' +
-			'<div class="modal-body"' +
-			'style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">' +
+			'<div class="modal-body">' +
 				'<div class="form-group">' +
 					'<label for="inputdefault">목록 이름</label>' +
 					'<input class="form-control" autofocus onkeyup="return keyUp(event)" placeholder="내 목록 이름" id="input_new_list_name" type="text">' +
@@ -235,7 +255,12 @@ function getModalEditListHTML(index, newOpen) {
 	var editListHTML = "", itemHTML = "", categoryHTML = "";
 	var previousCategoryIndex, currentCategoryIndex, count = 0;
 	if(newOpen) {
-		targetVideos = JSON.parse(JSON.stringify(myLists[index].videos));
+		if(index === myLists.length) {
+			targetVideos = JSON.parse(JSON.stringify(bookMarks));
+		} else {
+			targetVideos = JSON.parse(JSON.stringify(myLists[index].videos));
+		}
+		toBeDeletedVideos = [];
 		selectedEditLists = [];
 	}
 	editListHTML =	
@@ -252,26 +277,26 @@ function getModalEditListHTML(index, newOpen) {
 				currentCategoryIndex = findIndexFromCode(videos[targetVideos[i]]); 
 				if((0 < count) && (currentCategoryIndex != previousCategoryIndex)){
 					editListHTML =
-					'<div style="font-size: 14px; background-color: rgb(209, 209, 209); padding: 5px 20px;">' +
+					'<div class="panel-heading">' +
 					categories[previousCategoryIndex] +
 					'<span class="label label-default label-as-badge">' + count + '</span></div>' + editListHTML;
 					count = 0;
 				}
 				itemHTML =
-				'<div class="row editItem" id="editItem' + targetVideos[i] + '" style="margin-right: 0px">' +
+				'<div class="row editItem" id="editItem' + targetVideos[i] + '">' +
 					'<div class="col-sm-11">' +
 						'<div class="row">' +
-							'<div class="col-sm-2">' +
+							'<div class="col-sm-3">' +
 								'<img src="' + videos[targetVideos[i]].thumbnail + '" class="img-responsive">' +
 							'</div>' +
-							'<div class="col-sm-10">' +
-								'<div class="row">' + videos[targetVideos[i]].title + '</div>' +
-								'<div class="row" style="font-size:17px;">' + convertPlayTime(videos[targetVideos[i]].playtime) + '</div>' +
+							'<div class="col-sm-9">' +
+								'<div class="row hb-video-title-edit">' + videos[targetVideos[i]].title + '</div>' +
+								'<div class="row hb-video-time-edit">' + convertPlayTime(videos[targetVideos[i]].playtime) + '</div>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
-					'<div class="col-sm-1" style="padding-left: 0px; margin-left:0px;">' +
-						'<input type="checkbox" class="editCheck" onclick="editCheckClick(this.value)" value="' + targetVideos[i] + '">' +
+					'<div class="col-sm-1 hb-video-chkbox">' +
+						'<input type="checkbox" class="checkbox editCheck" onclick="editCheckClick(this.value)" value="' + targetVideos[i] + '">' +
 					'</div>' +
 				'</div>';
 				count++;
@@ -284,16 +309,16 @@ function getModalEditListHTML(index, newOpen) {
 							'<div class="modal-header"' +
 								'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255); border: none;">' +
 								'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-								'<h2 class="modal-title" id="edit-modal-title">' + myLists[index].name +
+								'<h2 class="modal-title" id="edit-modal-title">' + (index === myLists.length ? '북마크' : myLists[index].name) +
 									'<span class="edit-list-icon glyphicon glyphicon-trash" onclick="editListRemove(' + index + ')"></span>' +
-									'<span class="edit-list-icon glyphicon glyphicon-chevron-down" onclick="editListDown(' + index + ')"></span>' +
-									'<span class="edit-list-icon glyphicon glyphicon-chevron-up" onclick="editListUp(' + index + ')"></span>' +
+									(index === myLists.length ? '' : '<span class="edit-list-icon glyphicon glyphicon-chevron-down" onclick="editListDown(' + index + ')"></span>') +
+									(index === myLists.length ? '' : '<span class="edit-list-icon glyphicon glyphicon-chevron-up" onclick="editListUp(' + index + ')"></span>') +
 								'</h2>' +
 							'</div>' +
 							'<div class="modal-body modal-edit-list-body"' +
 							'style="font-size: 18px; padding: 0px; background-color: rgb(238, 238, 238);">' +
-							'<div style="font-size: 14px; background-color: rgb(209, 209, 209); padding: 5px 20px;">' +
-							categories[previousCategoryIndex] +
+							'<div  class="panel-heading">' +
+							(previousCategoryIndex ? categories[previousCategoryIndex] : "목록 없음") +
 							'<span class="label label-default label-as-badge">' + count + '</span></div>' +
 							editListHTML;
 				return editListHTML;
@@ -306,34 +331,65 @@ function modalEditList(index) {
 }
 
 function editList(index) {
-	var type = "PUT";
-	var url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id;
-	var data = {};
-	data.name = myLists[index].name;
-	data.videos = targetVideos;
-
-	$.ajax({
-		type: type,
-		url: url,
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", accounts.token)
-		},
-		data : JSON.stringify(data),
-		success: function(json) {
-			var accordion_m = $("#accordion_m");
-			accordion_m.html("");
-			accordion_m.html("<img src=\"/static/img/loading.gif\">");
-			myLists[index] = json;
-			sortBookMarks();
-			createBookMarkHTML();
-			sortMyLists();
-			createMyListHTML();
-			$("input.checkbox").prop("checked", false);
-			$(".list-group-item").css("background-color", "white");
+	if(index === myLists.length) {
+		if(toBeDeletedVideos.length === bookMarks.length) {
+			return;
 		}
-	}).fail( function (message){
-		console.log(message);
-	});
+		var data = {};
+		data.videos = toBeDeletedVideos;
+		data.actions = "delete";
+		$.ajax({
+			type: "POST",
+			url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/bookmarks",
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", accounts.token)
+			},
+			data: JSON.stringify(data),
+			success: function(json) {
+				var accordion_m = $("#accordion_m");
+				accordion_m.html("");
+				accordion_m.html("<img src=\"/static/img/loading.gif\">");
+				bookMarks = targetVideos;
+				sortBookMarks();
+				createBookMarkHTML();
+				createMyListHTML();
+				$("input.checkbox").prop("checked", false);
+				$(".list-group-item").css("background-color", "white");
+				return;
+			}
+		}).fail( function(message){
+			console.log(message);
+		});
+	} else {
+		var type = "PUT";
+		var url = hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists/" + myLists[index].id;
+		var data = {};
+		data.name = myLists[index].name;
+		data.videos = targetVideos;
+	
+		$.ajax({
+			type: type,
+			url: url,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", accounts.token)
+			},
+			data : JSON.stringify(data),
+			success: function(json) {
+				var accordion_m = $("#accordion_m");
+				accordion_m.html("");
+				accordion_m.html("<img src=\"/static/img/loading.gif\">");
+				myLists[index] = json;
+				sortBookMarks();
+				createBookMarkHTML();
+				sortMyLists();
+				createMyListHTML();
+				$("input.checkbox").prop("checked", false);
+				$(".list-group-item").css("background-color", "white");
+			}
+		}).fail( function (message){
+			console.log(message);
+		});
+	}
 }
 
 function editCheckClick(id) {
@@ -397,32 +453,33 @@ function editListDown(index) {
 }
 
 function refreshEditList() {
-	$(".editItem").css("background-color", "rgb(238, 238, 238)");
+	$(".editItem").css("background-color", "white");
 	$.each(selectedEditLists, function(i, v) {
 		$(".editCheck[value^=" + v + "]").prop("checked", true);
 		$("#editItem" + v).css("background-color", "rgb(204, 241, 255)");
 	});
 }
 
-function playMyListYoutube(index) {
+function playMyListYoutube(isMyList, index) {
 	loadYouTubePlayer();
 	youtubePlayList = [];
-	currentPlayMyListIndex = index;
-	$.each(myLists[index].videos, function(i, v) {
-		youtubePlayList.push(videos[v].youtube);
-	});
-	playerYT.loadVideoById(youtubePlayList[0]);
-	$("#title").html(videos[myLists[index].videos[0]].title);
-	$("#description").html(replaceDescription(videos[myLists[index].videos[0]].description));
+	youtubeIndex = 0;
+	if (isMyList) {
+		if (index === myLists.length) {
+			youtubePlayList = bookMarks;
+		} else {
+			youtubePlayList = myLists[index].videos; 
+		}
+	} else {
+		youtubePlayList = topics[index].videos.reverse();
+	}
+	playerYT.loadVideoById(videos[youtubePlayList[0]].youtube);
+	$("#title").html(videos[youtubePlayList[0]].title);
+	$("#description").html(replaceDescription(videos[youtubePlayList[0]].description));
 }
 
-function playMyListFlowPlayer(index) {
+function playMyListFlowPlayer(isMyList, index) {
 	loadFlowPlayer();
-	youtubePlayList = [];
-	currentPlayMyListIndex = index;
-	$.each(myLists[index].videos, function(i, v) {
-		youtubePlayList.push(videos[v].youtube);
-	});
 }
 
 function editListRemove(index) {
@@ -430,8 +487,9 @@ function editListRemove(index) {
 	var targetIndex = 0;
 	$.each(selectedEditLists, function(i, v) {
 		targetIndex = targetVideos.indexOf(Number(v));
-		targetVideos.splice(targetIndex, 1);
+		toBeDeletedVideos = toBeDeletedVideos.concat(targetVideos.splice(targetIndex, 1));
 	});
+	selectedEditLists = [];
 	modal.html("");
 	modal.html(getModalEditListHTML(index));
 	refreshEditList();

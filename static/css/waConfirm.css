@@ -15,7 +15,7 @@
 	top: 50vh;
 	margin-left: -225px;
 	margin-top: -70px;
-	z-index: 102;
+	z-index: 1060;
 	/*opacity: 0;*/
 	-webkit-transition: opacity 0.3s ease;
 	   -moz-transition: opacity 0.3s ease;
@@ -88,7 +88,7 @@
 }
 
 #confirm-bg {
-	z-index: 101;
+	z-index: 1050;
 	top: 0px;
 	left: 0px;
 	position: fixed;

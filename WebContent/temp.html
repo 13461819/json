@@ -6,50 +6,32 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <style>
-/* Martin Wolf CodePen Standard */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
-* {
-  margin: 0;
-  padding: 0;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-body {
-  padding: 3em 2em;
-  font-family: 'Open Sans', Arial, sans-serif;
-  color: #cf6824;
-  background: #f7f5eb;
-}
-
-/* END Martin Wolf CodePen Standard */
-h2 {
-  display: block;
-  /* Fallback for non-webkit */
-  display: -webkit-box;
-  max-width: 400px;
-  height: 72.8px;
-  /* Fallback for non-webkit */
-  margin: 0 auto;
-  font-size: 26px;
-  line-height: 1.4;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
+<style type="text/css">
+    .scrollable {
+        width: 200px;
+        height: 200px;
+        background: #333;
+        overflow: scroll;
+    }
+    .fixed {
+        position: absolute;
+        top: 180px;
+        width: 200px;
+        height: 20px;
+        background: #fa2;
+    }
 </style>
 </head>
-
 <body>
-	<h2>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.</h2>
-	<label id="confirm-bg"></label>
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
-		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+<div class="scrollable">
+    im scrollable<br><br>
+    im scrollable<br><br>
+    im scrollable<br><br>
+    im scrollable<br><br>
+    im scrollable<br><br>
+    im scrollable<br><br>
+    im scrollable<br><br>
+    <div class="fixed">and I'm fixed</div>
+</div>
 </body>
 </html>

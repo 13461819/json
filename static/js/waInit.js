@@ -18,11 +18,11 @@ var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배
 var rawTopics, topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
-var targetVideos = []; // My List에서 반복재생을 하려고 하는 비디오 리스트
+var targetVideos = [], toBeDeletedVideos = []; // My List에서 반복재생을 하려고 하는 비디오 리스트
 var teams, teamsMembers = [], teamsMembersAccounts = []; // 각각의 API response 객체
 var myLists; // API response 객체
 var bookMarks; // API response 객체
-var currentTeamIndex, currentPlayMyListIndex; // 현재 체크되어있는 팀의 teams 인덱스, 현재 플레이 되고있는 리스트의 myLists 인덱스
+var currentTeamIndex; // 현재 체크되어있는 팀의 teams 인덱스
 var credit; // API response 객체
 var teamCredits; // API response 객체
 var ads; // API response 객체
@@ -37,6 +37,9 @@ var isAds = false, youtubeIndex = 0;
 var hbUrl = "https://hbreeze4ani.appspot.com";
 var hbApiPath = "/api/v1";
 var waData = {}; // localStrorage에 들어있는 WebApp의 데이터
+var totalPlayCount = 0;
+var isMouseClicked = false; // modal창 이동을 위한 변수
+var preX, preY;
 
 function getWaData() {
 	if (localStorage.getItem(getMyKey(accounts.email))) {
@@ -53,7 +56,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OkFJUm40ZG45MVpGMnFiSUY=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OjBOODZnaEs1MlpyVXB4dGU=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -224,7 +227,12 @@ function getProfessions() {
 		url: hbUrl + hbApiPath + "/professions?lang=" + accounts.language,
 		success: function(json){
 			professions = json;
-			//console.log(professions);
+			for (var ii = 0; ii < professions.length; ii++) {
+				if (professions[ii].id == accounts.profession) {
+					accounts.professionName = professions[ii].name;
+					break;
+				}
+			}
 		},
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -240,7 +248,12 @@ function getSpecialties() {
 		url: hbUrl + hbApiPath + "/specialties?lang=" + accounts.language,
 		success: function(json){
 			specialties = json;
-			//console.log(specialties);
+			for (var ii = 0; ii < specialties.length; ii++) {
+				if (specialties[ii].id == accounts.specialty) {
+					accounts.specialtyName = specialties[ii].name;
+					break;
+				}
+			}
 		},
 		error: function(message){
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -383,6 +396,34 @@ function sortTeamsMembersAccounts(index) { // teamsMembersAccounts를 이름 오
 	console.log('sortTeamsMembersAccounts');
 	teamsMembersAccounts[index].sort( function(a, b) {
 		return (a.nickName > b.nickName) ? 1 : -1;
+	});
+}
+
+function setModalMove() {
+	$("#modal_setting").on("mousedown", ".modal-header", function(event) {
+		isMouseClicked = true;
+		preX = event.clientX;
+		preY = event.clientY;
+	});
+	
+	$("#modal_setting").on("mousemove", ".modal-header", function(event) {
+		if (isMouseClicked) {
+			var dialog = $(".modal-dialog");
+			var top = parseInt(dialog.css("top"), 10);
+			var left = parseInt(dialog.css("left"), 10);
+			var newTop = left + event.clientX - preX;
+			var newLeft = top + event.clientY - preY;
+			dialog.css({
+				"left" : newTop,
+				"top" : newLeft
+			});
+			preX = event.clientX;
+			preY = event.clientY;
+		}
+	});
+	
+	$("#modal_setting").on("mouseup", ".modal-header", function() {
+		isMouseClicked = false;
 	});
 }
 

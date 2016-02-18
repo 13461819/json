@@ -28,16 +28,18 @@
 	</div>
 
 	<form onsubmit="return validateForm();" class="form-horizontal" role="form" method="POST" accept-charset="utf-8" id="login">
-		<div class="col-lg-10 col-lg-offset-1 form-login">
-			<div>
-				<input value="dhkim@hichart.net" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
+		<div class="col-lg-10 col-lg-offset-1 form-login" style="border-radius: 0px; background-color: rgb(249,249,249)">
+			<div class="col-lg-6 col-lg-offset-3">
+				<div>
+					<input style="border-radius: 0px" value="dhkim@hichart.net" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
+				</div>
+				<div>
+					<input style="border-radius: 0px" value="kimc1310" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
+				</div>
+				<div class="g-recaptcha" style="margin-bottom: 10px;" align="center" data-sitekey="6LeeDRQTAAAAABRFHbgAfjTt6InTCZ50QzUouojm"></div>
 			</div>
 			<div>
-				<input value="kimc1310" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
-			</div>
-			<div class="g-recaptcha" style="margin-bottom: 10px;" align="center" data-sitekey="6LeeDRQTAAAAABRFHbgAfjTt6InTCZ50QzUouojm"></div>
-			<div>
-				<input type="submit" class="btw btn-primary btn-lg" style="padding: 10px 50px;" value="Login">
+				<input type="submit" class="btn btn-info btn-lg" style="background-color: rgb(0,153,193); padding: 10px 50px; margin: 0px 100px" value="Login">
 			</div>
 		</div>
 	</form>

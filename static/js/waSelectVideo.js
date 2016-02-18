@@ -2,7 +2,7 @@ function showSelectedList() { // 선택 된 리스트의 썸네일을 보여주�
 	var selectedListHTML = "";
 	for(var i = 0; i < selectedVideos.length; i++) {
 		selectedListHTML += 
-		'<span style="float: left; margin-top: 15px; margin-right: 10px">' +
+		'<span style="float: left; margin-top: 15px; margin-right: 14px">' +
 			'<a href="#" id="selected_' + selectedVideos[i] + '">' +
 				'<img src="' + videos[selectedVideos[i]].thumbnail + '" style="height: 7vh; margin: 1px;" title="' + 
 				videos[selectedVideos[i]].title + ' ' + convertPlayTime(videos[selectedVideos[i]].playtime) + '">' +

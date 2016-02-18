@@ -37,6 +37,7 @@ function loadYouTubePlayer() {
 	      playerVars: {
 	      	'controls': 2,
 	      	'autohide': 1,
+	      	'rel': 0,
 	      	'showinfo': 0},
 	      events: {
 	        'onReady': onPlayerReady,
@@ -65,6 +66,7 @@ function onYouTubeIframeAPIReady() {
       playerVars: {
       	'controls': 2,
       	'autohide': 1,
+      	'rel': 0,
       	'showinfo': 0},
       events: {
         'onReady': onPlayerReady,
@@ -91,26 +93,22 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-	var currentPlayIndex = youtubeIndex % youtubePlayList.length;
-	var currentVideos;
-	var currentId;
-	var title = $("#title");
-	var description = $("#description");
 	if(event.data == YT.PlayerState.ENDED) {
+		var title = $("#title");
+		var description = $("#description");
+		var currentPlayIndex = youtubeIndex % youtubePlayList.length;
 		if(isAds) {
-			playerYT.loadVideoById(youtubePlayList[currentPlayIndex]); 
-			currentVideos = myLists[currentPlayMyListIndex].videos;
-			currentId = currentVideos[currentPlayIndex];
-			title.html(videos[currentId].title);
-			description.html(replaceDescription(videos[currentId].description));
+			playerYT.loadVideoById(videos[youtubePlayList[currentPlayIndex]].youtube); 
+			title.html(videos[youtubePlayList[currentPlayIndex]].title);
+			description.html(replaceDescription(videos[youtubePlayList[currentPlayIndex]].description));
 			isAds = false;
 		} else {
-			playerYT.loadVideoById(youtubeAds[(youtubeIndex++ % youtubeAds.length)]);
+			playerYT.loadVideoById(youtubeAds[(totalPlayCount++ % youtubeAds.length)]);
 			title.html("&nbsp;");
 			description.html("&nbsp;");
+			youtubeIndex++;
 			isAds = true;
 		}
-		if(youtubeIndex == getLCM(youtubeAds.length, youtubePlayList.length)) youtubeIndex = 0;
 	}
 }
 

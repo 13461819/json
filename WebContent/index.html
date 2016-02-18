@@ -37,11 +37,20 @@ html [lang]:not([lang="en"]) {
 		<div>
 			<img src="/static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 <!-- 			<span class="page_name" id="page_name">VIDEO</span> -->
-			<span class="page_name" ><img style="cursor: pointer" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image"></span>
-			<div class="drop-down">
-				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer;">
+<!-- 			<span class="page_name" ><img style="cursor: pointer" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image"></span> -->
+			<img style="margin-right: 140px; cursor: pointer; float: left; margin-top: 3px" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image">
+			<img src="/static/img/logout.png" class="list-logout" id="logout_image" onclick="confirmLogout()" title="Logout" style="cursor: pointer">
+			
+			<img src="/static/img/ic_action_set_bookmark.png" class="list-manipulation" id="insertBookMark_image" onclick="confirmAddBookMark()" title="북마크에 추가" style="cursor: pointer; display: none">
+			<img src="/static/img/ic_action_download.png" class="list-manipulation" id="download_image" onclick="confirmDownload()" title="다운로드" style="cursor: pointer; display: none">
+			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer; display: none">
+			<div class="drop-down" style="float: left">
+				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer; display: none">
+				<div id="dropDownSendMethod" class="drop-down-content" style="top: 60px; z-index: 101">
+					<a onclick="send2SMS()" style="font-size: 18px"><span class="glyphicon glyphicon-phone"></span>&nbsp;문자 (SMS)</a>
+					<a onclick="send2Email()" style="font-size: 18px"><span class="glyphicon glyphicon-envelope"></span>&nbsp;이메일(E-mail)</a>
+				</div>
 			</div>
-			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer;">
 		</div>
 	</header>
 	<div class="container" id="videoPage">
@@ -83,7 +92,7 @@ html [lang]:not([lang="en"]) {
 				<div id="selected_lists"></div>
 				<section>
 					<header>
-						<h4 id="title">섹션의 헤더</h4>
+						<h4 id="title"></h4>
 					</header>
 					<div class="embed-responsive embed-responsive-16by9"
 						style="margin-top: 10px;">
@@ -92,7 +101,7 @@ html [lang]:not([lang="en"]) {
 						</div>
 					</div>
 					<footer>
-						<p class="text-info" id="description" style="margin-top: 15px">섹션의 푸터</p>
+						<p class="text-info" id="description" style="margin-top: 15px"></p>
 						<!-- <button onclick="loadYouTubePlayer()">Youtube</button> -->
 						<!-- <button onclick="loadFlowPlayer()">FlowPlayer</button> -->
 						<!-- <button data-toggle="modal" data-target="#modal_setting" onclick="createNewListPage()">내 목록 만들기</button> -->
@@ -130,7 +139,9 @@ html [lang]:not([lang="en"]) {
 			  "picture": "https://lh3.googleusercontent.com/rZUV72Nw9Z0l8ukg-vrwUI56-dVAOociTpIwwSKKBMNdinUnf0jgHwk6-R0vnhHHCuemfOQlb12mdmX37pz0LA",
 			  "userId": 5398744128290816,
 			  "profession": 101,
+			  "professionName": "인턴",
 			  "specialty": 4007,
+			  "specialtyName": "호스피스",
 			  "deviceId": 5768755258851328,
 			  "email": "dhkim@hichart.net",
 			  "password": "9dlUIEyJUEdJ30iYRyBuAJX0O3caBGlz",
@@ -138,6 +149,7 @@ html [lang]:not([lang="en"]) {
 			  "expiredDate": 1453864403000,
 			  "msIsdn": "821049334688",
 			  "country": "KR",
+			  "countryCode": "82",
 			  "language": "ko",
 			  //"sessionKey": "pjA32lejZaC6tFun",
 			  "nickName": "김동현",
@@ -155,9 +167,11 @@ html [lang]:not([lang="en"]) {
 		//getCredit();
 		accordion_resize(); // 리스트 사이즈 변경
 		showSelectedList();
+		setModalMove();
 	});
 
 	$(window).resize(accordion_resize);
+	
 	</script>
 	
 </body>

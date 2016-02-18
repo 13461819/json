@@ -111,31 +111,19 @@ function getAccount() {
 function getProfile() {
 	var settingHTML = "";
 	settingHTML += 
-				'<div class="row" style="margin-bottom: 30px;">' +
-					'<img src="' + (accounts.picture ? accounts.picture : "/static/img/ic_item_profile_large.png") + '" class="img-responsive"' +
-						'width="50%" style="margin-left: auto; margin-right: auto;">' +
-				'</div>' +
-				'<div style="text-align: center;">전화번호 : ' + accounts.msIsdn + '</div>' +
-				'<div style="text-align: center;">이메일 : ' + accounts.email + '</div>' +
-				'<div style="text-align: center;">이름 : ' +  accounts.nickName + '</div>' +
-				'<div style="text-align: center;">직종 : ';
-					for(var i = 0; i < professions.length; i++)
-						if(professions[i].id == accounts.profession) settingHTML += professions[i].name;
-				settingHTML +=
-				'</div>' +
-				'<div style="text-align: center;">전공 : ';
-					for(var i = 0; i < specialties.length; i++)
-						if(specialties[i].id == accounts.specialty) settingHTML +=specialties[i].name;
-					settingHTML +=
-					'</select>' +
-				'</div>' +
-				'<div><br>안내) 계정 및 프로필 정보는 모바일 앱에서 수정하실 수 있습니다.<br>안내) You can modify the data on the HealthBreeze mobile application' +
-				'</div>'
+			'<div class="row" style="margin-bottom: 30px;">' +
+				'<img src="' + (accounts.picture ? accounts.picture : "/static/img/ic_item_profile_large.png") + '" class="img-responsive"' +
+					'width="50%" style="margin-left: auto; margin-right: auto;">' +
 			'</div>' +
-			'<div class="modal-footer">' +
-				'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="updateProfile()">저장</button>' +
-				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
-			'</div>' +
+			'<div style="text-align: center;">전화번호 : ' + accounts.msIsdn + '</div>' +
+			'<div style="text-align: center;">이메일 : ' + accounts.email + '</div>' +
+			'<div style="text-align: center;">이름 : ' +  accounts.nickName + '</div>' +
+			'<div style="text-align: center;">직종 : ' + accounts.professionName + '</div>' +
+			'<div style="text-align: center;">전공 : ' + accounts.specialtyName + '</div>' +
+			'<div><br>안내) 계정 및 프로필 정보는 모바일 앱에서 수정하실 수 있습니다.<br>안내) You can modify the data on the HealthBreeze mobile application</div>' +
+		'</div>' +
+		'<div class="modal-footer modal-footer-one-button">' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">확인</button>' +
 		'</div>' +
 	'</div>';
 	return settingHTML;
@@ -371,7 +359,7 @@ function basicLangVideo() {
 		$("#lblJapVideo").css("color", "rgb(51,51,51)");
 		$("#ckbJapVideo").prop("disabled", false);
 		$("#lblChnVideo").css("color", "rgb(51,51,51)");
-		$("#ckbChnVideo").prop("disabled", true);
+		$("#ckbChnVideo").prop("disabled", false);
 	} else {
 		$("#lblSelectLang").text("기본 언어만 표시됩니다.");
 		$("#lblEngVideo").css("color", "rgb(185,185,185)");
