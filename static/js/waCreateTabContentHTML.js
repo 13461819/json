@@ -25,14 +25,14 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			
 			topics[i].name +
 			
-			'<span class="label label-default label-as-badge">' + 
+			'<span class="badge">' + 
 			
 			topics[i].videos.length + 
 			
 			'</span>' +
 			'</a>' + 
 			'<div class="drop-down">' +
-			'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" id="topicMenu' + i + '" onclick="topicMenu(' + i + ')"></span>' + 
+			'<span class="glyphicon glyphicon-menu-hamburger my-list-menu" id="topicMenu' + i + '" onclick="topicMenu(' + i + ')"></span>' + 
 			'<div id="topicDropdown' + i + '" class="drop-down-content">' +
 			'<a onclick="playMyListYoutube(false, ' + i + ')"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생(Youtube)</a>'+
 			'<a onclick="playMyListFlowPlayer(false, ' + i + ')"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생(FlowPlayer)</a>'+
@@ -131,7 +131,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 			
 			categories[i] +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="badge">';
 		
 			afterLength = 
 				'</span>' +
@@ -238,7 +238,7 @@ function createRecommendHTML() { //정렬 된 videos[]의 첫 12개 카테고리
 			
 			categories[i] +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="badge">';
 		
 			afterLength = 
 				'</span>' +
@@ -394,13 +394,13 @@ function createMyListHTML() {
 		
 			myLists[i - 1].name +
 				
-			'<span class="label label-default label-as-badge">';
+			'<span class="badge">';
 		
 			afterLength = 
 				'</span>' +
 				'</a>' +
 				'<div class="drop-down">' +
-				'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" id="myListMenu' + (i - 1) + '" onclick="myListMenu(' + (i - 1) + ')"></span>' + 
+				'<span class="glyphicon glyphicon-menu-hamburger my-list-menu" id="myListMenu' + (i - 1) + '" onclick="myListMenu(' + (i - 1) + ')"></span>' + 
 				'<div id="myDropdown' + (i - 1) + '" class="drop-down-content">' +
 				'<a data-toggle="modal" data-target="#modal_setting" onclick="modalChangeListName(' + (i - 1) + ')"><span class="glyphicon glyphicon-pencil"></span>&nbsp;이름 변경</a>'+
 				'<a onclick="deleteList(' + (i - 1) + ')"><span class="glyphicon glyphicon-trash"></span>&nbsp;삭제</a>'+
@@ -486,12 +486,12 @@ function createBookMarkHTML() {
 		'<div class="panel-heading">' +
 		'<span class="panel-title">' +
 		'<a class="hb-list-title" data-toggle="collapse" href="#collapse_m0" onclick="arrowRotate(\'myListArrow0\')">' + 
-		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign"></span>북마크<span class="label label-default label-as-badge">';
+		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign"></span>북마크<span class="badge">';
 		afterLength = 
 			'</span>' +
 			'</a>' + 
 			'<div class="drop-down">' +
-			'<span class="glyphicon glyphicon-menu-hamburger my_list_menu" id="myListMenu' + myLists.length + '"onclick="myListMenu(' + myLists.length + ')"></span>' + 
+			'<span class="glyphicon glyphicon-menu-hamburger my-list-menu" id="myListMenu' + myLists.length + '"onclick="myListMenu(' + myLists.length + ')"></span>' + 
 			'<div id="myDropdown' + myLists.length + '" class="drop-down-content">' +
 			'<a data-toggle="modal" data-target="#modal_setting" onclick="modalEditList(' + myLists.length + ')"><span class="glyphicon glyphicon-list"></span>&nbsp;편집</a>'+
 			'<a onclick="playMyListYoutube(true, ' + myLists.length + ')"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;반복 재생(Youtube)</a>'+

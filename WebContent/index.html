@@ -42,7 +42,7 @@ html [lang]:not([lang="en"]) {
 			<img src="/static/img/logout.png" class="list-logout" id="logout_image" onclick="confirmLogout()" title="Logout" style="cursor: pointer">
 			
 			<img src="/static/img/ic_action_set_bookmark.png" class="list-manipulation" id="insertBookMark_image" onclick="confirmAddBookMark()" title="북마크에 추가" style="cursor: pointer; display: none">
-			<img src="/static/img/ic_action_download.png" class="list-manipulation" id="download_image" onclick="confirmDownload()" title="다운로드" style="cursor: pointer; display: none">
+			<img src="/static/img/ic_action_download.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="download_image" onclick="confirmDownload()" title="다운로드" style="cursor: pointer; display: none">
 			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer; display: none">
 			<div class="drop-down" style="float: left">
 				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer; display: none">

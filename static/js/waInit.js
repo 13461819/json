@@ -211,7 +211,7 @@ function getCredit() {
 		},
 		success: function(json) {
 			credit = json;
-			$("#currentMyTicket").html(credit.credit);
+			$(".current-my-ticket").html(credit.credit);
 		},
 		error: function(message) {
 			alert("서버와 통신 오류로 로그인할 수 없습니다!");
@@ -401,6 +401,7 @@ function sortTeamsMembersAccounts(index) { // teamsMembersAccounts를 이름 오
 
 function setModalMove() {
 	$("#modal_setting").on("mousedown", ".modal-header", function(event) {
+		$(".modal-header").css("cursor","move");
 		isMouseClicked = true;
 		preX = event.clientX;
 		preY = event.clientY;
@@ -424,13 +425,14 @@ function setModalMove() {
 	
 	$("#modal_setting").on("mouseup", ".modal-header", function() {
 		isMouseClicked = false;
+		$(".modal-header").css("cursor","default");
 	});
 }
 
 window.onclick = function(event) {
 	event = event || window.event;
 	var target = event.target || event.srcElement;
-	  if (-1 == target.className.indexOf('my_list_menu') && target.id != "send_image") {
+	  if (-1 == target.className.indexOf('my-list-menu') && target.id != "send_image") {
 	    var dropdowns = document.getElementsByClassName("drop-down-content");
 	    for (var i = 0; i < dropdowns.length; i++) {
 	      var openDropdown = dropdowns[i];

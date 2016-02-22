@@ -63,6 +63,16 @@ function myListMenu(index) {
 //	} else {
 //		$("#accordion_m").css("overflow", "hidden");
 //	}
+	
+//	var scrollPosition = [
+//      self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+//      self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
+//    ];
+//    var accordion_m = $("#accordion_m"); // it would make more sense to apply this to body, but IE7 won't have that
+//    accordion_m.data('scroll-position', scrollPosition);
+//    accordion_m.data('previous-overflow', html.css('overflow'));
+//    accordion_m.css('overflow', 'hidden');
+//    document.getElementById("accordion_m").scrollTo(scrollPosition[0], scrollPosition[1]);
 }
 
 function topicMenu(index) {
@@ -127,8 +137,8 @@ function modalInsertList() {
 				'<div class="modal-body">' +
 					'<form role="form" id="radio_insert_list_name">' +
 						'<div class="radio">' +
-							'<label><input type="radio" autofocus name="list_name" value="" >새 목록에 추가' +
-								'<input style="width: 480px" onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name">' +
+							'<label><input type="radio" name="list_name" value="" checked="checked">새 목록에 추가' +
+								'<input autofocus style="width: 480px" onkeyup="return keyUp(event)" type="text" placeholder="새 목록 이름" id="input_insert_new_list_name">' +
 							'</label>' +
 						'</div>';
 						for(var i = 0; i < myLists.length; i++) {
@@ -149,6 +159,9 @@ function modalInsertList() {
 			'</div>' +
 		'</div>';
 	modal.html(insertHTML);
+	setTimeout(function() {
+		$("#input_insert_new_list_name").focus();
+	}, 400);
 	});
 }
 
@@ -275,11 +288,11 @@ function getModalEditListHTML(index, newOpen) {
 	
 				for(var i = targetVideos.length; i-- ; ){
 				currentCategoryIndex = findIndexFromCode(videos[targetVideos[i]]); 
-				if((0 < count) && (currentCategoryIndex != previousCategoryIndex)){
+				if((0 < count) && (currentCategoryIndex != previousCategoryIndex) && (index !== myLists.length)){
 					editListHTML =
 					'<div class="panel-heading">' +
 					categories[previousCategoryIndex] +
-					'<span class="label label-default label-as-badge">' + count + '</span></div>' + editListHTML;
+					'<span class="badge">' + count + '</span></div>' + editListHTML;
 					count = 0;
 				}
 				itemHTML =
@@ -317,9 +330,9 @@ function getModalEditListHTML(index, newOpen) {
 							'</div>' +
 							'<div class="modal-body modal-edit-list-body"' +
 							'style="font-size: 18px; padding: 0px; background-color: rgb(238, 238, 238);">' +
-							'<div  class="panel-heading">' +
+							(index === myLists.length ? '' : '<div  class="panel-heading">' +
 							(previousCategoryIndex ? categories[previousCategoryIndex] : "목록 없음") +
-							'<span class="label label-default label-as-badge">' + count + '</span></div>' +
+							'<span class="badge">' + count + '</span></div>') +
 							editListHTML;
 				return editListHTML;
 }

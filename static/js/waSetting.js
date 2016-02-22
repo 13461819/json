@@ -24,6 +24,11 @@ function showSetting(settingName) {
 		'</div>' +
 	'</div>';*/
 	modal.html(settingHTML);
+	if (settingName === "처방티켓 쿠폰등록") {
+		setTimeout(function() {
+			$("#first_ticket_input").focus();
+		}, 400);
+	}
 }
 
 function getModalSetting(settingName) {
@@ -197,9 +202,9 @@ function getTicket() {
 	var settingHTML = "";
 	settingHTML += 
 			'<form class="form-inline form-coupon" role="form" style="text-align: center;">' +
-				'현재 나의 티켓 수 : <span id="currentMyTicket"><img src=\"/static/img/loading.gif\" style="width: 24px;"></span>' +
+				'현재 나의 티켓 수 : <span class="current-my-ticket"><img src=\"/static/img/loading.gif\" style="width: 24px;"></span>' +
 				'<div class="form-group" style="padding-top: 20px;">' +
-					'<input onfocus="return ticketFocus(event)" onkeyup="return couponKeyUp(event)"' +
+					'<input id="first_ticket_input" onfocus="return ticketFocus(event)" onkeyup="return couponKeyUp(event)"' +
 						'style="width:20%; text-align: center; font-size: 20px;" id="couponText0"' +
 						'maxlength="4" class="form-control" placeholder="&times;&times;&times;&times;" type="text"> - ' +
 					'<input onfocus="return ticketFocus(event)" onkeyup="return couponKeyUp(event)"' +

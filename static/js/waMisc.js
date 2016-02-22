@@ -312,12 +312,41 @@ function getSendEmailHTML() {
 }
 
 function confirmDownload() {
-	showConfirmDialog(
-			'',
-			'Are you sure to leave "' + teams[index].name +'" team?',
-			'Leave', function(){ deleteTeam(index) },
-			'Cancel', function(){}
-		);
+	var modal = $("#modal_setting");
+	var totalCredit = 0, freeCount = 0;
+	modal.html("");
+	var downLaoadHTML = '<div class="modal-dialog" style="top: 5vh">' +
+			'<div class="modal-content">' +
+		'<div class="modal-header">' +
+			'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+			'<h2 class="modal-title">다운로드</h2>' +
+		'</div>' +
+		'<div class="modal-body" style="text-align: center">' +
+			'현재 나의 티켓 수 : <span class="current-my-ticket"><img src="/static/img/loading.gif" style="width: 24px;"></span>' +
+			'<div class="modal-body-image">' +
+				'<img src="https://storage.googleapis.com/hbreeze4ani.appspot.com/ads/addownload.jpg"' +
+					'style="width: 100%; padding: 5px; height: 700px">' +
+			'</div>' +
+			'<br>' + selectedVideos.length + ' 개의 비디오를 내려받으며, 총 ';
+			for (var i = 0; i < selectedVideos.length; i++ ) {
+				parseInt(videos[selectedVideos[i]].dnld_charge, 10) ? totalCredit += parseInt(videos[selectedVideos[i]].dnld_charge, 10) : freeCount++;
+			}
+			downLaoadHTML += totalCredit +
+			'티켓이 차감됩니다.<br>(무료비디오 ' + freeCount + '개 포함)' +
+		'</div>' +
+		'<div class="modal-footer">' +
+			'<button type="button" class="btn btn-info" onclick="downloadVideo()">확인</button>' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
+		'</div>' +
+	'</div>' +
+	'</div>';
+	modal.html(downLaoadHTML);
+	getCredit();
+}
+
+function downloadVideo() {
+	console.log("downloadVideo");
+	$("#modal_setting").modal('hide');
 }
 
 function confirmAddBookMark() {
