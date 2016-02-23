@@ -16,7 +16,7 @@ function changeListName(index) {
 		success: function(json) {
 			myLists[index] = json;
 			sortBookMarks();
-			createBookMarkHTML();
+//			createBookMarkHTML();
 			sortMyLists();
 			createMyListHTML();
 			refreshCheckBox();
@@ -39,7 +39,7 @@ function deleteList(index) {
 			success: function(json){
 				myLists.splice(index, 1);
 				sortBookMarks();
-				createBookMarkHTML();
+//				createBookMarkHTML();
 				sortMyLists();
 				createMyListHTML();
 				refreshCheckBox();
@@ -191,12 +191,9 @@ function insertList() {
 		},
 		data : JSON.stringify(data),
 		success: function(json) {
-			var accordion_m = $("#accordion_m");
-			accordion_m.html("");
-			accordion_m.html("<img src=\"/static/img/loading.gif\">");
 			myLists[index] = json;
 			sortBookMarks();
-			createBookMarkHTML();
+//			createBookMarkHTML();
 			sortMyLists();
 			createMyListHTML();
 			selectedVideos = [];
@@ -254,7 +251,7 @@ function createNewList() {
 		success: function(json) {
 			myLists.push(json);
 			sortBookMarks();
-			createBookMarkHTML();
+//			createBookMarkHTML();
 			sortMyLists();
 			createMyListHTML();
 			refreshCheckBox();
@@ -359,12 +356,9 @@ function editList(index) {
 			},
 			data: JSON.stringify(data),
 			success: function(json) {
-				var accordion_m = $("#accordion_m");
-				accordion_m.html("");
-				accordion_m.html("<img src=\"/static/img/loading.gif\">");
 				bookMarks = targetVideos;
 				sortBookMarks();
-				createBookMarkHTML();
+//				createBookMarkHTML();
 				createMyListHTML();
 				$("input.checkbox").prop("checked", false);
 				$(".list-group-item").css("background-color", "white");
@@ -388,12 +382,9 @@ function editList(index) {
 			},
 			data : JSON.stringify(data),
 			success: function(json) {
-				var accordion_m = $("#accordion_m");
-				accordion_m.html("");
-				accordion_m.html("<img src=\"/static/img/loading.gif\">");
 				myLists[index] = json;
 				sortBookMarks();
-				createBookMarkHTML();
+//				createBookMarkHTML();
 				sortMyLists();
 				createMyListHTML();
 				$("input.checkbox").prop("checked", false);

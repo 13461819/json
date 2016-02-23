@@ -105,7 +105,7 @@ function getMyLists() {
 	$.when(when_bookMarks, when_myLists).done(function() {
 		console.log("2개 다 호출됨");
 		sortBookMarks();
-		createBookMarkHTML();
+//		createBookMarkHTML();
 		sortMyLists();
 		createMyListHTML();
 		refreshCheckBox();

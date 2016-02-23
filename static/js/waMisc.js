@@ -378,13 +378,10 @@ function addMookMark() {
 		},
 		data: JSON.stringify(data),
 		success: function(json) {
-			var accordion_m = $("#accordion_m");
-			accordion_m.html("");
-			accordion_m.html("<img src=\"/static/img/loading.gif\">");
 			if (bookMarks) {
 				bookMarks = bookMarks.concat(json);
 				sortBookMarks();
-				createBookMarkHTML();
+//				createBookMarkHTML();
 				createMyListHTML();
 			}
 			selectedVideos = [];

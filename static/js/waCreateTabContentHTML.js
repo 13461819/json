@@ -372,7 +372,9 @@ function createMyListHTML() {
 	var title = "", id = "";
 	var count = 0, length = 0;
 	var my_videos = [];
+	var isOpened;
 	for( var i = 1; i < myLists.length + 1; i++) {
+		isOpened = ($("#collapse_m" + i).attr("aria-expanded") === "true" ? true : false);
 		beforeLength = 
 			'<div class="panel panel-default">' +
 			'<div class="panel-heading">' +
@@ -390,7 +392,7 @@ function createMyListHTML() {
 			
 			i + 
 			
-			'" class="arrow glyphicon glyphicon-plus-sign"></span>' + 
+			'" class="arrow glyphicon glyphicon-' + (isOpened ? 'minus' : 'plus') + '-sign"></span>' + 
 		
 			myLists[i - 1].name +
 				
@@ -415,7 +417,7 @@ function createMyListHTML() {
 				
 				i + 
 				
-				'" class="panel-collapse collapse">' + 
+				'" class="panel-collapse collapse' + (isOpened ? ' in" aria-expanded="true' : '') + '">' + 
 				'<div class="list-group">';
 					my_videos = myLists[i - 1].videos;
 					length = my_videos.length;
@@ -473,6 +475,7 @@ function createMyListHTML() {
 		subMyListHTML = "";
 		count = 0;
 	}
+	createBookMarkHTML();
 	$("#accordion_m").append(myListHTML);
 }
 
@@ -481,12 +484,13 @@ function createBookMarkHTML() {
 	var bookMarkHTML = "", beforeLength = "", afterLength = "", subBookMarkHTML = "";
 	var title = "", id = "";
 	var count = 0, length = 0;
+	var isOpened = ($("#collapse_m0").attr("aria-expanded") === "true" ? true : false);
 	beforeLength = 
 		'<div class="panel panel-default">' +
 		'<div class="panel-heading">' +
 		'<span class="panel-title">' +
 		'<a class="hb-list-title" data-toggle="collapse" href="#collapse_m0" onclick="arrowRotate(\'myListArrow0\')">' + 
-		'<span id="myListArrow0" class="arrow glyphicon glyphicon-plus-sign"></span>북마크<span class="badge">';
+		'<span id="myListArrow0" class="arrow glyphicon glyphicon-' + (isOpened ? 'minus' : 'plus') + '-sign"></span>북마크<span class="badge">';
 		afterLength = 
 			'</span>' +
 			'</a>' + 
@@ -500,7 +504,7 @@ function createBookMarkHTML() {
 			'</div>' +
 			'</span>' +
 			'</div>' +
-			'<div id="collapse_m0" class="panel-collapse collapse">' + 
+			'<div id="collapse_m0" class="panel-collapse collapse' + (isOpened ? ' in" aria-expanded="true' : '') + '">' + 
 			'<div class="list-group">';
 				for( var i = 0; i < bookMarks.length; i++) {
 					count++;
