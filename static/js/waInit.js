@@ -337,17 +337,9 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 	var category_index = 0;
 	//var video_specialties = [];
 	for( var i = json.length; i-- ; ) {
-		//video_specialties = json[i].specialties;
-		//if(-1 < video_specialties.indexOf(3009)) {  // video_specialties값을 가지고 videos를 구성한다.
-			// 각각의 비디오는 자신만의 code값을 가지고 있으며 코드값의 첫번째 알파벳으로 카테고리를 식별한다.
-			//if(-1 < json[i].countries.indexOf("KR")) console.log(json[i].countries);
-//			if (json[i].code.substr(7, 2) === "cn") {
-//				console.log(json[i]);
-//			}
-			category_index = findIndexFromCode(json[i]);
-			videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
-			videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
-		//}
+		category_index = findIndexFromCode(json[i]);
+		videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
+		videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
 	}
 }
 

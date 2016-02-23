@@ -134,7 +134,7 @@ function modalInsertList() {
 					'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
 					'<h3 class="modal-title">내 목록에 추가</h3>' +
 				'</div>' +
-				'<div class="modal-body">' +
+				'<div class="modal-body" style="padding-left: 40px">' +
 					'<form role="form" id="radio_insert_list_name">' +
 						'<div class="radio">' +
 							'<label><input type="radio" name="list_name" value="" checked="checked">새 목록에 추가' +
