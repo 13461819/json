@@ -1,10 +1,11 @@
 function showSelectedList() { // 선택 된 리스트의 썸네일을 보여주고 마우스를 가져다 대면 제목과 시간을 보여준다.
 	var selectedListHTML = "";
+	var sectionWidth = parseInt($(".hb-section").css("width"), 10);
 	for(var i = 0; i < selectedVideos.length; i++) {
 		selectedListHTML += 
 		'<span style="float: left; margin-top: 15px; margin-right: 14px">' +
 			'<a href="#" id="selected_' + selectedVideos[i] + '">' +
-				'<img src="' + videos[selectedVideos[i]].thumbnail + '" style="height: 7vh; margin: 1px;" title="' + 
+				'<img src="' + videos[selectedVideos[i]].thumbnail + '" style="width: ' + (sectionWidth / 9) + 'px; margin: 1px;" title="' + 
 				videos[selectedVideos[i]].title + ' ' + convertPlayTime(videos[selectedVideos[i]].playtime) + '">' +
 			'</a>' +
 		'</span>';
