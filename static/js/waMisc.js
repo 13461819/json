@@ -57,9 +57,10 @@ function convertPlayTime(playtime) { // 3자리 숫자로 되어있는 playTime�
 }
 
 var accordion_resize = function() { // 화면 크기가 변경되면 리스트의 크기도 같이 변경한다.
-	$('#accordion_r').height($(window).height() - $('#draw_menu_button').height() - 150);
-	$('#accordion_t').height($(window).height() - $('#draw_menu_button').height() - 150);
-	$('#accordion_m').height($(window).height() - $('#draw_menu_button').height() - 150);
+	$('.accordion').height($(window).height() - $('#draw_menu_button').height() - 150);
+//	$('#accordion_r').height($(window).height() - $('#draw_menu_button').height() - 150);
+//	$('#accordion_t').height($(window).height() - $('#draw_menu_button').height() - 150);
+//	$('#accordion_m').height($(window).height() - $('#draw_menu_button').height() - 150);
 	$('#my_header>div').width($('#main_body.row').width() - 30);
 }
 

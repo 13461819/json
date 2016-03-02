@@ -1,28 +1,8 @@
-#accordion_r {
+.accordion {
 	min-height: 300px; 
 	background-color: rgb(251, 251, 251); 
-	overflow: auto; 
-	overflow-x: hidden;
-}
-
-#accordion_t {
-	min-height: 300px; 
-	background-color: rgb(251, 251, 251); 
-	overflow: auto; 
-	overflow-x: hidden;
-}
-
-#accordion_m {
-	min-height: 300px; 
-	background-color: rgb(251, 251, 251); 
-	overflow: auto; 
-	overflow-x: hidden;
-}
-
-#accordion_s {
-	min-height: 300px; 
-	background-color: rgb(251, 251, 251); 
-	overflow: auto; 
+	overflow: auto;
+	margin-bottom: 0px;
 	overflow-x: hidden;
 }
 

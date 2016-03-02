@@ -261,7 +261,7 @@ function createNewList() {
 	});
 }
 
-function getModalEditListHTML(index, newOpen) {
+function getModalEditListHTML(index, newOpen, top, left) {
 	var editListHTML = "", itemHTML = "", categoryHTML = "";
 	var previousCategoryIndex, currentCategoryIndex, count = 0;
 	if(newOpen) {
@@ -314,7 +314,7 @@ function getModalEditListHTML(index, newOpen) {
 				editListHTML = itemHTML + editListHTML;
 				}
 				editListHTML =
-					'<div class="modal-dialog">' +
+					'<div class="modal-dialog" style="top: ' + (top || "15vh") + '; left: ' + (left || "20vw") + '">' +
 						'<div class="modal-content">' +
 							'<div class="modal-header"' +
 								'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255); border: none;">' +
@@ -426,8 +426,10 @@ function editListUp(index) {
 			}
 		}
 	}
+	var top = $(".modal-dialog").css("top");
+	var left = $(".modal-dialog").css("left");
 	modal.html("");
-	modal.html(getModalEditListHTML(index));
+	modal.html(getModalEditListHTML(index, false, top, left));
 	refreshEditList();
 }
 
@@ -451,8 +453,10 @@ function editListDown(index) {
 			}
 		}
 	}
+	var top = $(".modal-dialog").css("top");
+	var left = $(".modal-dialog").css("left");
 	modal.html("");
-	modal.html(getModalEditListHTML(index));
+	modal.html(getModalEditListHTML(index, false, top, left));
 	refreshEditList();
 }
 
@@ -491,10 +495,12 @@ function editListRemove(index) {
 	var targetIndex = 0;
 	$.each(selectedEditLists, function(i, v) {
 		targetIndex = targetVideos.indexOf(Number(v));
-		toBeDeletedVideos = toBeDeletedVideos.concat(targetVideos.splice(targetIndex, 1));
+		toBeDeletedVideos = toBeDeletedVideos.concat(targetVideos.splice(
+				targetIndex, 1));
 	});
 	selectedEditLists = [];
-	modal.html("");
-	modal.html(getModalEditListHTML(index));
+	var top = $(".modal-dialog").css("top");
+	var left = $(".modal-dialog").css("left");
+	modal.html(getModalEditListHTML(index, false, top, left));
 	refreshEditList();
 }
