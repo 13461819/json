@@ -404,3 +404,16 @@ div[id^="teamInfo"] {
 	padding: 15px;
 	height: 437px;
 }
+
+.modal:nth-of-type(even) {
+    z-index: 1042 !important;
+}
+.modal.in:nth-of-type(even) {
+    z-index: 1041 !important;
+}
+
+.progress-bar {
+	-webkit-transition: none;
+	-o-transition: none;
+	transition: none;
+}

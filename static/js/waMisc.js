@@ -347,7 +347,85 @@ function confirmDownload() {
 
 function downloadVideo() {
 	console.log("downloadVideo");
-	$("#modal_setting").modal('hide');
+	var modal = $("#modal_setting");
+	var id = 0;
+	var downloadStateHTML = 
+	'<div class="modal-dialog">' +
+		'<div class="modal-content">' +
+		'<div class="modal-header" style="border: 0">' +
+			'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+			'<h2 class="modal-title">' +
+				'비디오 다운로드' +
+			'</h2>' +
+		'</div>' +
+		'<div class="modal-body" style="padding: 0; background-color: white">';
+			for (var ii = 0; ii < selectedVideos.length; ii++){
+			id = selectedVideos[ii];
+			downloadStateHTML +=
+			'<div class="row" style="margin: 0; border-bottom: 1px solid #e5e5e5">' +
+				'<div class="col-sm-2" style="padding: 0">' +
+					'<img src="' + videos[id].thumbnail + '"' +
+						'class="img-responsive">' +
+				'</div>' +
+				'<div class="col-sm-10" style="padding: 0px 20px">' +
+					'<div style="margin: 10px 0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">' + videos[id].title + '</div>' +
+					'<div>' +
+						'<div class="progress" style="margin-bottom: 0">' +
+							'<div class="progress-bar progress-bar-striped active"' +
+								'role="progressbar" aria-valuemin="0" aria-valuemax="100"' +
+								'style="width: 0%" id="downProgres' + ii + '">0%</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>' +
+			'</div>';
+			}
+		downloadStateHTML +=
+		'</div>' +
+		'<div class="modal-footer modal-footer-one-button" style="border-top: 0">' +
+			'<button type="button" class="btn btn-info" data-dismiss="modal" onclick="cancelDownload()">취소</button>' +
+		'</div>' +
+	'</div>' +
+	'</div>';
+	modal.modal('hide');
+	setTimeout(function() {
+		modal.html(downloadStateHTML);
+		modal.modal('show');
+		download_test();
+	}, 500);
+}
+
+function download_test() {
+	var ii = 0;
+	var progress = 0;
+	var progressBar = $("#downProgres" + ii);
+	downloadVideos = setInterval(function() {
+		progressBar.width(progress + "%");
+		progressBar.html(progress + "%");
+		progress++;
+		if(progress > 100) {
+			ii++;
+			if (ii == selectedVideos.length) {
+				showConfirmDialog('', '다운로드가 완료되었습니다.', '확인', function() {
+					$("#modal_setting").modal('hide');
+					selectedVideos = [];
+					showSelectedList();
+					$("input.checkbox").prop("checked", false);			
+					$(".list-group-item").css("background-color", "white");
+
+				});
+				clearInterval(downloadVideos);
+			}
+			progressBar = $("#downProgres" + ii);
+			progress = 0;
+		}
+	}, 30);
+}
+
+function cancelDownload() {
+	if (downloadVideos) {
+		showConfirmDialog('', '다운로드가 취소되었습니다.', '확인', function(){});
+		clearInterval(downloadVideos);
+	}
 }
 
 function confirmAddBookMark() {
