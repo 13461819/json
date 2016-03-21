@@ -230,14 +230,25 @@ function getTicket() {
 
 function getDownloaded() {
 	var settingHTML = "";
-	settingHTML += '다운로드된 비디오 - 현재 작성 중입니다.'+
-	'</div>' +
-	'<div class="modal-footer">' +
-		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
-		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
-	'</div>' +
-'</div>' +
-'</div>';
+	for (var i = 0; i < downloadedVideos.length; i++) {
+		settingHTML +=
+			'<div class="row editItem">' +
+				'<div class="col-sm-3">' +
+					'<img src="' + videos[downloadedVideos[i].id].thumbnail + '" class="img-responsive">' +
+				'</div>' +
+				'<div class="col-sm-9">' +
+					'<div class="row hb-video-title-edit">' + videos[downloadedVideos[i].id].title + '</div>' +
+					'<div class="row hb-video-time-edit">' + videos[downloadedVideos[i].id].expired_date + '</div>' +
+				'</div>' +
+			'</div>';
+			}
+			settingHTML +=
+			'</div>' +
+			'<div class="modal-footer modal-footer-one-button">' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">확인</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
 	return settingHTML;
 }
 
@@ -423,4 +434,154 @@ function getHelp() {
 '</div>' +
 '</div>';
 	return settingHTML;
+}
+
+function showDownloadedVideos() {
+	toggleMenu();
+	var modal = $("#modal_setting");
+	var settingHTML =
+	'<div class="modal-dialog" style="top: 10vh; left: 30vw; width: 800px">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"' +
+				'style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255); border: none">' +
+				'<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+				'<h2 class="modal-title">' +
+					'다운로드 된 비디오' +
+				'</h2>' +
+			'</div>' +
+			'<div class="modal-body"' +
+			'style="font-size: 18px; padding: 0px; background-color: rgb(238, 238, 238); height: 700px; overflow: auto">' +
+			'<div class="row" style="margin: 0px">' +
+				'<div value="0" class="col-sm-8 col-sm-offset-1" style="text-align: center">' +
+					'<strong id="downloadedTitle" onclick="downloadedTitle()">제목</strong><span id="downloadedTitleIcon" class="glyphicon"></span>' +
+				'</div>' +
+				'<div value="0" class="col-sm-3" style="text-align: center">' +
+					'<strong id="downloadedExpired" onclick="downloadedExpired()">만료날짜</strong><span id="downloadedExpiredIcon" class="glyphicon"></span>' +
+				'</div>' +
+			'</div><div id="downloadedContent">';
+			settingHTML += getDownloadedVideosHTML() + 
+			'</div></div>' +
+			'<div class="modal-footer modal-footer-one-button">' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">확인</button>' +
+			'</div>' +
+		'</div>' +
+	'</div>';
+	modal.html(settingHTML);
+}
+
+$(document.body).on("mouseover", "#downloadedTitle", function(){
+	$("#downloadedTitle").css("color", "RGB(50, 220, 100)");
+	$("#downloadedTitleIcon").css("color", "RGB(50, 220, 100)");
+});
+
+$(document.body).on("mouseleave", "#downloadedTitle", function(){
+	$("#downloadedTitle").css("color", "RGB(0, 0, 0)");
+	$("#downloadedTitleIcon").css("color", "rgb(238, 238, 238)");
+});
+
+$(document.body).on("mouseover", "#downloadedExpired", function(){
+	$("#downloadedExpired").css("color", "RGB(50, 220, 100)");
+	$("#downloadedExpiredIcon").css("color", "RGB(50, 220, 100)");
+});
+
+$(document.body).on("mouseleave", "#downloadedExpired", function(){
+	$("#downloadedExpired").css("color", "RGB(0, 0, 0)");
+	$("#downloadedExpiredIcon").css("color", "rgb(238, 238, 238)");
+});
+
+function getDownloadedVideosHTML() {
+	var settingHTML = "";
+	for (var i = 0; i < downloadedVideos.length; i++) {
+		settingHTML +=
+		'<div class="row" style="margin: 0px">' +
+			'<div class="col-sm-1" style="padding: 0px">' +
+				'<img src="' + videos[downloadedVideos[i].id].thumbnail + '" class="img-responsive">' +
+			'</div>' +
+			'<div class="col-sm-8">' +
+				'<div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">' + videos[downloadedVideos[i].id].title + '</div>' +
+			'</div>' +
+			'<div class="col-sm-3">' +
+				'<div class="small" style="text-align: center">' + videos[downloadedVideos[i].id].expired_date.substr(0,10) + '</div>' +
+			'</div>' +
+		'</div>';
+	}
+	return settingHTML;
+}
+
+function downloadedTitle() {
+	var title = $("#downloadedTitle");
+	var expired = $("#downloadedExpired");
+	var order = parseInt(title.val(), 10);
+	var content = $("#downloadedContent");
+	var icon = $("#downloadedTitleIcon"); 
+	if (order) {
+		downloadedSortTitle(1);
+		content.html(getDownloadedVideosHTML());
+//		title.css("color", "green");
+//		title.html('제목<span class="glyphicon glyphicon-arrow-up"></span>');
+		icon.addClass("glyphicon-chevron-up");
+		icon.removeClass("glyphicon-chevron-down");
+		title.val("0");
+	} else {
+		downloadedSortTitle(0);
+		content.html(getDownloadedVideosHTML());
+//		title.css("color", "red");
+//		title.html('제목<span class="glyphicon glyphicon-arrow-down"></span>');
+		icon.addClass("glyphicon-chevron-down");
+		icon.removeClass("glyphicon-chevron-up");
+		title.val("1");
+	}
+//	expired.css("color", "black");
+//	expired.html("만료날짜");
+}
+
+function downloadedSortTitle(order) {
+	if (order) {
+		downloadedVideos.sort( function(a, b) {
+			return (videos[a.id].title > videos[b.id].title) ? 1 : -1;
+		});
+	} else {
+		downloadedVideos.sort( function(a, b) {
+			return (videos[a.id].title < videos[b.id].title) ? 1 : -1;
+		});
+	}
+}
+
+function downloadedExpired() {
+	var title = $("#downloadedTitle");
+	var expired = $("#downloadedExpired");
+	var order = parseInt(expired.val(), 10);
+	var content = $("#downloadedContent");
+	var icon = $("#downloadedExpiredIcon"); 
+	if (order) {
+		downloadedSortExpired(1);
+		content.html(getDownloadedVideosHTML());
+//		expired.css("color", "green");
+//		expired.html('만료날짜<span class="glyphicon glyphicon-arrow-up"></span>');
+		icon.addClass("glyphicon-chevron-up");
+		icon.removeClass("glyphicon-chevron-down");
+		expired.val("0");
+	} else {
+		downloadedSortExpired(0);
+		content.html(getDownloadedVideosHTML());
+//		expired.css("color", "red");
+//		expired.html('만료날짜<span class="glyphicon glyphicon-arrow-down"></span>');
+		icon.addClass("glyphicon-chevron-down");
+		icon.removeClass("glyphicon-chevron-up");
+		expired.val("1");
+	}
+//	title.css("color", "black");
+//	title.html("제목");
+}
+
+function downloadedSortExpired(order) {
+	if (order) {
+		downloadedVideos.sort( function(a, b) {
+			return (a.expired_date > b.expired_date) ? 1 : -1;
+		});
+	} else {
+		downloadedVideos.sort( function(a, b) {
+			return (a.expired_date < b.expired_date) ? 1 : -1;
+		});
+	}
 }

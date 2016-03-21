@@ -45,8 +45,8 @@ function getTeamCredit(index, where) {
 			}
 		},
 		error: function(message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("getTeamCredit : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 }
@@ -64,8 +64,8 @@ function createTeamPage(index) {
 			teamsMembers[index] = json;
 		},
 		error: function(message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("whenTeamsMembers : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 	
@@ -80,8 +80,8 @@ function createTeamPage(index) {
 			sortTeamsMembersAccounts(index);
 		},
 		error: function(message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("whenTeamsMembersAccounts : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 	

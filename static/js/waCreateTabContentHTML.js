@@ -47,7 +47,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 			'" class="panel-collapse collapse">' + 
 			'<div class="list-group">';
 		topics_videos_length = topics[i].videos.length;
-		for(j = topics_videos_length; j--; ) {
+		for(j = 0; j < topics_videos_length; j++) {
 			id = topics[i].videos[j];
 			topicHTML += 
 				
@@ -73,7 +73,7 @@ function createTopicHTML() { // id값으로 HashMap 된 videos[]와 할당 된 t
 				'<div class="row hb-video-time">' +
 				
 				convertPlayTime(videos[id].playtime) +
-				
+				(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
 				'</div>' +
 				'</div>' +
 				'</div>' +
@@ -173,7 +173,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 								'<div class="row hb-video-time">' +
 								
 								convertPlayTime(videos[id].playtime) +
-								
+								(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
 								'</div>' +
 								'</div>' +
 								'</div>' +
@@ -346,6 +346,8 @@ function getSubRecommendHTML(id) {
 	
 	convertPlayTime(videos[id].playtime) +
 	
+	(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
+	
 	'</div>' +
 	'</div>' +
 	'</div>' +
@@ -447,7 +449,7 @@ function createMyListHTML() {
 							'<div class="row hb-video-time">' +
 							
 							convertPlayTime(videos[id].playtime) +
-							
+							(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
 							'</div>' +
 							'</div>' +
 							'</div>' +
@@ -532,7 +534,7 @@ function createBookMarkHTML() {
 						'<div class="row hb-video-time">' +
 						
 						convertPlayTime(videos[id].playtime) +
-						
+						(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
 						'</div>' +
 						'</div>' +
 						'</div>' +

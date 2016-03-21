@@ -377,7 +377,7 @@ div[id^="teamInfo"] {
 	text-align: left;
 }
 
-.modal-footer-one-button {
+.7modal-footer-one-button {
 	text-align: center;
 }
 
@@ -416,4 +416,17 @@ div[id^="teamInfo"] {
 	-webkit-transition: none;
 	-o-transition: none;
 	transition: none;
+}
+
+#downloadedTitle, #downloadedExpired {
+	transition: color .3s ease;
+	cursor: pointer;
+}
+
+#downloadedTitleIcon, #downloadedExpiredIcon {
+	position: relative;
+	top: 5px;
+	left: 5px;
+	color: rgb(238, 238, 238);
+	transition: color .3s ease;
 }

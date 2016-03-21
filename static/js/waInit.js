@@ -15,6 +15,73 @@ var categories = [
 var videos_length = 12; // 카테고리의 갯수
 var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배열은 카테고리별 비디오 리스트가 있다.
 				 // 나머지 배열은 비디오 ID를 이용하여 HashMap으로 사용
+var downloadedVideos = [ {
+	"id" : 5142066044600320,
+	"expired_date" : "만료날짜1"
+}, {
+	"id" : 5673682332549120,
+	"expired_date" : "만료날짜2"
+}, {
+	"id" : 6591956742307840,
+	"expired_date" : "만료날짜3"
+}, {
+	"id" : 6427848055193600,
+	"expired_date" : "만료날짜4"
+}, {
+	"id" : 6287110566838272,
+	"expired_date" : "만료날짜5"
+}, {
+	"id" : 6222068655849472,
+	"expired_date" : "만료날짜6"
+}, {
+	"id" : 6037510689914880,
+	"expired_date" : "만료날짜7"
+}, {
+	"id" : 5944759797415936,
+	"expired_date" : "만료날짜8"
+}, {
+	"id" : 5798272690028544,
+	"expired_date" : "만료날짜9"
+}, {
+	"id" : 5740874747084800,
+	"expired_date" : "만료날짜10"
+}, {
+	"id" : 5705691851390976,
+	"expired_date" : "만료날짜11"
+}, {
+	"id" : 5680876067225600,
+	"expired_date" : "만료날짜12"
+}, {
+	"id" : 5651124426113024,
+	"expired_date" : "만료날짜13"
+}, {
+	"id" : 5528730743078912,
+	"expired_date" : "만료날짜14"
+}, {
+	"id" : 5368046889730048,
+	"expired_date" : "만료날짜15"
+}, {
+	"id" : 5192862555701248,
+	"expired_date" : "만료날짜16"
+}, {
+	"id" : 5142291060621312,
+	"expired_date" : "만료날짜17"
+}, {
+	"id" : 5086826255613952,
+	"expired_date" : "만료날짜18"
+}, {
+	"id" : 4944866849062912,
+	"expired_date" : "만료날짜19"
+}, {
+	"id" : 4844130135965696,
+	"expired_date" : "만료날짜20"
+}, {
+	"id" : 4737992635711488,
+	"expired_date" : "만료날짜21"
+}, {
+	"id" : 4507668974665728,
+	"expired_date" : "만료날짜22"
+} ];
 var rawTopics, topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
@@ -56,7 +123,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OmRxZ00xTkt2a1NEazB0VWg=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OncwQjEzYXdGS2J0Y3F0bG4=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -92,8 +159,9 @@ function getTopics() {
 				refreshCheckBox();
 			})
 		.fail( function (message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			console.log(message);
+			alert("getTopics : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		});
 }
 
@@ -195,8 +263,8 @@ function getAds() {
 			ads = json;
 		},
 		error: function(message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("getAds : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 }
@@ -214,8 +282,8 @@ function getCredit() {
 			$(".current-my-ticket").html(credit.credit);
 		},
 		error: function(message) {
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("getCredit : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 }
@@ -235,8 +303,8 @@ function getProfessions() {
 			}
 		},
 		error: function(message){
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("getProfessions : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 }
@@ -256,8 +324,8 @@ function getSpecialties() {
 			}
 		},
 		error: function(message){
-			alert("서버와 통신 오류로 로그인할 수 없습니다!");
-			location.replace("start.html");
+			alert("getSpecialties : 서버와 통신 오류로 로그인할 수 없습니다!");
+			//location.replace("start.html");
 		}
 	});
 }
@@ -337,14 +405,19 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 	var category_index = 0;
 	//var video_specialties = [];
 	for( var i = json.length; i-- ; ) {
+		for (var jj = 0; jj < downloadedVideos.length; jj++) {
+			if (json[i].id == downloadedVideos[jj].id) {
+				json[i].expired_date = json[i].created;
+			}
+		}
 		category_index = findIndexFromCode(json[i]);
 		videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
 		videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.
 	}
 }
 
-function findIndexFromCode(value) { // A = 11, B = 10, ..., L = 0
-	return 11-(value.code.charCodeAt(0) - 97);
+function findIndexFromCode(videos) { // A = 11, B = 10, ..., L = 0
+	return 11-(videos.code.charCodeAt(0) - 97);
 }
 
 function sortVideos() { // 분류된 배열을 내림차순 정렬한다.

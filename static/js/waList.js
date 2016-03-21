@@ -301,7 +301,9 @@ function getModalEditListHTML(index, newOpen, top, left) {
 							'</div>' +
 							'<div class="col-sm-9">' +
 								'<div class="row hb-video-title-edit">' + videos[targetVideos[i]].title + '</div>' +
-								'<div class="row hb-video-time-edit">' + convertPlayTime(videos[targetVideos[i]].playtime) + '</div>' +
+								'<div class="row hb-video-time-edit">' + convertPlayTime(videos[targetVideos[i]].playtime) + 
+								(videos[targetVideos[i]].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
+								'</div>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
@@ -479,7 +481,7 @@ function playMyListYoutube(isMyList, index) {
 			youtubePlayList = myLists[index].videos; 
 		}
 	} else {
-		youtubePlayList = topics[index].videos.reverse();
+		youtubePlayList = topics[index].videos;
 	}
 	playerYT.loadVideoById(videos[youtubePlayList[0]].youtube);
 	$("#title").html(videos[youtubePlayList[0]].title);

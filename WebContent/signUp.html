@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>SignUp Page</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/waIndex.css" />
+<style>
+#signInForm {
+	position: fixed;
+	top: 65px;
+	left: 25vw;
+	width: 650px;
+	height: 450px;
+	background-color: RGB(250, 250, 235);
+	border: 1px solid RGB(200, 200, 190);
+	border-radius: 5px;
+	padding: 20px;
+}
+
+#phoneCertFormGrp {
+	
+}
+
+.form-control {
+	width: 100%;
+}
+
+#createAccountBtn {
+	margin: auto;
+}
+
+.hideFormGrp {
+	visibility: hidden;
+}
+
+#createAccountBtn {
+	width: 100%;
+}
+
+</style>
+</head>
+<body>
+<!-- <button onclick="openIE()">열기</button> -->
+<div id="signInForm">
+	<form class="form-inline1">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label" for="phoneNumber">전화번호</label></div>
+				<div class="col-md-6"><input type="tel" class="form-control" id="phoneNumber" placeholder="전화번호"></div>
+				<div class="col-md-3"><button type="button" id="phoneCertBtn" class="btn btn-primary">인증</button></div>
+			</div>
+		</div>
+		<div class="form-group hideFormGrp" id="phoneCertFormGrp">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label" for="certificationCode">인증코드 확인</label></div>
+				<div class="col-md-6"><input type="text" class="form-control" id="certificationCode" placeholder="인증코드 확인"></div>
+				<div class="col-md-3"><button type="button" class="btn btn-primary">확인</button></div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3"><small class="text-muted">인증 코드를 받지 못하셨나요? (02:26) <button type="button" class="btn btn-danger btn-xs">재발송</button></small></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label" for="userName">이름</label></div>
+				<div class="col-md-6"><input type="text" class="form-control" id="userName" placeholder="이름"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label">직종 선택</label></div>
+				<div class="col-md-6">
+					<select class="form-control" name="professions">
+						<option disabled="disabled" selected="selected">직종 선택</option>
+						<optgroup label="의사">
+							<option>1년차</option>
+							<option>2년차</option>
+							<option>3년차</option>
+							<option>4년차</option>
+						</optgroup> 
+							<optgroup label="간호사">
+							<option>수술실</option>
+							<option>응급실</option>
+							<option>중환자실</option>
+						</optgroup>
+							<optgroup label="개발자">
+							<option>C/C++</option>
+							<option>java</option>
+							<option>HTML5</option>
+						</optgroup>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label">직종 선택</label></div>
+				<div class="col-md-6">
+					<select class="form-control" name="specialties">
+						<option disabled="disabled" selected="selected">전공 선택</option>
+						<optgroup label="내과">
+							<option>일반</option>
+							<option>알레르기</option>
+							<option>심장</option>
+							<option>내분비</option>
+						</optgroup> 
+							<optgroup label="흉부외과">
+							<option>심장혈관</option>
+							<option>폐식도</option>
+						</optgroup>
+							<optgroup label="외과">
+							<option>간담췌</option>
+							<option>하부위장관</option>
+							<option>유방</option>
+						</optgroup>
+						<option>구강악안면외과</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label" for="inputEmail">이메일 등록</label></div>
+				<div class="col-md-6"><input type="text" id="inputEmail" class="form-control" placeholder="이메일 등록"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"><label class="form-control-label" for="inputEmailConfirm">이메일 등록(확인)</label></div>
+				<div class="col-md-6"><input type="text" id="inputEmailConfirm" class="form-control" placeholder="이메일 등록 (확인)"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-3">
+					<button type="button" class="btn btn-success" id="createAccountBtn">가입</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+		
+<script>
+	function openIE() {
+		window.open("http://www.naver.com","lookupWin", "height=400,width=500,resizable=false");
+	}
+	
+	$("#phoneCertBtn").click(function() {
+		$("#phoneCertFormGrp").removeClass("hideFormGrp");
+	});
+
+</script>
+</body>
+</html>
