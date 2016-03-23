@@ -558,16 +558,16 @@ function downloadedExpired() {
 		content.html(getDownloadedVideosHTML());
 //		expired.css("color", "green");
 //		expired.html('만료날짜<span class="glyphicon glyphicon-arrow-up"></span>');
-		icon.addClass("glyphicon-chevron-up");
-		icon.removeClass("glyphicon-chevron-down");
+		icon.addClass("glyphicon-chevron-down");
+		icon.removeClass("glyphicon-chevron-up");
 		expired.val("0");
 	} else {
 		downloadedSortExpired(0);
 		content.html(getDownloadedVideosHTML());
 //		expired.css("color", "red");
 //		expired.html('만료날짜<span class="glyphicon glyphicon-arrow-down"></span>');
-		icon.addClass("glyphicon-chevron-down");
-		icon.removeClass("glyphicon-chevron-up");
+		icon.addClass("glyphicon-chevron-up");
+		icon.removeClass("glyphicon-chevron-down");
 		expired.val("1");
 	}
 //	title.css("color", "black");

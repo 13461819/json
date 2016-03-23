@@ -419,7 +419,7 @@ div[id^="teamInfo"] {
 }
 
 #downloadedTitle, #downloadedExpired {
-	transition: color .3s ease;
+	transition: color .15s ease;
 	cursor: pointer;
 }
 

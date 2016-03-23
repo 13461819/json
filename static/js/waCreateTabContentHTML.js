@@ -345,8 +345,8 @@ function getSubRecommendHTML(id) {
 	'<div class="row hb-video-time">' +
 	
 	convertPlayTime(videos[id].playtime) +
-	
-	(videos[id].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
+
+	(videos[id].expired_date ? '<img src="/static/img/saved.png" style="width: 18px; top: -3px; position: relative; margin-left: 30px" title="만료일 : ' + videos[id].expired_date.substr(0,10) + '">' : '') +
 	
 	'</div>' +
 	'</div>' +

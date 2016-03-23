@@ -15,7 +15,7 @@
 	left: 25vw;
 	width: 650px;
 	height: 450px;
-	background-color: RGB(250, 250, 235);
+	background-color: RGB(250, 250, 245);
 	border: 1px solid RGB(200, 200, 190);
 	border-radius: 5px;
 	padding: 20px;
@@ -44,7 +44,7 @@
 </style>
 </head>
 <body>
-<!-- <button onclick="openIE()">열기</button> -->
+<button onclick="openIE()">열기</button>
 <div id="signInForm">
 	<form class="form-inline1">
 		<div class="form-group">
@@ -72,9 +72,9 @@
 		</div>
 		<div class="form-group">
 			<div class="row">
-				<div class="col-md-3"><label class="form-control-label">직종 선택</label></div>
+				<div class="col-md-3"><label for="professionsSelect" class="form-control-label">직종 선택</label></div>
 				<div class="col-md-6">
-					<select class="form-control" name="professions">
+					<select class="form-control" name="professions" id="professionsSelect">
 						<option disabled="disabled" selected="selected">직종 선택</option>
 						<optgroup label="의사">
 							<option>1년차</option>
@@ -98,9 +98,9 @@
 		</div>
 		<div class="form-group">
 			<div class="row">
-				<div class="col-md-3"><label class="form-control-label">직종 선택</label></div>
+				<div class="col-md-3"><label for="specialtiesSelect" class="form-control-label">직종 선택</label></div>
 				<div class="col-md-6">
-					<select class="form-control" name="specialties">
+					<select class="form-control" name="specialties" id="specialtiesSelect">
 						<option disabled="disabled" selected="selected">전공 선택</option>
 						<optgroup label="내과">
 							<option>일반</option>
@@ -151,7 +151,7 @@
 		
 <script>
 	function openIE() {
-		window.open("http://www.naver.com","lookupWin", "height=400,width=500,resizable=false");
+		window.open("http://localhost:8081/WebContent/onlyYoutube.html?youtube=QZ1vo6H8GT4","lookupWin", "height=480, width=640, resizable=0");
 	}
 	
 	$("#phoneCertBtn").click(function() {
