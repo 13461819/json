@@ -1,4 +1,8 @@
 function replaceAndLoadYoutubeByID(id) { //해당 id값을 가진 비디오의 제목, 내용, youtube코드로 loadYouTube를 호출한다.
+	if (youtubePlayList.length) {
+		youtubePlayList = [];
+	}
+	loadYouTubePlayer();
 	loadYouTube(videos[id].title, replaceDescription(videos[id].description), videos[id].youtube);
 }
 
@@ -10,7 +14,7 @@ function replaceDescription(description) { //description의 개행을 HTML의 "<
 function loadYouTube(title, description, youtube) { //제목, 내용, youtube코드로 유튜브 플레이어를 실행한다.
     $("#title").text(title);
     $("#description").html(description);
-    playerYT.loadPlaylist(youtube); 
+    playerYT.cueVideoById(youtube); 
     playerYT.setLoop(true);
 }
 
@@ -97,17 +101,19 @@ function onPlayerStateChange(event) {
 		var title = $("#title");
 		var description = $("#description");
 		var currentPlayIndex = youtubeIndex % youtubePlayList.length;
-		if(isAds) {
-			playerYT.loadVideoById(videos[youtubePlayList[currentPlayIndex]].youtube); 
-			title.html(videos[youtubePlayList[currentPlayIndex]].title);
-			description.html(replaceDescription(videos[youtubePlayList[currentPlayIndex]].description));
-			isAds = false;
-		} else {
-			playerYT.loadVideoById(youtubeAds[(totalPlayCount++ % youtubeAds.length)]);
-			title.html("&nbsp;");
-			description.html("&nbsp;");
-			youtubeIndex++;
-			isAds = true;
+		if (youtubePlayList.length) {
+			if (isAds) {
+				playerYT.loadVideoById(videos[youtubePlayList[currentPlayIndex]].youtube); 
+				title.html(videos[youtubePlayList[currentPlayIndex]].title);
+				description.html(replaceDescription(videos[youtubePlayList[currentPlayIndex]].description));
+				isAds = false;
+			} else {
+				playerYT.loadVideoById(youtubeAds[(totalPlayCount++ % youtubeAds.length)]);
+				title.html("&nbsp;");
+				description.html("&nbsp;");
+				youtubeIndex++;
+				isAds = true;
+			}
 		}
 	}
 }

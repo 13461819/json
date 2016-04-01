@@ -4,7 +4,7 @@ function loadFlowPlayer() {
 	//createDivPlayerFP();
 	
 	var player_fp = document.querySelector("#playerFP");
-	if(player_fp) {
+	if( player_fp ) {
 		player_fp.setAttribute('style', 'display: block');
 		return;
 	}
@@ -14,5 +14,5 @@ function loadFlowPlayer() {
 	player_fp.setAttribute('class', 'video');
 	iframe_rwd.appendChild(player_fp);
 	
-	$f("playerFP", "/static/flowplayer/flowplayer-3.2.18.swf", 'http://localhost/barsandtone.flv');
+	$f("playerFP", "/static/js/flowplayer-3.2.18.swf", 'https://fat.gfycat.com/OrganicAcademicAmphibian.mp4');
 }

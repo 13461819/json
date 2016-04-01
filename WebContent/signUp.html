@@ -45,6 +45,9 @@
 </head>
 <body>
 <button onclick="openIE()">열기</button>
+<button onclick="openFlowPlayer2()">열기</button>
+<button onclick="openFlowPlayer1()">flowPlayer열기 </button>
+<input type="checkbox">
 <div id="signInForm">
 	<form class="form-inline1">
 		<div class="form-group">
@@ -151,7 +154,85 @@
 		
 <script>
 	function openIE() {
-		window.open("http://localhost:8081/WebContent/onlyYoutube.html?youtube=QZ1vo6H8GT4","lookupWin", "height=480, width=640, resizable=0");
+		window.open("http://10.11.12.157:8081/WebContent/onlyYoutube.html?youtube=va5rf20Un24","lookupWin", "height=480, width=640, resizable=0, location=0");
+	}
+	
+	function openFlowPlayer1() {
+		fPlayer = window.open("https://10.11.12.157/WebContent/flowPlayer.html","lookupWin", "width=956, height=536, resizable=0, location=1");
+// 		fPlayer.resizeTo(960 + 8 + 8, 540 + 55 + 8);
+	}
+	
+	
+	function openFlowPlayer2() {
+		var playLists = [ {
+			"id" : 5142066044600320,
+			"expired_date" : "만료날짜1"
+		}, {
+			"id" : 5673682332549120,
+			"expired_date" : "만료날짜2"
+		}, {
+			"id" : 6591956742307840,
+			"expired_date" : "만료날짜3"
+		}, {
+			"id" : 6427848055193600,
+			"expired_date" : "만료날짜4"
+		}, {
+			"id" : 6287110566838272,
+			"expired_date" : "만료날짜5"
+		}, {
+			"id" : 6222068655849472,
+			"expired_date" : "만료날짜6"
+		}, {
+			"id" : 6037510689914880,
+			"expired_date" : "만료날짜7"
+		}, {
+			"id" : 5944759797415936,
+			"expired_date" : "만료날짜8"
+		}, {
+			"id" : 5798272690028544,
+			"expired_date" : "만료날짜9"
+		}, {
+			"id" : 5740874747084800,
+			"expired_date" : "만료날짜10"
+		}, {
+			"id" : 5705691851390976,
+			"expired_date" : "만료날짜11"
+		}, {
+			"id" : 5680876067225600,
+			"expired_date" : "만료날짜12"
+		}, {
+			"id" : 5651124426113024,
+			"expired_date" : "만료날짜13"
+		}, {
+			"id" : 5528730743078912,
+			"expired_date" : "만료날짜14"
+		}, {
+			"id" : 5368046889730048,
+			"expired_date" : "만료날짜15"
+		}, {
+			"id" : 5192862555701248,
+			"expired_date" : "만료날짜16"
+		}, {
+			"id" : 5142291060621312,
+			"expired_date" : "만료날짜17"
+		}, {
+			"id" : 5086826255613952,
+			"expired_date" : "만료날짜18"
+		}, {
+			"id" : 4944866849062912,
+			"expired_date" : "만료날짜19"
+		}, {
+			"id" : 4844130135965696,
+			"expired_date" : "만료날짜20"
+		}, {
+			"id" : 4737992635711488,
+			"expired_date" : "만료날짜21"
+		}, {
+			"id" : 4507668974665728,
+			"expired_date" : "만료날짜22"
+		} ];
+		var newWindow = window.open("openFlowPlayer.html", "newWindow");
+		newWindow.newPlayLists = playLists;
 	}
 	
 	$("#phoneCertBtn").click(function() {

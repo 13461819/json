@@ -585,3 +585,48 @@ function downloadedSortExpired(order) {
 		});
 	}
 }
+
+//function addDownloadedImg(newDownloadsVideos) {
+//	newDownloadsVideos = [ {
+//		"id" : 5888713695428608,
+//		"expired_date" : "만료날짜23"
+//	}, {
+//		"id" : 5609294129004544,
+//		"expired_date" : "만료날짜24"
+//	}, {
+//		"id" : 5170986005561344,
+//		"expired_date" : "만료날짜25"
+//	}, {
+//		"id" : 5780311673667584,
+//		"expired_date" : "만료날짜26"
+//	} ];
+//	$.each(newDownloadsVideos, function(index, object) {
+//		videos[object.id].expired_date = videos[object.id].created; 
+//		var targetEle = $(".list" + object.id)[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1]; 
+//		console.log(targetEle);
+//		if ( targetEle.childNodes.length == 1 ) {
+//			$(targetEle).append('<img src="/static/img/saved.png" style="width: 17px; top: -3px; position: relative; margin-left: 30px" title="만료일 : ' + videos[object.id].expired_date.substr(0,10) + '">');
+//		}
+//	});
+//}
+
+function addDownloadedImg(expired) {
+	for (var ii = 0; ii < selectedVideos.length; ii++) {
+		downloadedVideos.push({"id" : selectedVideos[ii], "expired_date" : videos[selectedVideos[ii]].created});
+		videos[selectedVideos[ii]].expired_date = videos[selectedVideos[ii]].created; 
+		console.log(videos[selectedVideos[ii]].title);
+		var targetEles = $(".list" + selectedVideos[ii]);
+		var targetEle;
+		for (var jj = 0; jj < targetEles.length; jj++) {
+			targetEle = targetEles[jj].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1];
+			if (targetEle.childNodes.length == 1) {
+				$(targetEle).append('<img src="/static/img/saved.png" style="width: 17px; top: -3px; position: relative; margin-left: 30px" title="{% if language == "ko" %}만료일:{% else %}Expired:{% endif %} ' + expired.substr(0,10) + '">');
+				console.log('<img src="/static/img/saved.png" style="width: 17px; top: -3px; position: relative; margin-left: 30px" title="{% if language == "ko" %}만료일:{% else %}Expired:{% endif %} ' + expired.substr(0,10) + '">');
+			}
+		}
+	}
+	selectedVideos = [];
+	showSelectedList();
+	$("input.checkbox").prop("checked", false);			
+	$(".list-group-item").css("background-color", "white");
+}

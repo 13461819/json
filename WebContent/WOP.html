@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<script>
+function open_pop(arg1, arg2){
+    var frmPop = document.frmPopup;
+    var url = 'openFlowPlayer.html';
+    window.open('','popupView');   
+     
+    frmPop.action = url; 
+    frmPop.method="get";
+    frmPop.target = 'popupView'; //window,open()의 두번째 인수와 같아야 하며 필수다.   
+    frmPop.arg1.value = arg1;
+    frmPop.arg2.value = arg2;   
+    frmPop.submit();    
+}
+</script>
+ 
+<form name="frmPopup">
+<input type="hidden" name="arg1">
+<input type="hidden" name="arg2">
+</form>
+ 
+<span onclick="open_pop('a', 'b');">팝업</span>
+</body>
+</html>

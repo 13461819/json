@@ -34,9 +34,6 @@ var downloadedVideos = [ {
 	"id" : 6222068655849472,
 	"expired_date" : "만료날짜6"
 }, {
-	"id" : 6037510689914880,
-	"expired_date" : "만료날짜7"
-}, {
 	"id" : 5944759797415936,
 	"expired_date" : "만료날짜8"
 }, {
@@ -67,9 +64,6 @@ var downloadedVideos = [ {
 	"id" : 5142291060621312,
 	"expired_date" : "만료날짜17"
 }, {
-	"id" : 5086826255613952,
-	"expired_date" : "만료날짜18"
-}, {
 	"id" : 4944866849062912,
 	"expired_date" : "만료날짜19"
 }, {
@@ -82,6 +76,7 @@ var downloadedVideos = [ {
 	"id" : 4507668974665728,
 	"expired_date" : "만료날짜22"
 } ];
+
 var rawTopics, topics = []; // 21개의 소주제 객체 리스트
 				 // 각각의 소주제 객체는 자체적으로 비디오 리스트를 가지고 있다.
 var selectedVideos = []; // 체크박스에서 선택 된 비디오의 배열
@@ -98,7 +93,7 @@ var specialties; // API response 객체
 var when_bookMarks; // bookMarks API의 $.ajax() 참조자. $.when()에 쓰인다.
 var when_myLists; // myLists API의 $.ajax() 참조자. $.when()에 쓰인다.
 var selectedEditLists = []; // myList에서 edit 하려는 리스트의 클론 (깊은복사)
-var youtubeAds = ["EOaoAf69zOg", "jh1IHMJI5lc", "F7viKAPDmT0", "Snl61MzlotM", "egywPKPjS7Y", "aAHbscecDcI"];
+var youtubeAds = ["jh1IHMJI5lc", "F7viKAPDmT0", "Snl61MzlotM", "egywPKPjS7Y", "aAHbscecDcI"];
 var youtubePlayList = [];
 var isAds = false, youtubeIndex = 0;
 var hbUrl = "https://hbreeze4ani.appspot.com";
@@ -123,7 +118,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OjhxbDhhT0ZPdlBlYmdYMXY=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OmhqOVNkamcwcktrZEZ0a3g=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -135,6 +130,9 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
 						categorizeVideos(json); // 첫 12개의 인덱스에는 카테고리에 맞게 비디오를 분류해서 2차원 배열을 채운다.
 												// 나머지 인덱스에는 비디오 ID값을 이용해 배열의 인덱스에 [Key: ID] = Value: 비디오 값으로 채운다.
+						for (var ii = 0; ii < downloadedVideos.length; ii++) {
+							videos[downloadedVideos[ii].id].expired_date = videos[downloadedVideos[ii].id].created;
+						}
 						sortVideos(); // 첫 12개의 인덱스에 들어있는 카테고리별 비디오만 각각 정렬한다.
 						createRecommendHTML(); //정렬 된 배열을 가지고 HTML코드를 생성한다.
 						//getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
@@ -189,9 +187,12 @@ function getSubBookMarks() {
 		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/bookmarks",
 		success: function(json) {
 			bookMarks = json;
+			bookMarks[0] = 4520495223406592;
 			for(var i = 0; i < bookMarks.length; i++) {
 				if(videos[bookMarks[i]] == undefined) { // 삭제된 비디오가 있으면 해당 비디오는 목록에서 제거한다.
+					console.log(videos[bookMarks[i]]);
 					bookMarks.splice(i, 1);
+					i--;
 				}
 			}
 			console.log("붘맠 호출됨");
@@ -210,10 +211,19 @@ function getSubMyLists() {
 		url: hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/mylists",
 		success: function(json) {
 			myLists = json;
+			myLists.push({
+				"account" : 5398744128290816,
+				"id" : 5836511958269952,
+				"name" : "내 목록 이름 #004",
+				"videos" : [5755655105282048, 5091760300621824, 6086461237493760,
+				            5934620218490880, 5045640606253056, 6510842963034112,
+				            4760492660752384, 6017601100578816]
+			});
 			for(var i = 0; i < myLists.length; i++) {
 				for(var j = 0; j < myLists[i].videos.length; j++){
 					if(videos[myLists[i].videos[j]] == undefined) { // 삭제된 비디오가 있으면 해당 비디오는 목록에서 제거한다.
 						myLists[i].videos.splice(j, 1);
+						j--;
 					}
 				}
 			}
@@ -405,11 +415,11 @@ function categorizeVideos(json) { // 전체 비디오의 크기만큼 루프를 
 	var category_index = 0;
 	//var video_specialties = [];
 	for( var i = json.length; i-- ; ) {
-		for (var jj = 0; jj < downloadedVideos.length; jj++) {
-			if (json[i].id == downloadedVideos[jj].id) {
-				json[i].expired_date = json[i].created;
-			}
-		}
+//		for (var jj = 0; jj < downloadedVideos.length; jj++) {
+//			if (json[i].id == downloadedVideos[jj].id) {
+//				json[i].expired_date = json[i].created;
+//			}
+//		}
 		category_index = findIndexFromCode(json[i]);
 		videos[category_index].push(json[i]); // 해당하는 카테고리에 할당받고,
 		videos[json[i].id] = json[i];		  // 자신의 ID값에도 할당받는다.

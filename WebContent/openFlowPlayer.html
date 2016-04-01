@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<button onclick="consoleLog()">변수확인</button>
+<script>
+
+function consoleLog() {
+	var my_javascript_variable = <?php echo $_POST['arg1'] ?>;
+	var playLists = window.opener.newPlayLists;
+	console.log(playLists);
+	console.log(my_javascript_variable);
+}
+</script>
+</body>
+</html>

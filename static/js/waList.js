@@ -302,7 +302,7 @@ function getModalEditListHTML(index, newOpen, top, left) {
 							'<div class="col-sm-9">' +
 								'<div class="row hb-video-title-edit">' + videos[targetVideos[i]].title + '</div>' +
 								'<div class="row hb-video-time-edit">' + convertPlayTime(videos[targetVideos[i]].playtime) + 
-								(videos[targetVideos[i]].expired_date ? '<span class="glyphicon glyphicon-saved" style="float: right"></span>' : '') +
+								(videos[targetVideos[i]].expired_date ? '<img src="/static/img/saved.png" style="width: 17px; top: -3px; position: relative; margin-left: 30px" title="만료일 : ' + videos[targetVideos[i]].expired_date.substr(0,10) + '">' : '') +
 								'</div>' +
 							'</div>' +
 						'</div>' +

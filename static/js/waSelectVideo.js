@@ -56,9 +56,12 @@ function removeFromSelectedList(id) { // 선택 된 비디오의 썸네일을 �
 }
 
 function toggleCheckList(id, isChecked) { //체크박스를 클릭하면 해당 비디오를 선택 리스트에 넣고 뺀다.
+	console.log(isChecked + ", " + id);
 	if(isChecked){
 		if(selectedVideos.length < 7) {
-			selectedVideos.push(id);
+			if (selectedVideos.indexOf(id) < 0) {
+				selectedVideos.push(id);
+			}
 		} else {
 			//$("input.checkbox" + id).attr("checked", true);
 			$("input.checkbox" + id).prop("checked", false);
