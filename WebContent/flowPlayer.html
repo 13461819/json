@@ -11,152 +11,246 @@
 <link href="/static/css/flowplayer.css" rel="stylesheet">
 </head>
 
-<body id="plugins_widevine" style="margin: 0" onload="initSize()">
+<!-- <body id="plugins_widevine" style="margin: 0" onload="initSize()"> -->
+<body id="plugins_widevine" style="margin: 0">
 	<div id="content" style="offset: 0">
 		<script src="/static/js/flowplayer.widevine-3.2.18.js"></script>
 		<script src="/static/js/flowplayer.playlist-3.2.10.min.js"></script>
 
-		<div style="width: 960px; height: 540px; background: rgb(239, 239, 239);" id="divLoading">
-			<div style="position: fixed; z-index: 200; top: 15px; left: 230px">
+		<div style="position: fixed; z-index: 200; width: 960px; height: 540px;
+			background: rgb(239, 239, 239); display: none" id="divLoading">
+			<div style="position: fixed; top: 15px; left: 230px">
 				<img src="/static/img/loading7.gif">
-				<p style="position: fixed; top: 240px; left: 430px">now loading...</p>
+				<p style="position: fixed; top: 240px; left: 430px">now
+					loading...</p>
 			</div>
 		</div>
-		<a style="width: 960px; height: 540px; float: left; z-index: 100" id="pdl"> </a>
-		<br clear="all">
+		
+		<div id="divRecommendFlashDownload" style="display: none; padding: 40px">
+			<h2>Flash Player가 필요합니다.</h2>
+			<p>Flash Player가 설치되어 있지 않습니다.</p>
+			<p></p>
+			<p>
+				<a href="https://get.adobe.com/kr/flashplayer/download/msie/?installer=FP_21_for_Internet_Explorer_-_ActiveX&os=Windows 7&browser_type=MSIE&browser_dist=OEM&dualoffer=true&mdualoffer=false&chromedefault=false&d=Google_Toolbar_7.5&d=Google_Chrome_44.0_IE_Browser">여기</a>
+				를눌러 Flash Player를 설치해주세요.
+			</p>
+		</div>
+		
+		<div id="divRecommendWidevineDownload" style="display: none; padding: 40px">
+			<h2>Google Widevine이 필요합니다.</h2>
+			<p>Google Widevine이 설치되어 있지 않습니다.</p>
+			<p></p>
+			<p>
+				<a href="https://dl.google.com/tag/s/appguid%3D%7B78E545B9-131E-4F9E-BF34-002E86F97A5E%7D%26iid%3D%7B9C012100-E18B-EA1B-59E7-2D78181D607A%7D%26lang%3Dko%26browser%3D2%26usagestats%3D0%26appname%3DWidevine%26needsadmin%3Dfalse/widevine/6.0.0.12757/WidevineMediaOptimizerIE.exe">여기</a>
+				를눌러 Google Widevine을 설치해주세요.
+			</p>
+		</div>
+		
+		<a style="width: 960px; height: 540px; float: left; z-index: 100"
+			id="pdl"> </a> <br clear="all">
 
 		<script>
-				function initSize() {
-					window.resizeTo(960 + 8 + 8, 540 + 55 + 8);
-				}
-			
-				var need2Start = true;
-				var uid = ",uid:5398744128290816-5707274949492736,cid:";
-				var videoList = [{
-					"id": 4507668974665728,
-					"code": "b0158aako"
-				}, {
-					"id": 4574579330646016,
-					"code": "g0015aako"
-				}, {
-					"id": 4650786814427136,
-					"code": "j0013aako"
-				}, {
-					"id": 4804129360707584,
-					"code": "b0061abko"
-				}];
-				var videoIndex = 0;
-				var baseUrl = "https://storage.googleapis.com/hbreeze4ani.appspot.com/videos/";
+						
+			$(function() {
+				if (isFlashEnabled()) {
+					if (isWidevineEnabled()) {
+						$("#divLoading").show();
+	
+						//unlimited version without logo on the screen
+						flowplayer(
+							"pdl",
+							{
+								src : "/static/flowplayer/flowplayer.unlimited-3.2.18.swf",
+								wmode : 'opaque'
+							},
+							{
+								// license key from your account
+								//key : "f7da290f7f1cd17648a",	// for *.appspot.com
+								key : "09280de6d90e58415a5", // for *.*.12.100
 
-				function playLocalFile(video) {
-					var optData = uid + video.id;
-					$f("pdl").setOptData(optData);
-					$f("pdl").playLocal({ pdlUrl: "WVM/" + video.code + ".wvm" });
-				}
-
-				$(function() {
-
-					//unlimited version without logo on the screen
-					flowplayer("pdl", {
-						src: "/static/flowplayer/flowplayer.unlimited-3.2.18.swf",
-						wmode: 'opaque'
-						},
-						{
-							// license key from your account
-//							key : "f7da290f7f1cd17648a",	// for *.appspot.com
-							key : "09280de6d90e58415a5",	// for *.*.12.100
-
-							plugins : {
-								controls : {
-									// enable tooltips for the buttons
-									tooltips : {
-										buttons : true
-									}
-								},
-								widevine : {
-									url : '/static/flowplayer/flowplayer.widevine-3.2.18.swf',
-									//emmUrl : "http://widevine.ezdrm.com/widevine/cypherpc/cgi-bin/GetEMMs-ezdrm.cgi",
-//									emmUrl : "https://hbreeze4ani.appspot.com/api/v1/webdrm/videos",
-									emmUrl : "http://10.11.12.100:8082/api/v1/webdrm/videos",
-									downloadDir : "WVM",
-
-									onLicenseSuccess: function(info) {
-						                console.log("Licence success for {0}, status: '{1}', Time Remaining: {2}".format(info.url, info.status, info.remaining));
-						            },
-						            onLicenseFailed: function(info, error) {
-						                console.log("Licence failed for {0}, status: '{1}', Time Remaining: {2}".format(info.url, info.status, info.remaining));
-						                console.log("Error: " + error);
-						            },
-						            onCopyProtectError: function(info, error) {
-						                console.log("Copy protect error for {0}, status: '{1}', Time Remaining: {2}".format(info.url, info.status, info.remaining));
-						                console.log("Error: " + error);
-						            },
-									onDownloadsReady : function(downloads) {
-										console.log("Download Ready", downloads);
-										if (videoIndex == 0 && videoList.length > 0) {
-											if (need2Start) {
-												need2Start = false;
-												setTimeout(function() {
-													playLocalFile(videoList[videoIndex]);
-												}, 1000);
-											}
+								plugins : {
+									controls : {
+										// enable tooltips for the buttons
+										tooltips : {
+											buttons : true
 										}
 									},
-									onDownloadStart : function(pdlClip) {
-										console.log("Download Started", pdlClip);
-									},
-									onDownloadUpdate : function(progress, totalSize) {
-										console.log(progress / totalSize * 100);
-									},
-									onDownloadPaused : function(pdlClip) {
-										console.log("Pausing Downloading", pdlClip);
-									},
-									onDownloadResume : function(pdlClip) {
-										console.log("Resuming Downloading", pdlClip);
-									},
-									onDownloadComplete : function(pdlClip, totalSize) {
-										console.log("Download Complete", pdlClip+", size = "+totalSize);
-									}
-								}
-							},
-							onLoad : function() {
-								//fake function call for loading the widevine plug-in module
-								console.log("onLoad");
-								if (videoIndex == 0 && videoList.length > 0) {
-									if (need2Start) {
-										need2Start = false;
-										setTimeout(function() {
-// 											$("#divLoading").hide();
-											playLocalFile(videoList[videoIndex]);
-										}, 2000);
-									}
-								}
-								$f("pdl").play();
-							},
-							clip : {
-								provider : "widevine",
-								autoPlay : false,
-								onStart : function() {
-									console.log("onStart: " + videoList[videoIndex].code);
-								},
-								onBegin : function() {
-									console.log("onBegin: " + videoList[videoIndex].code);
-								},
-								onFinish : function() {
-									console.log("onFinish: " + videoList[videoIndex].code);
-									videoIndex = (videoIndex + 1) % videoList.length;
-									playLocalFile(videoList[videoIndex]);
-								}
-							},
-							log : {
-								level : 'warning',
-								filter : 'org.flowplayer.controller.*, org.electroteque.widevine.*, org.flowplayer.slowmotion.*, com.widevine.*, 127.0.0.*'
-							},
-// 							wmode: 'transparent'
-						}).widevine();
+									widevine : {
+										url : '/static/flowplayer/flowplayer.widevine-3.2.18.swf',
+										//emmUrl : "http://widevine.ezdrm.com/widevine/cypherpc/cgi-bin/GetEMMs-ezdrm.cgi",
+										//											emmUrl : "https://hbreeze4ani.appspot.com/api/v1/webdrm/videos",
+										emmUrl : "http://10.11.12.100:8082/api/v1/webdrm/videos",
+										downloadDir : "WVM",
 
+										onLicenseSuccess : function(info) {
+											console
+													.log("Licence success for {0}, status: '{1}', Time Remaining: {2}"
+															.format(
+																	info.url,
+																	info.status,
+																	info.remaining));
+										},
+										onLicenseFailed : function(info, error) {
+											console
+													.log("Licence failed for {0}, status: '{1}', Time Remaining: {2}"
+															.format(
+																	info.url,
+																	info.status,
+																	info.remaining));
+											console.log("Error: " + error);
+										},
+										onCopyProtectError : function(info,
+												error) {
+											console
+													.log("Copy protect error for {0}, status: '{1}', Time Remaining: {2}"
+															.format(
+																	info.url,
+																	info.status,
+																	info.remaining));
+											console.log("Error: " + error);
+										},
+										onDownloadsReady : function(downloads) {
+											console.log("Download Ready",
+													downloads);
+											if (videoIndex == 0
+													&& videoList.length > 0) {
+												if (need2Start) {
+													need2Start = false;
+													setTimeout(
+															function() {
+																playLocalFile(videoList[videoIndex]);
+															}, 1000);
+												}
+											}
+										},
+										onDownloadStart : function(pdlClip) {
+											console.log("Download Started",
+													pdlClip);
+										},
+										onDownloadUpdate : function(progress,
+												totalSize) {
+											console.log(progress / totalSize
+													* 100);
+										},
+										onDownloadPaused : function(pdlClip) {
+											console.log("Pausing Downloading",
+													pdlClip);
+										},
+										onDownloadResume : function(pdlClip) {
+											console.log("Resuming Downloading",
+													pdlClip);
+										},
+										onDownloadComplete : function(pdlClip,
+												totalSize) {
+											console.log("Download Complete",
+													pdlClip + ", size = "
+															+ totalSize);
+										}
+									}
+								},
+								onLoad : function() {
+									//fake function call for loading the widevine plug-in module
+									console.log("onLoad");
+									if (videoIndex == 0 && videoList.length > 0) {
+										if (need2Start) {
+											need2Start = false;
+											setTimeout(
+													function() {
+														$("#divLoading").hide();
+														playLocalFile(videoList[videoIndex]);
+													}, 2000);
+										}
+									}
+									$f("pdl").play();
+								},
+								clip : {
+									provider : "widevine",
+									autoPlay : false,
+									onStart : function() {
+										console.log("onStart: "
+												+ videoList[videoIndex].code);
+									},
+									onBegin : function() {
+										console.log("onBegin: "
+												+ videoList[videoIndex].code);
+									},
+									onFinish : function() {
+										console.log("onFinish: "
+												+ videoList[videoIndex].code);
+										videoIndex = (videoIndex + 1)
+												% videoList.length;
+										playLocalFile(videoList[videoIndex]);
+									}
+								},
+								log : {
+									level : 'warning',
+									filter : 'org.flowplayer.controller.*, org.electroteque.widevine.*, org.flowplayer.slowmotion.*, com.widevine.*, 127.0.0.*'
+								},
+							}).widevine();
+					} else {
+						$("#divRecommendWidevineDownload").show();
+					}
+				} else {
+					$("#divRecommendFlashDownload").show();
+				}
+			});
+
+			function isFlashEnabled() {
+				var hasFlash = false;
+				try {
+					var axObj = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+					if (axObj)
+						hasFlash = true;
+				} catch (e) {
+					if (navigator.mimeTypes["application/x-shockwave-flash"] != undefined)
+						hasFlash = true;
+				}
+				return hasFlash;
+			}
+			
+			function isWidevineEnabled() {
+				var hasWidevine = false;
+				try {
+					var axObj = new ActiveXObject('npwidevinemediaoptimizer.WidevineMediaTransformerPlugin');
+					if (axObj)
+						hasWidevine = true;
+				} catch (e) {
+					if (navigator.mimeTypes["application/x-widevinemediaoptimizer"] != undefined)
+						hasWidevine = true;
+				}
+				return hasWidevine;
+			}
+
+			// 				function initSize() {
+			// 					window.resizeTo(960 + 8 + 8, 540 + 55 + 8);
+			// 				}
+
+			var need2Start = true;
+			var uid = ",uid:5398744128290816-5707274949492736,cid:";
+			var videoList = [ {
+				"id" : 4507668974665728,
+				"code" : "b0158aako"
+			}, {
+				"id" : 4574579330646016,
+				"code" : "g0015aako"
+			}, {
+				"id" : 4650786814427136,
+				"code" : "j0013aako"
+			}, {
+				"id" : 4804129360707584,
+				"code" : "b0061abko"
+			} ];
+			var videoIndex = 0;
+			var baseUrl = "https://storage.googleapis.com/hbreeze4ani.appspot.com/videos/";
+
+			function playLocalFile(video) {
+				var optData = uid + video.id;
+				$f("pdl").setOptData(optData);
+				$f("pdl").playLocal({
+					pdlUrl : "WVM/" + video.code + ".wvm"
 				});
-			</script>
+			}
+		</script>
 
 		<br clear="all" />
 	</div>

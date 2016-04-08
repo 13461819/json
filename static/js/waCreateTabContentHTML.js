@@ -104,7 +104,8 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 	var searchHTML = "", beforeLength = "", afterLength = "", subSearchHTML = "";
 	var title = "", id = "";
 	var count = 0, length = 0;
-	var searchWord = $("input#searchText").val();
+	var searchWord = $("input#searchText").val().toLowerCase();
+	var searchWordIndex;
 	if(searchWord == "") {
 		$("#accordion_s").html("");
 		return;
@@ -127,7 +128,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 			
 			i + 
 			
-			'" class="arrow glyphicon glyphicon-plus-sign"></span>' + 
+			'" class="arrow glyphicon glyphicon-minus-sign"></span>' + 
 			
 			categories[i] +
 				
@@ -142,12 +143,13 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 				
 				i + 
 				
-				'" class="panel-collapse collapse">' + 
+				'" class="panel-collapse collapse in" aria-expanded="true">' + 
 				'<div class="list-group">';
 					length = videos[i].length;
 					for( var j = length; j-- ;) {
-						title = videos[i][j].title;
-						if( -1 < title.indexOf(searchWord)) {
+						title = videos[i][j].title.toLowerCase();
+						searchWordIndex = title.indexOf(searchWord);
+						if( -1 < searchWordIndex) {
 							count++;
 							id = videos[i][j].id;
 							subSearchHTML += 
@@ -165,10 +167,19 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 								'" class="img-responsive">' +
 								'</div>' +
 								'<div class="col-sm-8">' +
-								'<div class="row hb-video-title">' + 
+								'<div class="row hb-video-title">';
 								
-								videos[id].title + 
+								for (var kk = 0; kk < videos[id].title.length; kk++) {
+									if (kk == searchWordIndex) {
+										subSearchHTML += '<span style="background-color: yellow">';
+									}
+									if (kk == (searchWordIndex + searchWord.length)) {
+										subSearchHTML += '</span>';
+									}
+									subSearchHTML += videos[id].title[kk];
+								}
 								
+								subSearchHTML +=
 								'</div>' +
 								'<div class="row hb-video-time">' +
 								

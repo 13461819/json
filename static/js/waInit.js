@@ -12,7 +12,7 @@ var categories = [
                   '진단적 술기',
                   '질병증상'
                   ];
-var videos_length = 12; // 카테고리의 갯수
+var videos_length = 0; // 카테고리의 갯수
 var videos = []; // 처음 12개의 배열은 2차원 배열이며 각각의 배열은 카테고리별 비디오 리스트가 있다.
 				 // 나머지 배열은 비디오 ID를 이용하여 HashMap으로 사용
 var downloadedVideos = [ {
@@ -118,7 +118,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzA3Mjc0OTQ5NDkyNzM2OmhqOVNkamcwcktrZEZ0a3g=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NjU2Nzc0NzI0MDI2MzY4OkNuTFVndjN3UXVDRVJlV2g=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -342,6 +342,7 @@ function getSpecialties() {
 
 function createVideos() { // 카테고리의 갯수만큼 첫 12개의 인덱스를 2차원으로 만든다.
 	console.log('createVideos');
+	videos_length = 12;
 	for( var i = videos_length; i-- ; ) {
 		videos[i] = [];
 	}
