@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>EMR Test2</title>
+<style>
+#apiList {position: fixed;left: 120px;top: 50px;}
+#btnAPI {position: fixed;left: 590px;top: 500px;font-size: 50px;}
+#lblInput {position: fixed;left: 180px;font-size: 70px;top: 90px;}
+#lblOutput {position: fixed;left: 820px;font-size: 70px;top: 90px;}
+#inputForm {position: fixed;left: 20px;top: 180px;height: 700px;width: 500px;border: 1px solid black;padding: 10px;font-size: 20px;overflow: auto;}
+#outputForm {position: fixed;left: 700px;top: 180px;height: 700px;width: 500px;border: 1px solid black;padding: 10px;font-size: 20px;overflow: auto;}
+</style>
+</head>
+<body>
+인터넷 옵션 - 보안탭 - 사용자 지정 수준 - 밑에서 45% 지점 도메인 간의 데이터 원본 액세스 사용 - 확인
+<select id="apiList" onchange="apiListChange()">
+	<option selected="selected" disabled="disabled">API를 선택하세요.</option>
+	<optgroup label="의료기관">
+		<option value="emr_idR">정보 조회</option>
+		<option value="register">사용 등록</option>
+		<option value="emr_idU">의료기관 정보 수정</option>
+		<option value="emr_id/unregister">사용 해지</option>
+	</optgroup>
+	<optgroup label="전화번호 인증">
+		<option value="request">전화번호 인증을 위한 인증번호 전송</option>
+		<option value="verify">인증번호 검증</option>
+	</optgroup>
+	<optgroup label="관리자">
+		<option value="emr_id/register">관리자 가입</option>
+		<option value="emr_id/user_id/upload_urlG">의료기관 대표 Image 업로드 URL 가져오기</option>
+		<option value="emr_id/user_id/upload_urlP">의료기관 대표 Image 업로드 하기</option>
+	</optgroup>
+	<optgroup label="사용자">
+		<option value="emr_id/find">사용자 가입 여부 조회</option>
+		<option value="emr_id/accounts">사용자 가입</option>
+		<option value="emr_id/user_idR">사용자 정보 조회</option>
+		<option value="emr_id/user_idU">사용자 정보 수정</option>
+		<option value="emr_id/user_id/picture">사용자 Profile 관리</option>
+	</optgroup>
+	<optgroup label="token update">
+		<option value="emr_id/update">의료 기관 Token 정보 Update</option>
+		<option value="emr_id/user_id/update">사용자 Token 정보 Update</option>
+	</optgroup>
+	<optgroup label="video 조회">
+		<option value="videos">설명 Animation List 조회</option>
+		<option value="topics">주제별 묶음 Video List 조회</option>
+	</optgroup>
+	<optgroup label="의료기관 MyList">
+		<option value="emr_id/mylistsR">의료 기관 My List 조회</option>
+		<option value="emr_id/mylistsC">의료 기관 My List 생성</option>
+		<option value="emr_id/mylistsU">의료 기관 My List 수정</option>
+		<option value="emr_id/mylistsD">의료 기관 My List 삭제</option>
+	</optgroup>
+	<optgroup label="사용자 MyList">
+		<option value="emr_id/user_id/mylistsR">사용자 My List 조회</option>
+		<option value="emr_id/user_id/mylistsC">사용자 My List 생성</option>
+		<option value="emr_id/user_id/mylistsU">사용자 My List 수정</option>
+		<option value="emr_id/user_id/mylistsD">사용자 My List 삭제</option>
+	</optgroup>
+	<optgroup label="발행">
+		<option value="emr_id/send">설명처방 발행</option>
+	</optgroup>
+	<optgroup label="동영상 재생">
+		<option value="emr_id/play/video_id">Play Animation within Web Browser</option>
+	</optgroup>
+</select>
+<button id="btnAPI" onclick="callAPI()">→</button>
+<label id="lblInput">INPUT</label>
+<div id="inputForm"></div>
+<label id="lblOutput">OUTPUT</label>
+<div id="outputForm"></div>
+<script>
+var emr_id = "5519548371435520"; // emr 아이디
+var emr_api_key = "dJYkicBYJk22CBTi4gRxji18dbUDfn6B"; // emr 비밀번호
+var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
+var user_id = "6012129580679168"; // user 아이디
+var user_api_key = "im7h9mhejN7fPnDoyvyg0aMTBtjmqGNZ"; // user 비밀번호
+var smsId = "";
+var url = "http://10.11.12.100:8081/emr/";
+var urlPhone = "http://10.11.12.100:8081/emr/";
+var emr_mylist_id = "6348855016685568";
+var user_mylist_id = "5222955109842944";
+
+// var emr_id = "5759522421342208"; // emr 아이디
+// var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
+// var reg_key = "Kq3vHgpeKOV8orIW"; // 요양기관 최초 등록을 위한 초대코드
+// var user_id = "5635093192245248"; // user 아이디
+// var user_api_key = "74HgEPr1bumOIMTIEkJw6oteVh3zKnOo"; // user 비밀번호
+// var smsId = "5283823117926400"; // 전화번호 인증용 아이디
+// var url = "https://test-dot-hbreeze4ani.appspot.com/emr/";
+// var urlPhone = url;
+
+var select = document.getElementById("apiList");
+var method = "";
+var xhr = new XMLHttpRequest();
+
+function getToken(id, api_key) {
+	return "Basic " + btoa(id + ":" + api_key);
+}
+
+function apiListChange() {
+	document.getElementById("inputForm").innerHTML = "";
+	method = select.options[select.selectedIndex].value;
+	switch (method) {
+	case "emr_idR":
+		emr_idRForm();
+		break;
+	case "emr_idU":
+		emr_idUForm();
+		break;
+	case "register":
+		registerForm();
+		break;
+	case "emr_id/unregister":
+		unregisterForm();
+		break;
+	case "request":
+		requestForm();
+		break;
+	case "verify":
+		verifyForm();
+		break;
+	case "emr_id/register":
+		emr_idRegisterForm();
+		break;
+	case "emr_id/user_id/upload_urlG":
+		emr_idUser_idUpload_urlRForm();
+		break;
+	case "emr_id/user_id/upload_urlP":
+		emr_idUser_idUpload_urlCForm();
+		break;
+	case "emr_id/find":
+		emr_idFindForm();
+		break;
+	case "emr_id/accounts":
+		emr_idAccountsForm();
+		break;
+	case "emr_id/user_idR":
+		emr_idUser_idRForm();
+		break;
+	case "emr_id/user_idU":
+		emr_idUser_idUForm();
+		break;
+	case "emr_id/user_id/picture":
+		emr_idUser_idPictureForm();
+		break;
+	case "emr_id/update":
+		emr_idUpdateForm();
+		break;
+	case "emr_id/user_id/update":
+		emr_idUser_idUpdateForm();
+		break;
+	case "videos":
+		videosForm();
+		break;
+	case "topics":
+		topicsForm();
+		break;
+	case "emr_id/mylistsR":
+		emr_idMylistsRForm();
+		break;
+	case "emr_id/mylistsC":
+		emr_idMylistsCForm();
+		break;
+	case "emr_id/mylistsU":
+		emr_idMylistsUForm();
+		break;
+	case "emr_id/mylistsD":
+		emr_idMylistsDForm();
+		break;
+	case "emr_id/user_id/mylistsR":
+		emr_idUser_idMylistsRForm();
+		break;
+	case "emr_id/user_id/mylistsC":
+		emr_idUser_idMylistsCForm();
+		break;
+	case "emr_id/user_id/mylistsU":
+		emr_idUser_idMylistsUForm();
+		break;
+	case "emr_id/user_id/mylistsD":
+		emr_idUser_idMylistsDForm();
+		break;
+	case "emr_id/send":
+		emr_idSendForm();
+		break;
+	case "emr_id/play/video_id":
+		emr_idPlayVideo_idForm();
+		break;
+	default:
+		break;
+	}
+}
+
+function callAPI() {
+	method = select.options[select.selectedIndex].value;
+	switch (method) {
+	case "emr_idR":
+		emr_idR();
+		break;
+	case "emr_idU":
+		emr_idU();
+		break;
+	case "register":
+		register();
+		break;
+	case "emr_id/unregister":
+		unregister();
+		break;
+	case "request":
+		request();
+		break;
+	case "verify":
+		verify();
+		break;
+	case "emr_id/register":
+		emr_idRegister();
+		break;
+	case "emr_id/user_id/upload_urlG":
+		emr_idUser_idUpload_urlR();
+		break;
+	case "emr_id/user_id/upload_urlP":
+		emr_idUser_idUpload_urlC();
+		break;
+	case "emr_id/find":
+		emr_idFind();
+		break;
+	case "emr_id/accounts":
+		emr_idAccounts();
+		break;
+	case "emr_id/user_idR":
+		emr_idUser_idR();
+		break;
+	case "emr_id/user_idU":
+		emr_idUser_idU();
+		break;
+	case "emr_id/user_id/picture":
+		emr_idUser_idPicture();
+		break;
+	case "emr_id/update":
+		emr_idUpdate();
+		break;
+	case "emr_id/user_id/update":
+		emr_idUser_idUpdate();
+		break;
+	case "videos":
+		videos();
+		break;
+	case "topics":
+		topics();
+		break;
+	case "emr_id/mylistsR":
+		emr_idMylistsR();
+		break;
+	case "emr_id/mylistsC":
+		emr_idMylistsC();
+		break;
+	case "emr_id/mylistsU":
+		emr_idMylistsU();
+		break;
+	case "emr_id/mylistsD":
+		emr_idMylistsD();
+		break;
+	case "emr_id/user_id/mylistsR":
+		emr_idUser_idMylistsR();
+		break;
+	case "emr_id/user_id/mylistsC":
+		emr_idUser_idMylistsC();
+		break;
+	case "emr_id/user_id/mylistsU":
+		emr_idUser_idMylistsU();
+		break;
+	case "emr_id/user_id/mylistsD":
+		emr_idUser_idMylistsD();
+		break;
+	case "emr_id/send":
+		emr_idSend();
+		break;
+	case "emr_id/play/video_id":
+		emr_idPlayVideo_id();
+		break;
+	default:
+		break;
+	}
+}
+
+function emr_idRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idR() {
+	var emr_id = document.getElementById("emr_id").value;
+	xhr.open("GET", url + emr_id, true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　name: <input type="name" id="name"><br><br>' +
+		'　　h_code: <input type="name" id="h_code"><br><br>' +
+		'　　team: <input type="name" id="team"><br><br>' +
+		'　　email: <input type="email" id="email"><br><br>';
+}
+
+function emr_idU() {
+	var name = document.getElementById("name").value;
+	var h_code = document.getElementById("h_code").value;
+	var team = document.getElementById("team").value;
+	var email = document.getElementById("email").value;
+	var data = {};
+	if (name) {
+		data.name = name;
+	}
+	if (h_code) {
+		data.h_code = h_code;
+	}
+	if (team) {
+		data.team = team;
+	}
+	if (email) {
+		data.email = email;
+	}
+	xhr.open("PUT", url + emr_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function registerForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + 'register<br><br>' +
+		'data: <br><br>' +
+		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　reg_key: <input type="text" id="reg_key" value="' + reg_key + '">';
+}
+
+function register() {
+	var data = {
+		"email" : document.getElementById("email").value,
+		"reg_key" : document.getElementById("reg_key").value
+	};
+	xhr.open("PUT", url + "register", true);
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			emr_id = JSON.parse(xhr.responseText).emr_id;
+			emr_api_key = JSON.parse(xhr.responseText).api_key;
+			confirmRegister();
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function confirmRegister() {
+	xhr.open("PUT", url + emr_id + "/confirm", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function unregisterForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/unregister<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: none';
+}
+
+function unregister() {
+	var emr_id = document.getElementById("emr_id").value;
+	xhr.open("PUT", url + emr_id + "/unregister", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function requestForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + urlPhone + 'request<br><br>' +
+		'data: <br><br>' +
+		'　　type: <input type="text" id="type" value="Pro"><br><br>' +
+		'　　country: <input type="text" id="country" value="82"><br><br>' +
+		'　　mdn: <input type="text" id="mdn" value="01049334688"><br><br>' +
+		'　　<input type="checkbox" id="checkAccount" checked="checked"><label for="checkAccount">전화번호 중복검사</label>';
+}
+
+function request() {
+	var data = {
+		"type": document.getElementById("type").value,
+		"country": document.getElementById("country").value,
+		"mdn": document.getElementById("mdn").value,
+		"checkAccount": document.getElementById("checkAccount").checked
+	};
+	xhr.open("POST", urlPhone + "request", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			smsId = JSON.parse(xhr.responseText).smsId;
+			select.value = "verify";
+			verifyForm();
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function verifyForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + urlPhone + 'request<br><br>' +
+		'data: <br><br>' +
+		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn"><br><br>' +
+		'　　token: <input type="text" id="token">';
+}
+
+function verify() {
+	var data = {
+		"smsId": document.getElementById("smsId").value,
+		"msIsdn": document.getElementById("msIsdn").value,
+		"token": document.getElementById("token").value
+	};
+	xhr.open("PUT", urlPhone + "request", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+// 			select.value = "emr_id/register";
+// 			emr_idRegisterForm();
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idRegisterForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/register<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　country: <input type="text" id="country" value="KR"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="821049334688"><br><br>' +
+		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
+		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
+		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>' +
+		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
+		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　password: <input type="text" id="password" value="00000000"><br><br>';
+}
+
+function emr_idRegister() {
+	var data = {
+		"country": document.getElementById("country").value,
+		"msIsdn": document.getElementById("msIsdn").value,
+		"nickName": document.getElementById("nickName").value,
+		"profession": document.getElementById("profession").value,
+		"specialty": document.getElementById("specialty").value,
+		"license": document.getElementById("license").value,
+		"smsId": document.getElementById("smsId").value,
+		"email": document.getElementById("email").value,
+		"password": document.getElementById("password").value
+	};
+	xhr.open("POST", url + emr_id + "/register", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			user_id = JSON.parse(xhr.responseText).user_id;
+			user_api_key = JSON.parse(xhr.responseText).api_key;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idUpload_urlRForm() {
+	var form = new FormData;
+	console.log(form);
+	form.append('df','zzd');
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/upload_url<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idUpload_urlR() {
+	xhr.open("GET", url + emr_id + "/" + user_id + "/upload_url", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			select.value = "emr_id/user_id/upload_urlP";
+			emr_idUser_idUpload_urlCForm(JSON.parse(xhr.responseText).upload_url);
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idUpload_urlCForm(upload_url) {
+	document.getElementById("inputForm").innerHTML = 
+		'<form action="' + upload_url + '" method="POST" enctype="multipart/form-data">' +
+			'Upload File: <input type="file" id="file" name="file"><br><br>' +
+			'<input type="submit" name="submit" value="Submit">' +
+		'</form>';
+		
+// 	document.getElementById("inputForm").innerHTML =
+// 		'type: "POST"<br><br>' +
+// 		'url: <span id="upload_url">' + upload_url + '</span><br><br>' +
+// 		'data:<br><br>' +
+// 		'　　file: <input type="file" id="file" name="file">' +
+// 		'<button onclick="emr_idUser_idUpload_urlC()">전송</button>';
+}
+
+function emr_idUser_idUpload_urlC() {
+ 	var upload_url = document.getElementById("upload_url").innerHTML;
+	var file = document.getElementById("file").files[0];
+	
+	xhr.open("POST", upload_url, true);
+	xhr.upload.onprogress = function(e) {
+		console.log(e.loaded);
+		console.log(e.total);
+	}
+	xhr.onload = function() {
+		alert('upload complete');
+	}
+	var formData = new FormData();
+	formData.append('title', file.name);
+	formData.append('img', file);
+	console.log(formData['title']);
+	console.log(formData['img']);
+	xhr.send(formData);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			user_id = JSON.parse(xhr.responseText).user_id;
+			user_api_key = JSON.parse(xhr.responseText).api_key;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idFindForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/find?msIsdn=&lt;msIsdn:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn"><br><br>' +
+		'data: none';
+}
+
+function emr_idFind() {
+	var msIsdn = document.getElementById("msIsdn").value;
+	
+	xhr.open("GET", url + emr_id + "/find?msIsdn=" + msIsdn, true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idAccountsForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/register<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　country: <input type="text" id="country" value="KR"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="821049334688"><br><br>' +
+		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
+		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
+		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>' +
+		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
+		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　password: <input type="text" id="password" value="00000000"><br><br>';
+}
+
+function emr_idAccounts() {
+	var data = {
+		"country": document.getElementById("country").value,
+		"msIsdn": document.getElementById("msIsdn").value,
+		"nickName": document.getElementById("nickName").value,
+		"profession": document.getElementById("profession").value,
+		"specialty": document.getElementById("specialty").value,
+		"license": document.getElementById("license").value,
+		"smsId": document.getElementById("smsId").value,
+		"email": document.getElementById("email").value,
+		"password": document.getElementById("password").value
+	};
+	xhr.open("POST", url + emr_id + "/accounts", true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			user_id = JSON.parse(xhr.responseText).user_id;
+			user_api_key = JSON.parse(xhr.responseText).api_key;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idR() {
+	xhr.open("GET", url + emr_id + "/" + user_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
+		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
+		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>';
+}
+
+function emr_idUser_idU() {
+	var data = {
+		"nickName": document.getElementById("nickName").value,
+		"profession": document.getElementById("profession").value,
+		"specialty": document.getElementById("specialty").value,
+		"license": document.getElementById("license").value,
+	};
+	xhr.open("PUT", url + emr_id + "/" + user_id, true);
+	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.send(JSON.stringify(data)); 
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idPictureForm() {
+	
+}
+
+function emr_idUser_idPicture() {
+	
+}
+
+function emr_idUpdateForm() {
+	
+}
+
+function emr_idUpdate() {
+	
+}
+
+function emr_idUser_idUpdateForm() {
+	
+}
+
+function emr_idUser_idUpdate() {
+	
+}
+
+function videosForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + 'videos<br><br>' +
+		'data: none';
+}
+
+function videos() {
+	var videos = {};
+	xhr.open("GET", url + "videos", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function topicsForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + 'topics<br><br>' +
+		'data: none';
+}
+
+function topics() {
+	var topics = {};
+	xhr.open("GET", url + "topics", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMylistsRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylist<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idMylistsR() {
+	xhr.open("GET", url + emr_id + "/mylists", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMylistsCForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylists<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　name: <input type="text" id="name"><br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idMylistsC() {
+	var name = document.getElementById("name").value;
+	var data = {
+		"name": name
+	};
+ 	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("POST", url + emr_id + "/mylists", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMylistsUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id" value="' + emr_mylist_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　name: <input type="text" id="name"><br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idMylistsU() {
+	var name = document.getElementById("name").value;
+	var data = {
+		"name": name,
+	};
+	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("PUT", url + emr_id + "/mylists/" + emr_mylist_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMylistsDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "DELETE"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id" value="' + emr_mylist_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idMylistsD() {
+	xhr.open("DELETE", url + emr_id + "/mylists/" + emr_mylist_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idMylistsRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idMylistsR() {
+	xhr.open("GET", url + emr_id + "/" + user_id + "/mylists", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idMylistsCForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　name: <input type="text" id="name"><br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idUser_idMylistsC() {
+	var name = document.getElementById("name").value;
+	var data = {
+		"name": name
+	};
+	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("POST", url + emr_id + "/" + user_id + "/mylists", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idMylistsUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id" value="' + user_mylist_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　name: <input type="text" id="name"><br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idUser_idMylistsU() {
+	var name = document.getElementById("name").value;
+	var data = {
+		"name": name
+	};
+	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("PUT", url + emr_id + "/" + user_id + "/mylists/" + user_mylist_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idMylistsDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "DELETE"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id" value="' + user_mylist_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idMylistsD() {
+	xhr.open("DELETE", url + emr_id + "/" + user_id + "/mylists/" + user_mylist_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idSendForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/send' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data:<br><br>' +
+		'　　receivers(cc): <input type="text" id="cc" value="82,82,82"> ( "," 로 구분)<br><br> ' +
+		'　　receivers(mdn): <input type="text" id="mdn" value="01049334688,01012345678,01098765432"> ( "," 로 구분)<br><br> ' +
+		'　　receivers(email): <input type="text" id="email" value="jeibi@hichar.net, dhkim@hichart.net"> ( "," 로 구분)<br><br> ' +
+		'　　videos: <input type="text" id="videos" value="6341983069011968,6025323720212480,5950556929523712,5040161301725184,4859841394769920"> ( "," 로 구분)';
+}
+
+function emr_idSend() {
+	var data = {};
+	var receivers = [];
+	var videos = document.getElementById("videos").value.replace(/\s+/g, '').split(",");
+	var cc = document.getElementById("cc").value.replace(/\s+/g, '').split(",");
+	var mdn = document.getElementById("mdn").value.replace(/\s+/g, '').split(",");
+	var email = document.getElementById("email").value.replace(/\s+/g, '').split(",");
+	for (var i = 0; i < cc.length; i++) {
+		receivers[i] = {
+			"cc": cc[i],
+			"mdn": mdn[i]
+		}
+	}
+	for (var i = 0; i < email.length; i++) {
+		receivers.push({
+			"email": email[i]
+		});
+	}
+	for (var i = 0; i < videos.length; i++) {
+		videos[i] = parseInt(videos[i], 10);
+	}	
+	data.receivers = receivers;
+ 	data.videos = videos;
+ 	console.log(data);
+ 	xhr.open("POST", url + emr_id + "/send", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idPlayVideo_idForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/play/&lt;video_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　video_id: <input type="text" id="video_id"><br><br>' +
+		'data: none';
+}
+
+function emr_idPlayVideo_id(){
+	var video_id = document.getElementById("video_id").value;
+		
+	document.getElementById("outputForm").innerHTML = 
+		'<iframe src="' + url + emr_id + '/play/' + video_id + '?width=500&height=281" style="width:100%;height:100%"></iframe>';
+}
+</script>
+</body>
+</html>

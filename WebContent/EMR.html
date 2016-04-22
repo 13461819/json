@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EMR Test</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+body {
+	padding-left: 20px;
+}
+#title {
+	position: fixed;
+	left: 400px;
+	top: 20px;
+	font-size: 30px;
+}
+
+#content {
+	position: fixed;
+	left: 400px;
+	top: 70px;
+	height: 800px;
+	right: 10px;
+	border: 1px solid black;
+	padding: 10px;
+	font-size: 20px;
+	overflow: hidden;
+}
+
+</style>
+</head>
+<body><br>
+<button onclick="checkGroup()">의료 기관(병원) 가입 여부 조회</button><br><br>
+<select>
+	<option onclick="registerForm()">의료 기관 정보 조회</option>
+	<option onclick="registerForm()">의료 기관 사용등록</option>
+	<option onclick="unregisterForm()">의료 기관 사용해지</option>
+</select><br><br>
+<!-- <button onclick="signUpGroupForm()">의료 기관 가입 관리 (+관리자)</button><br><br> -->
+<button onclick="registerManagerForm()">의료 기관 내 관리자 가입</button><br><br>
+<button onclick="checkAccounts()">의료 기관 내 사용자 가입 여부 조회</button><br><br>
+<button onclick="accountsForm()">의료 기관 내 사용자 가입</button><br><br>
+<button onclick="manageBanner()">의료 기관 대표 Image 및 이름 관리 (관리자 계정)</button><br><br>
+<button>의료 기관 내 사용자 정보 관리</button><br><br>
+<button>의료 기관 내 사용자 Profile Image 관리</button><br><br>
+<button onclick="validSMSForm()">전화 번호 인증을 위한 인증 번호 전송</button><br><br>
+<button>의료 기관 Token 정보 Update</button><br><br>
+<button>사용자 Token 정보 Update</button><br><br>
+<button onclick="getVideos()">설명 Animation List 조회</button><br><br>
+<button onclick="getTopics()">주제별 묶음 Video List 조회</button><br><br>
+<button>전공 정보 조회</button><br><br>
+<button>직종 정보 조회</button><br><br>
+<button>의료 기관 Bookmark 관리</button><br><br>
+<button>사용자 Bookmark 관리</button><br><br>
+<button>사용자 My List 관리</button><br><br>
+<button>설명 처방 발행</button><br><br>
+<button>Play Animation within Web Browser</button>
+<div id="title"></div>
+<div id="content">
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+<script>
+var url = "http://10.11.12.100:8081/emr/";
+var urlPhone = "http://10.11.12.100:8082/emr/";
+var emr_id = "6123180255084544";
+var user_id = "";
+var token = "Basic " + btoa("6123180255084544:AJCiQyiwnbeJHrjryDFBE1ExmbaWyCGH");
+var api_key = "AJCiQyiwnbeJHrjryDFBE1ExmbaWyCGH";
+
+function checkGroup() {
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "check/group/01049334688",
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + message.statusText);
+		}
+	});
+}
+
+function registerForm() {
+	$("#title").html("");
+	$("#content").html(
+		'email: <input type="text" id="email"><br><br>' +
+		'reg_key: <input type="text" id="reg_key"><br><br>' +
+		'<button onclick="register()">의료 기관 사용등록</button>');
+}
+
+function register() {
+	var data = {
+		"email" : $("#email").val(),
+		"reg_key" : $("#reg_key").val()
+	}
+	console.log(data);
+	console.log(JSON.stringify(data));
+	$.ajax({
+		type: "PUT",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "register",
+		data: JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + "<br>" + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + "<br>" + message.statusText);
+		}
+	});
+}
+
+function signUpGroupForm() {
+	$("#title").html("");
+	$("#content").html(
+		'h_code: <input type="text" id="h_code"><br><br>' +
+		'h_name: <input type="text" id="h_name"><br><br>' +
+		'ms_isdn: <input type="text" id="ms_isdn">&nbsp;<button onclick="validSMS()">인증하기</button><br><br>' +
+		'nickName: <input type="text" id="nickName"><br><br>' +
+		'profession: <input type="text" id="profession"><br><br>' +
+		'specialty: <input type="text" id="specialty"><br><br>' +
+		'sms_id: <input type="text" id="sms_id"><br><br>' +
+		'user_Code: <input type="text" id="user_Code"><br><br>' +
+		'<button onclick="signUpGroup()">의료기관 가입하기</button>');
+}
+
+function registerManagerForm() {
+	$("#title").html("");
+	$("#content").html(
+		'country: <input type="text" id="country" value="KR"><br><br>' +
+		'msIsdn: <input type="text" id="msIsdn" value="821049334688">&nbsp;<button onclick="validSMS()">인증하기</button><br><br>' +
+		'nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'profession: <input type="text" id="profession" value="101"><br><br>' +
+		'specialty: <input type="text" id="specialty" value="4007"><br><br>' +
+		'license: <input type="text" id="license" value="ASDF4933"><br><br>' +
+		'smsId: <input type="text" id="smsId" value="6296903092273152"><br><br>' +
+		'email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'password: <input type="text" id="password" value="00000000"><br><br>' +
+		'<button onclick="registerManager()">관리자 가입하기</button>');
+}
+
+function registerManager() {
+	var data = {
+			"country": $("#country").val(),
+			"msIsdn": $("#msIsdn").val(),
+			"nickName": $("#nickName").val(),
+			"profession": $("#profession").val(),
+			"specialty": $("#specialty").val(),
+			"license": $("#license").val(),
+			"smsId": $("#smsId").val(),
+			"email": $("#email").val(),
+			"password": $("#password").val()
+		}
+	console.log(data);
+	$.ajax({
+		type: "POST",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + emr_id + "/register",
+		data: JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + "<br>" + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + "<br>" + message.statusText);
+		}
+	});
+}
+
+function validSMS(isPUT) {
+	var data = {};
+	var type = "";
+	
+	if (isPUT) {
+		type = "PUT";
+		data.smsId = $("#sms_id").val();
+		data.msIsdn = $("#country").val() + $("#mdn").val().substr(1, 10);
+		data.token = $("#token").val();
+	} else {
+		type = "POST";
+		data.country = $("#country").val();
+		data.mdn = $("#mdn").val();
+	}
+	
+	console.log(type);
+	console.log(data);
+
+	$.ajax({
+		type: type,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: urlPhone + "request",
+		data: JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + "<br>" + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + "<br>" + message.statusText);
+		}
+	});
+}
+
+function signUpGroup() {
+	var data = {
+		"h_code": $("#h_code").val(),
+		"h_name": $("#h_name").val(),
+		"ms_isdn": $("#ms_isdn").val(),
+		"nickName": $("#nickName").val(),
+		"profession": $("#profession").val(),
+		"specialty": $("#specialty").val(),
+		"sms_id": $("#sms_id").val(),
+		"user_Code": $("#user_Code").val()
+	}
+	console.log(data);
+	
+	$.ajax({
+		type: "POST",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "group",
+		data: JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + "<br>" + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + "<br>" + message.statusText);
+		}
+	});
+}
+
+function checkAccounts() {
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "check/user/" + emr_id,
+		success: function(json) {
+			console.log(json);
+			user_id = json.user_id;
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + message.statusText);
+		}
+	});
+}
+
+function accountsForm() {
+	$("#title").html("");
+	$("#content").html(
+		'emr_id: <input type="text" id="emr_id"><br><br>' +
+		'ms_isdn: <input type="text" id="ms_isdn">&nbsp;<button onclick="validSMS()">인증하기</button><br><br>' +
+		'nickName: <input type="text" id="nickName"><br><br>' +
+		'profession: <input type="text" id="profession"><br><br>' +
+		'specialty: <input type="text" id="specialty"><br><br>' +
+		'license: <input type="text" id="license"><br><br>' +
+		'sms_id: <input type="text" id="sms_id"><br><br>' +
+		'userCode: <input type="text" id="user_Code"><br><br>' +
+		'<button onclick="accounts()">사용자 가입하기</button>');
+}
+
+function accounts() {
+	var data = {
+			"emr_id": $("#h_code").val(),
+			"ms_isdn": $("#ms_isdn").val(),
+			"nickName": $("#nickName").val(),
+			"profession": $("#profession").val(),
+			"specialty": $("#specialty").val(),
+			"license": $("#license").val(),
+			"sms_id": $("#sms_id").val(),
+			"user_Code": $("#user_Code").val()
+		}
+	console.log(data);
+	$.ajax({
+		type: "POST",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + emr_id + "/accounts",
+		data: JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + "<br>" + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + "<br>" + message.statusText);
+		}
+	});
+}
+
+function manageBanner() {
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + emr_id + "/" + user_id + "/banner",
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + message.statusText);
+		}
+	});
+}
+
+function validSMSForm() {
+	$("#title").html("");
+	$("#content").html(
+		'country: <input type="text" id="country"><br><br>' +
+		'mdn: <input type="text" id="mdn">&nbsp;<button onclick="validSMS()">인증하기</button><br><br>' +
+		'sms_id: <input type="text" id="sms_id"><br><br>' +
+		'token: <input type="text" id="token"><br><br>' +
+		'<button onclick="validSMS(true)">인증번호 확인</button>');
+}
+
+function getVideos() {
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "videos",
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + message.statusText);
+		}
+	});
+}
+
+function getTopics() {
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", token)
+		},
+		url: url + "topics",
+		success: function(json) {
+			console.log(json);
+			$("#title").html("성공");
+			if (json.responseText == undefined) {
+				$("#content").html(JSON.stringify(json));
+			} else {
+				$("#content").html(json.responseText + json.statusText);
+			}
+		}
+	}).fail(function (message){
+		console.log(message);
+		$("#title").html("실패");
+		if (message.responseText == undefined) {
+			$("#content").html(JSON.stringify(message));				
+		} else {
+			$("#content").html(message.responseText + message.statusText);
+		}
+	});
+}
+</script>
+</body>
+</html>
