@@ -19,8 +19,13 @@
 	<optgroup label="의료기관">
 		<option value="emr_idR">정보 조회</option>
 		<option value="register">사용 등록</option>
-		<option value="emr_idU">의료기관 정보 수정</option>
+		<option value="emr_idU">의료 기관 정보 수정</option>
 		<option value="emr_id/unregister">사용 해지</option>
+	</optgroup>
+	<optgroup label="가입자 관리">
+		<option value="emr_id/memberG">의료 기관 내 가입자 조회</option>
+		<option value="emr_id/memberD">의료 기관 내 가입자 삭제</option>
+		<option value="emr_id/memberU">의료 기관 내 관리자 변경</option>
 	</optgroup>
 	<optgroup label="전화번호 인증">
 		<option value="request">전화번호 인증을 위한 인증번호 전송</option>
@@ -36,6 +41,7 @@
 		<option value="emr_id/accounts">사용자 가입</option>
 		<option value="emr_id/user_idR">사용자 정보 조회</option>
 		<option value="emr_id/user_idU">사용자 정보 수정</option>
+		<option value="emr_id/user_idD">사용자 EMR 탈퇴</option>
 		<option value="emr_id/user_id/picture">사용자 Profile 관리</option>
 	</optgroup>
 	<optgroup label="token update">
@@ -51,6 +57,13 @@
 		<option value="emr_id/mylistsC">의료 기관 My List 생성</option>
 		<option value="emr_id/mylistsU">의료 기관 My List 수정</option>
 		<option value="emr_id/mylistsD">의료 기관 My List 삭제</option>
+	</optgroup>
+	<optgroup label="사용자 Bookmarks">
+		<option value="emr_id/user_id/bookmarksR">사용자 Bookmark 조회</option>
+		<option value="emr_id/user_id/bookmarksU">사용자 Bookmark 1개 추가</option>
+		<option value="emr_id/user_id/bookmarksMultiU">사용자 Bookmark n개 추가</option>
+		<option value="emr_id/user_id/bookmarksD">사용자 Bookmark 1개 삭제</option>
+		<option value="emr_id/user_id/bookmarksMultiD">사용자 Bookmark n개 삭제</option>
 	</optgroup>
 	<optgroup label="사용자 MyList">
 		<option value="emr_id/user_id/mylistsR">사용자 My List 조회</option>
@@ -77,10 +90,9 @@ var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
 var user_id = "6012129580679168"; // user 아이디
 var user_api_key = "im7h9mhejN7fPnDoyvyg0aMTBtjmqGNZ"; // user 비밀번호
 var smsId = "";
+var msIsdn = "";
 var url = "http://10.11.12.100:8081/emr/";
 var urlPhone = "http://10.11.12.100:8081/emr/";
-var emr_mylist_id = "6348855016685568";
-var user_mylist_id = "5222955109842944";
 
 // var emr_id = "5759522421342208"; // emr 아이디
 // var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
@@ -113,7 +125,16 @@ function apiListChange() {
 		registerForm();
 		break;
 	case "emr_id/unregister":
-		unregisterForm();
+		emr_idUnregisterForm();
+		break;
+	case "emr_id/memberG":
+		emr_idMemberGForm();
+		break;
+	case "emr_id/memberD":
+		emr_idMemberDForm();
+		break;
+	case "emr_id/memberU":
+		emr_idMemberUForm();
 		break;
 	case "request":
 		requestForm();
@@ -142,6 +163,9 @@ function apiListChange() {
 	case "emr_id/user_idU":
 		emr_idUser_idUForm();
 		break;
+	case "emr_id/user_idD":
+		emr_idUser_idDForm();
+		break;
 	case "emr_id/user_id/picture":
 		emr_idUser_idPictureForm();
 		break;
@@ -168,6 +192,21 @@ function apiListChange() {
 		break;
 	case "emr_id/mylistsD":
 		emr_idMylistsDForm();
+		break;
+	case "emr_id/user_id/bookmarksR":
+		emr_idUser_idBookmarksRForm();
+		break;
+	case "emr_id/user_id/bookmarksU":
+		emr_idUser_idBookmarksUForm();
+		break;
+	case "emr_id/user_id/bookmarksMultiU":
+		emr_idUser_idBookmarksMultiUForm();
+		break;
+	case "emr_id/user_id/bookmarksD":
+		emr_idUser_idBookmarksDForm();
+		break;
+	case "emr_id/user_id/bookmarksMultiD":
+		emr_idUser_idBookmarksMultiDForm();
 		break;
 	case "emr_id/user_id/mylistsR":
 		emr_idUser_idMylistsRForm();
@@ -205,7 +244,16 @@ function callAPI() {
 		register();
 		break;
 	case "emr_id/unregister":
-		unregister();
+		emr_idUnregister();
+		break;
+	case "emr_id/memberG":
+		emr_idMemberG();
+		break;
+	case "emr_id/memberD":
+		emr_idMemberD();
+		break;
+	case "emr_id/memberU":
+		emr_idMemberU();
 		break;
 	case "request":
 		request();
@@ -234,6 +282,9 @@ function callAPI() {
 	case "emr_id/user_idU":
 		emr_idUser_idU();
 		break;
+	case "emr_id/user_idD":
+		emr_idUser_idD();
+		break;
 	case "emr_id/user_id/picture":
 		emr_idUser_idPicture();
 		break;
@@ -260,6 +311,21 @@ function callAPI() {
 		break;
 	case "emr_id/mylistsD":
 		emr_idMylistsD();
+		break;
+	case "emr_id/user_id/bookmarksR":
+		emr_idUser_idBookmarksR();
+		break;
+	case "emr_id/user_id/bookmarksU":
+		emr_idUser_idBookmarksU();
+		break;
+	case "emr_id/user_id/bookmarksMultiU":
+		emr_idUser_idBookmarksMultiU();
+		break;
+	case "emr_id/user_id/bookmarksD":
+		emr_idUser_idBookmarksD();
+		break;
+	case "emr_id/user_id/bookmarksMultiD":
+		emr_idUser_idBookmarksMultiD();
 		break;
 	case "emr_id/user_id/mylistsR":
 		emr_idUser_idMylistsR();
@@ -413,7 +479,7 @@ function confirmRegister() {
 	}
 }
 
-function unregisterForm() {
+function emr_idUnregisterForm() {
 	document.getElementById("inputForm").innerHTML = 
 		'type: "PUT"<br><br>' +
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/unregister<br><br>' +
@@ -421,7 +487,7 @@ function unregisterForm() {
 		'data: none';
 }
 
-function unregister() {
+function emr_idUnregister() {
 	var emr_id = document.getElementById("emr_id").value;
 	xhr.open("PUT", url + emr_id + "/unregister", true);
 	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
@@ -441,6 +507,97 @@ function unregister() {
 	}
 }
 
+function emr_idMemberGForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/member<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idMemberG() {
+	xhr.open("GET", url + emr_id + "/member", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMemberDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "DELETE"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/member?member_id=&lt;user_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　member_id: <input type="text" id="member_id"><br><br>' +
+		'data: none';
+}
+
+function emr_idMemberD() {
+	var member_id = document.getElementById("member_id").value;
+	
+	xhr.open("DELETE", url + emr_id + "/member?member_id=" + member_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "성공적으로 삭제하였습니다: " + member_id;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idMemberUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/member?manager_id=&lt;user_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　manager_id: <input type="text" id="manager_id"><br><br>' +
+		'data: none';
+}
+
+function emr_idMemberU() {
+	var manager_id = document.getElementById("manager_id").value;
+	
+	xhr.open("PUT", url + emr_id + "/member?manager_id=" + manager_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "성공";
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
 function requestForm() {
 	document.getElementById("inputForm").innerHTML = 
 		'type: "POST"<br><br>' +
@@ -448,7 +605,7 @@ function requestForm() {
 		'data: <br><br>' +
 		'　　type: <input type="text" id="type" value="Pro"><br><br>' +
 		'　　country: <input type="text" id="country" value="82"><br><br>' +
-		'　　mdn: <input type="text" id="mdn" value="01049334688"><br><br>' +
+		'　　mdn: <input type="text" id="mdn"><br><br>' +
 		'　　<input type="checkbox" id="checkAccount" checked="checked"><label for="checkAccount">전화번호 중복검사</label>';
 }
 
@@ -467,6 +624,7 @@ function request() {
 			console.log(xhr.responseText);
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
 			smsId = JSON.parse(xhr.responseText).smsId;
+			msIsdn = JSON.parse(xhr.responseText).msIsdn;
 			select.value = "verify";
 			verifyForm();
 		} else if (xhr.readyState == 4) {
@@ -486,7 +644,7 @@ function verifyForm() {
 		'url: ' + urlPhone + 'request<br><br>' +
 		'data: <br><br>' +
 		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
-		'　　msIsdn: <input type="text" id="msIsdn"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
 		'　　token: <input type="text" id="token">';
 }
 
@@ -523,14 +681,14 @@ function emr_idRegisterForm() {
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'data: <br><br>' +
 		'　　country: <input type="text" id="country" value="KR"><br><br>' +
-		'　　msIsdn: <input type="text" id="msIsdn" value="821049334688"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
 		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
 		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
 		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
 		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>' +
 		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
 		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
-		'　　password: <input type="text" id="password" value="00000000"><br><br>';
+		'　　password: <input type="password" id="password" value="00000000"><br><br>';
 }
 
 function emr_idRegister() {
@@ -571,14 +729,13 @@ function emr_idUser_idUpload_urlRForm() {
 	form.append('df','zzd');
 	document.getElementById("inputForm").innerHTML = 
 		'type: "GET"<br><br>' +
-		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/upload_url<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/upload_url<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
-		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
 		'data: none';
 }
 
 function emr_idUser_idUpload_urlR() {
-	xhr.open("GET", url + emr_id + "/" + user_id + "/upload_url", true);
+	xhr.open("GET", url + emr_id + "/upload_url", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
 	xhr.onreadystatechange = function() {
@@ -653,7 +810,7 @@ function emr_idFindForm() {
 		'type: "GET"<br><br>' +
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/find?msIsdn=&lt;msIsdn:＼d+&gt;<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
-		'　　msIsdn: <input type="text" id="msIsdn"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
 		'data: none';
 }
 
@@ -685,7 +842,7 @@ function emr_idAccountsForm() {
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'data: <br><br>' +
 		'　　country: <input type="text" id="country" value="KR"><br><br>' +
-		'　　msIsdn: <input type="text" id="msIsdn" value="821049334688"><br><br>' +
+		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
 		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
 		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
 		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
@@ -782,6 +939,36 @@ function emr_idUser_idU() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			console.log(xhr.responseText);
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "DELETE"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data:';
+}
+
+function emr_idUser_idD() {
+	xhr.open("DELETE", url + emr_id + "/" + user_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(); 
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.responseText);
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "EMR에서 사용자 제거 완료";
 		} else if (xhr.readyState == 4) {
 			console.log(xhr.responseText);
 			if (xhr.responseText.responseText == undefined) {
@@ -936,7 +1123,7 @@ function emr_idMylistsUForm() {
 		'type: "PUT"<br><br>' +
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
-		'　　mylist_id: <input type="text" id="mylist_id" value="' + emr_mylist_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id"><br><br>' +
 		'data: <br><br>' +
 		'　　name: <input type="text" id="name"><br><br>' +
 		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
@@ -973,14 +1160,179 @@ function emr_idMylistsDForm() {
 		'type: "DELETE"<br><br>' +
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
-		'　　mylist_id: <input type="text" id="mylist_id" value="' + emr_mylist_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id"><br><br>' +
 		'data: none';
 }
 
 function emr_idMylistsD() {
-	xhr.open("DELETE", url + emr_id + "/mylists/" + emr_mylist_id, true);
+	var mylist_id = document.getElementById("mylist_id").value;
+	
+	xhr.open("DELETE", url + emr_id + "/mylists/" + mylist_id, true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "EMR 의 MyList 삭제 완료";
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idBookmarksRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/bookmarks<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idBookmarksR() {
+	xhr.open("GET", url + emr_id + "/" + user_id + "/bookmarks", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idBookmarksUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/bookmarks/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　video_id: <input type="text" id="video_id">';
+}
+
+function emr_idUser_idBookmarksU() {
+	var data = {};
+	var video_id = document.getElementById("video_id").value;
+
+	xhr.open("PUT", url + emr_id + "/" + user_id + "/bookmarks/" + video_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idBookmarksMultiUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/bookmarks<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idUser_idBookmarksMultiU() {
+	var data = {
+		"videos": []
+	};
+	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("POST", url + emr_id + "/" + user_id + "/bookmarks", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idBookmarksDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "DELETE"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/bookmarks/&lt;mylist_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'　　video_id: <input type="text" id="video_id"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idBookmarksD() {
+	var video_id = document.getElementById("video_id").value;
+	
+	xhr.open("DELETE", url + emr_id + "/" + user_id + "/bookmarks/" + video_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "사용자의 Bookmark 삭제 완료";
+		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idUser_idBookmarksMultiDForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/bookmarks<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: <br><br>' +
+		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
+}
+
+function emr_idUser_idBookmarksMultiD() {
+	var data = {
+		"actions": "delete",
+		"videos": []
+	};
+	var rawVideos = document.getElementById("videos").value;
+ 	if (rawVideos) {
+ 		data.videos = rawVideos.split(",");
+ 	}
+	xhr.open("POST", url + emr_id + "/" + user_id + "/bookmarks", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send(JSON.stringify(data));
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
@@ -1065,7 +1417,7 @@ function emr_idUser_idMylistsUForm() {
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
-		'　　mylist_id: <input type="text" id="mylist_id" value="' + user_mylist_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id"><br><br>' +
 		'data: <br><br>' +
 		'　　name: <input type="text" id="name"><br><br>' +
 		'　　videos: <input type="text" id="videos"> ( "," 로 구분)';
@@ -1103,17 +1455,21 @@ function emr_idUser_idMylistsDForm() {
 		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/mylists/&lt;mylist_id:＼d+&gt;<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
-		'　　mylist_id: <input type="text" id="mylist_id" value="' + user_mylist_id + '"><br><br>' +
+		'　　mylist_id: <input type="text" id="mylist_id"><br><br>' +
 		'data: none';
 }
 
 function emr_idUser_idMylistsD() {
-	xhr.open("DELETE", url + emr_id + "/" + user_id + "/mylists/" + user_mylist_id, true);
+	var mylist_id = document.getElementById("mylist_id").value;
+	
+	xhr.open("DELETE", url + emr_id + "/" + user_id + "/mylists/" + mylist_id, true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status == 204) {
+			document.getElementById("outputForm").innerHTML = "사용자의 MyList 삭제 완료";
 		} else if (xhr.readyState == 4) {
 			console.log(xhr.responseText);
 			if (xhr.responseText.responseText == undefined) {

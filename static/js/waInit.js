@@ -118,7 +118,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NjU2Nzc0NzI0MDI2MzY4OkNuTFVndjN3UXVDRVJlV2g=";
+	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzM0OTc3NDg4NTUxOTM2OmtNOVEweDNpdGJBdXVtc2s=";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
