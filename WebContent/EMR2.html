@@ -88,17 +88,18 @@ var emr_id = "5519548371435520"; // emr 아이디
 var emr_api_key = "dJYkicBYJk22CBTi4gRxji18dbUDfn6B"; // emr 비밀번호
 var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
 var user_id = "6012129580679168"; // user 아이디
-var user_api_key = "im7h9mhejN7fPnDoyvyg0aMTBtjmqGNZ"; // user 비밀번호
+var user_api_key = "s8zVgmbNpU7ZLBYueVpeU1OHkClbEzY9"; // user 비밀번호
 var smsId = "";
 var msIsdn = "";
 var url = "http://10.11.12.100:8081/emr/";
 var urlPhone = "http://10.11.12.100:8081/emr/";
+var expired = "1463385801.0";
 
 // var emr_id = "5759522421342208"; // emr 아이디
 // var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
 // var reg_key = "Kq3vHgpeKOV8orIW"; // 요양기관 최초 등록을 위한 초대코드
-// var user_id = "5635093192245248"; // user 아이디
-// var user_api_key = "74HgEPr1bumOIMTIEkJw6oteVh3zKnOo"; // user 비밀번호
+// var user_id = "5709941587312640"; // user 아이디
+// var user_api_key = "OesS91PfNQ35eKDCUcZIRlJX81JsOG2Y"; // user 비밀번호
 // var smsId = "5283823117926400"; // 전화번호 인증용 아이디
 // var url = "https://test-dot-hbreeze4ani.appspot.com/emr/";
 // var urlPhone = url;
@@ -1012,11 +1013,16 @@ function videosForm() {
 }
 
 function videos() {
+	if (true) {
+		getNewKey();
+		return;
+	}
 	var videos = {};
 	xhr.open("GET", url + "videos", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
 	xhr.onreadystatechange = function() {
+		console.log("12345");
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
 		} else if (xhr.readyState == 4) {
@@ -1500,6 +1506,8 @@ function emr_idSend() {
 	var cc = document.getElementById("cc").value.replace(/\s+/g, '').split(",");
 	var mdn = document.getElementById("mdn").value.replace(/\s+/g, '').split(",");
 	var email = document.getElementById("email").value.replace(/\s+/g, '').split(",");
+	console.log(cc);
+	console.log(email);
 	for (var i = 0; i < cc.length; i++) {
 		receivers[i] = {
 			"cc": cc[i],
@@ -1517,6 +1525,7 @@ function emr_idSend() {
 	data.receivers = receivers;
  	data.videos = videos;
  	console.log(data);
+ 	console.log(JSON.stringify(data));
  	xhr.open("POST", url + emr_id + "/send", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send(JSON.stringify(data));
@@ -1548,6 +1557,47 @@ function emr_idPlayVideo_id(){
 		
 	document.getElementById("outputForm").innerHTML = 
 		'<iframe src="' + url + emr_id + '/play/' + video_id + '?width=500&height=281" style="width:100%;height:100%"></iframe>';
+}
+
+function getNewKey() {
+	xhr.open("GET", url + emr_id + "/" + user_id + "/sessions", true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			confirmNewKey(JSON.parse(xhr.responseText).new_key);
+		} else if (xhr.readyState == 4 && xhr.status != 200) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function confirmNewKey(new_api_key) {
+	console.log(new_api_key);
+	xhr.open("PUT", url + emr_id + "/" + user_id + "/sessions?new_key=" + new_api_key, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			user_api_key = JSON.parse(xhr.responseText).new_key;
+			expired = JSON.parse(xhr.responseText).expired;
+		} else if (xhr.readyState == 4 && xhr.status != 200) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText;
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText
+						+ "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
 }
 </script>
 </body>
