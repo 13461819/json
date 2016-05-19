@@ -77,6 +77,10 @@
 	<optgroup label="동영상 재생">
 		<option value="emr_id/play/video_id">Play Animation within Web Browser</option>
 	</optgroup>
+	<optgroup label="사용자 API Key 관리">
+		<option value="emr_id/user_id/sessionsR">새로운 키 발급</option>
+		<option value="emr_id/user_id/sessionsU">발급 확인</option>
+	</optgroup>
 </select>
 <button id="btnAPI" onclick="callAPI()">→</button>
 <label id="lblInput">INPUT</label>
@@ -84,25 +88,25 @@
 <label id="lblOutput">OUTPUT</label>
 <div id="outputForm"></div>
 <script>
-var emr_id = "5519548371435520"; // emr 아이디
-var emr_api_key = "dJYkicBYJk22CBTi4gRxji18dbUDfn6B"; // emr 비밀번호
-var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
-var user_id = "6012129580679168"; // user 아이디
-var user_api_key = "s8zVgmbNpU7ZLBYueVpeU1OHkClbEzY9"; // user 비밀번호
-var smsId = "";
-var msIsdn = "";
-var url = "http://10.11.12.100:8081/emr/";
-var urlPhone = "http://10.11.12.100:8081/emr/";
+// var emr_id = "5519548371435520"; // emr 아이디
+// var emr_api_key = "dJYkicBYJk22CBTi4gRxji18dbUDfn6B"; // emr 비밀번호
+// var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
+// var user_id = "6012129580679168"; // user 아이디
+// var user_api_key = "s8zVgmbNpU7ZLBYueVpeU1OHkClbEzY9"; // user 비밀번호
+// var smsId = "";
+// var msIsdn = "";
+// var url = "http://10.11.12.100:8081/emr/";
+// var urlPhone = "http://10.11.12.100:8081/emr/";
 var expired = "1463385801.0";
 
-// var emr_id = "5759522421342208"; // emr 아이디
-// var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
-// var reg_key = "Kq3vHgpeKOV8orIW"; // 요양기관 최초 등록을 위한 초대코드
-// var user_id = "5709941587312640"; // user 아이디
-// var user_api_key = "OesS91PfNQ35eKDCUcZIRlJX81JsOG2Y"; // user 비밀번호
-// var smsId = "5283823117926400"; // 전화번호 인증용 아이디
-// var url = "https://test-dot-hbreeze4ani.appspot.com/emr/";
-// var urlPhone = url;
+var emr_id = "5759522421342208"; // emr 아이디
+var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
+var reg_key = "Kq3vHgpeKOV8orIW"; // 요양기관 최초 등록을 위한 초대코드
+var user_id = "5709941587312640"; // user 아이디
+var user_api_key = "OesS91PfNQ35eKDCUcZIRlJX81JsOG2Y"; // user 비밀번호
+var smsId = "5283823117926400"; // 전화번호 인증용 아이디
+var url = "https://test-dot-hbreeze4ani.appspot.com/emr/";
+var urlPhone = url;
 
 var select = document.getElementById("apiList");
 var method = "";
@@ -227,6 +231,12 @@ function apiListChange() {
 	case "emr_id/play/video_id":
 		emr_idPlayVideo_idForm();
 		break;
+	case "emr_id/user_id/sessionsR":
+		emr_idUser_idSessionsRForm();
+		break;
+	case "emr_id/user_id/sessionsU":
+		emr_idUser_idSessionsUForm();
+		break;
 	default:
 		break;
 	}
@@ -345,6 +355,12 @@ function callAPI() {
 		break;
 	case "emr_id/play/video_id":
 		emr_idPlayVideo_id();
+		break;
+	case "emr_id/user_id/sessionsR":
+		emr_idUser_idSessionsR();
+		break;
+	case "emr_id/user_id/sessionsU":
+		emr_idUser_idSessionsU();
 		break;
 	default:
 		break;
@@ -1013,10 +1029,6 @@ function videosForm() {
 }
 
 function videos() {
-	if (true) {
-		getNewKey();
-		return;
-	}
 	var videos = {};
 	xhr.open("GET", url + "videos", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
@@ -1559,14 +1571,25 @@ function emr_idPlayVideo_id(){
 		'<iframe src="' + url + emr_id + '/play/' + video_id + '?width=500&height=281" style="width:100%;height:100%"></iframe>';
 }
 
-function getNewKey() {
+function emr_idUser_idSessionsRForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "GET"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/sessions<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idSessionsR() {
+	var emr_id = document.getElementById("emr_id").value;
+	var user_id = document.getElementById("user_id").value;
+	
 	xhr.open("GET", url + emr_id + "/" + user_id + "/sessions", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
-			confirmNewKey(JSON.parse(xhr.responseText).new_key);
 		} else if (xhr.readyState == 4 && xhr.status != 200) {
 			console.log(xhr.responseText);
 			if (xhr.responseText.responseText == undefined) {
@@ -1578,9 +1601,22 @@ function getNewKey() {
 	}
 }
 
-function confirmNewKey(new_api_key) {
-	console.log(new_api_key);
-	xhr.open("PUT", url + emr_id + "/" + user_id + "/sessions?new_key=" + new_api_key, true);
+function emr_idUser_idSessionsUForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "PUT"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/&lt;user_id:＼d+&gt;/sessions?new_key=new_key<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
+		'　　new_key: <input type="text" id="new_key"><br><br>' +
+		'data: none';
+}
+
+function emr_idUser_idSessionsU() {
+	var emr_id = document.getElementById("emr_id").value;
+	var user_id = document.getElementById("user_id").value;
+	var new_key = document.getElementById("new_key").value;
+	
+	xhr.open("PUT", url + emr_id + "/" + user_id + "/sessions?new_key=" + new_key, true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send();
 	xhr.onreadystatechange = function() {
