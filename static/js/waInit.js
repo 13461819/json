@@ -118,7 +118,7 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTM5ODc0NDEyODI5MDgxNi01NzM0OTc3NDg4NTUxOTM2OmtNOVEweDNpdGJBdXVtc2s=";
+	accounts.token = "Basic NTczMDY1NDYwMzk2ODUxMi01NDQ5MTc5NjI3MjU3ODU2OkliWUtTeWlydzhuZGl0MDFCYlNpaHp3eQ==";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
@@ -130,9 +130,9 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 						createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
 						categorizeVideos(json); // 첫 12개의 인덱스에는 카테고리에 맞게 비디오를 분류해서 2차원 배열을 채운다.
 												// 나머지 인덱스에는 비디오 ID값을 이용해 배열의 인덱스에 [Key: ID] = Value: 비디오 값으로 채운다.
-						for (var ii = 0; ii < downloadedVideos.length; ii++) {
-							videos[downloadedVideos[ii].id].expired_date = videos[downloadedVideos[ii].id].created;
-						}
+						//for (var ii = 0; ii < downloadedVideos.length; ii++) {
+						//	videos[downloadedVideos[ii].id].expired_date = videos[downloadedVideos[ii].id].created;
+						//}
 						sortVideos(); // 첫 12개의 인덱스에 들어있는 카테고리별 비디오만 각각 정렬한다.
 						createRecommendHTML(); //정렬 된 배열을 가지고 HTML코드를 생성한다.
 						//getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
@@ -236,6 +236,7 @@ function getSubMyLists() {
 
 function getTeamTitle() {
 	console.log("getTeamTitle");
+	console.log("getTeamTitle url : " + hbUrl + hbApiPath + "/accounts/" + accounts.userId + "/teams");
 	$.ajax({
 		type: "GET",
 		beforeSend: function(xhr) {

@@ -568,6 +568,15 @@ function onMyListLbtn() {
 	}
 }
 
+function onSearchLbtn() {
+	var accordion_s = $("#accordion_s");
+	if(accordion_s.html() == "" || accordion_s.html() == "<img src=\"/static/img/loading.gif\">") {
+		accordion_s.html("<img src=\"/static/img/loading.gif\">");
+		console.log("I'll make Search HTML now, just one time!")
+		createSearchHTML();
+	}
+}
+
 function closeConfirmDialog() {
 	console.log("closeConfirmDialog");
 	$(".confirm-dialog")

@@ -62,6 +62,9 @@ function getModalSetting(settingName) {
 	case '사용법 안내':
 		settingHTML = getHelp();
 		break;
+	case '사용자 추가':
+		settingHTML = getNewUser();
+		break;
 	default:
 		break;
 	}
@@ -433,6 +436,64 @@ function getHelp() {
 	'</div>' +
 '</div>' +
 '</div>';
+	return settingHTML;
+}
+
+function getNewUser2() {
+	var settingHTML = "";
+	settingHTML += '사용법 안내 - 현재 작성 중입니다.'+
+	'</div>' +
+	'<div class="modal-footer">' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">저장</button>' +
+		'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
+	'</div>' +
+'</div>' +
+'</div>';
+	return settingHTML;
+}
+
+function getNewUser() {
+	var settingHTML = "";
+	settingHTML += 
+				'<table id="newUserTable">' +
+					'<tbody>' +
+					'<tr>' +
+						'<td><label for="input_email">e-mail</label></td>' +
+						'<td colspan="2"><input class="form-control" id="input_email" type="text"></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td><label for="input_nickname">이름</label></td>' +
+						'<td colspan="2"><input class="form-control" id="input_nickname" type="text"></td>' +
+						'<td></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td><label for="input_phone">전화번호</label></td>' +
+						'<td><input class="form-control" id="input_phone" type="text"></td>' +
+						'<td><button type="button" class="btn btn-warning" style="width: 100%" onclick="phoneRequest()">인증번호 요청</button></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td><label for="input_verify">인증번호</label></td>' +
+						'<td><input class="form-control" id="input_verify" type="text" disabled></td>' +
+						'<td><button type="button" class="btn btn-warning" id="button_verify" style="width: 100%" onclick="phoneVerify()" disabled >인증번호 확인</button></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td><label for="input_password">비밀번호</label></td>' +
+						'<td colspan="2"><input class="form-control" id="input_password" type="password"></td>' +
+						'<td></td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td><label for="input_confirmpassword">비밀번호 확인</label></td>' +
+						'<td colspan="2"><input class="form-control" id="input_confirmpassword" type="password"></td>' +
+						'<td></td>' +
+					'</tr>' +
+					'</tbody>' +
+				'</table>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-info" onclick="registerUser()">가입</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
+			'</div>' +
+		'</div>';
 	return settingHTML;
 }
 

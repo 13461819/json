@@ -73,6 +73,7 @@
 	</optgroup>
 	<optgroup label="발행">
 		<option value="emr_id/send">설명처방 발행</option>
+		<option value="emr_id/watch_log/rx_id">설명 처방 시청 이력 조회</option>
 	</optgroup>
 	<optgroup label="동영상 재생">
 		<option value="emr_id/play/video_id">Play Animation within Web Browser</option>
@@ -88,24 +89,26 @@
 <label id="lblOutput">OUTPUT</label>
 <div id="outputForm"></div>
 <script>
-// var emr_id = "5519548371435520"; // emr 아이디
-// var emr_api_key = "dJYkicBYJk22CBTi4gRxji18dbUDfn6B"; // emr 비밀번호
-// var reg_key = ""; // 요양기관 최초 등록을 위한 초대코드
-// var user_id = "6012129580679168"; // user 아이디
-// var user_api_key = "s8zVgmbNpU7ZLBYueVpeU1OHkClbEzY9"; // user 비밀번호
+// var emr_id = "4604754697125888"; // emr 아이디
+// var emr_api_key = "7gS4bi1VfxhllzCna71XaX87O9i47c4t"; // emr 비밀번호
+// var reg_key = "BTstNZU5MbUaq075"; // 요양기관 최초 등록을 위한 초대코드
+// var user_id = "6575079534100480"; // user 아이디
+// var user_api_key = "5cqnIvaYMiKSTJILUU8XvrgY5FdTqFQn"; // user 비밀번호
 // var smsId = "";
 // var msIsdn = "";
 // var url = "http://10.11.12.100:8081/emr/";
 // var urlPhone = "http://10.11.12.100:8081/emr/";
-var expired = "1463385801.0";
+// var expired = "1463385801.0";
 
-var emr_id = "5759522421342208"; // emr 아이디
-var emr_api_key = "SQFcFnzXSQz7vHTVl6Jl5D4DrGm6auiV"; // emr 비밀번호
-var reg_key = "Kq3vHgpeKOV8orIW"; // 요양기관 최초 등록을 위한 초대코드
-var user_id = "5709941587312640"; // user 아이디
-var user_api_key = "OesS91PfNQ35eKDCUcZIRlJX81JsOG2Y"; // user 비밀번호
-var smsId = "5283823117926400"; // 전화번호 인증용 아이디
+var emr_id = "5748418722922496"; // emr 아이디
+var emr_api_key = "ClaCMFAtTRjpilzLhAslDQ9x8lxiT3em"; // emr 비밀번호
+var reg_key = "BlO6SBnFfE3BimIs"; // 요양기관 최초 등록을 위한 초대코드ssssss
+var user_id = "5712018204000256"; // user 아이디
+var user_api_key = "XHRJX1U0ijh3peO06v648BD1eHRAt2LK"; // user 비밀번호
+var smsId = ""; // 전화번호 인증용 아이디
+var msIsdn = "";
 var url = "https://test-dot-hbreeze4ani.appspot.com/emr/";
+//var url = "https://hbreeze4ani.appspot.com/emr/";
 var urlPhone = url;
 
 var select = document.getElementById("apiList");
@@ -227,6 +230,9 @@ function apiListChange() {
 		break;
 	case "emr_id/send":
 		emr_idSendForm();
+		break;
+	case "emr_id/watch_log/rx_id":
+		emr_idWatch_logRx_idForm();
 		break;
 	case "emr_id/play/video_id":
 		emr_idPlayVideo_idForm();
@@ -353,6 +359,9 @@ function callAPI() {
 	case "emr_id/send":
 		emr_idSend();
 		break;
+	case "emr_id/watch_log/rx_id":
+		emr_idWatch_logRx_id();
+		break;
 	case "emr_id/play/video_id":
 		emr_idPlayVideo_id();
 		break;
@@ -448,7 +457,7 @@ function registerForm() {
 		'type: "PUT"<br><br>' +
 		'url: ' + url + 'register<br><br>' +
 		'data: <br><br>' +
-		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　email: <input type="text" id="email" value=""><br><br>' +
 		'　　reg_key: <input type="text" id="reg_key" value="' + reg_key + '">';
 }
 
@@ -699,12 +708,12 @@ function emr_idRegisterForm() {
 		'data: <br><br>' +
 		'　　country: <input type="text" id="country" value="KR"><br><br>' +
 		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
-		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　nickName: <input type="text" id="nickName" value=""><br><br>' +
 		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
 		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
-		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>' +
+		'　　license: <input type="text" id="license" value=""><br><br>' +
 		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
-		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　email: <input type="text" id="email" value=""><br><br>' +
 		'　　password: <input type="password" id="password" value="00000000"><br><br>';
 }
 
@@ -860,12 +869,12 @@ function emr_idAccountsForm() {
 		'data: <br><br>' +
 		'　　country: <input type="text" id="country" value="KR"><br><br>' +
 		'　　msIsdn: <input type="text" id="msIsdn" value="' + msIsdn + '"><br><br>' +
-		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　nickName: <input type="text" id="nickName" value=""><br><br>' +
 		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
 		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
 		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>' +
 		'　　smsId: <input type="text" id="smsId" value="' + smsId + '"><br><br>' +
-		'　　email: <input type="text" id="email" value="dhkim@hichart.net"><br><br>' +
+		'　　email: <input type="text" id="email" value=""><br><br>' +
 		'　　password: <input type="text" id="password" value="00000000"><br><br>';
 }
 
@@ -936,7 +945,7 @@ function emr_idUser_idUForm() {
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'　　user_id: <input type="text" id="user_id" value="' + user_id + '"><br><br>' +
 		'data: <br><br>' +
-		'　　nickName: <input type="text" id="nickName" value="김동현"><br><br>' +
+		'　　nickName: <input type="text" id="nickName" value=""><br><br>' +
 		'　　profession: <input type="text" id="profession" value="101"><br><br>' +
 		'　　specialty: <input type="text" id="specialty" value="4007"><br><br>' +
 		'　　license: <input type="text" id="license" value="ASDF4933"><br><br>';
@@ -950,7 +959,7 @@ function emr_idUser_idU() {
 		"license": document.getElementById("license").value,
 	};
 	xhr.open("PUT", url + emr_id + "/" + user_id, true);
-	xhr.setRequestHeader("Authorization", getToken(emr_id, emr_api_key));
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send(JSON.stringify(data)); 
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
@@ -1502,13 +1511,14 @@ function emr_idUser_idMylistsD() {
 function emr_idSendForm() {
 	document.getElementById("inputForm").innerHTML = 
 		'type: "POST"<br><br>' +
-		'url: ' + url + '&lt;emr_id:＼d+&gt;/send' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/send_rx<br><br>' +
 		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
 		'data:<br><br>' +
-		'　　receivers(cc): <input type="text" id="cc" value="82,82,82"> ( "," 로 구분)<br><br> ' +
-		'　　receivers(mdn): <input type="text" id="mdn" value="01049334688,01012345678,01098765432"> ( "," 로 구분)<br><br> ' +
-		'　　receivers(email): <input type="text" id="email" value="jeibi@hichar.net, dhkim@hichart.net"> ( "," 로 구분)<br><br> ' +
-		'　　videos: <input type="text" id="videos" value="6341983069011968,6025323720212480,5950556929523712,5040161301725184,4859841394769920"> ( "," 로 구분)';
+		'　　receivers(cc): <input type="text" id="cc" value=""> ( "," 로 구분)<br><br> ' +
+		'　　receivers(mdn): <input type="text" id="mdn" value=""> ( "," 로 구분)<br><br> ' +
+		'　　receivers(email): <input type="text" id="email" value=""> ( "," 로 구분)<br><br> ' +
+		'　　videos: <input type="text" id="videos" value=""> ( "," 로 구분)<br><br> ' +
+		'　　comments: <input type="text" id="comments" value=""> (전달 할 메시지)';
 }
 
 function emr_idSend() {
@@ -1536,15 +1546,47 @@ function emr_idSend() {
 	}	
 	data.receivers = receivers;
  	data.videos = videos;
+ 	data.comments = document.getElementById("comments").value;
  	console.log(data);
  	console.log(JSON.stringify(data));
- 	xhr.open("POST", url + emr_id + "/send", true);
+ 	xhr.open("POST", url + emr_id + "/send_rx", true);
 	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
 	xhr.send(JSON.stringify(data));
+	console.log(JSON.stringify(data));
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			document.getElementById("outputForm").innerHTML = xhr.responseText;
+			console.log(xhr.responseText);
 		} else if (xhr.readyState == 4) {
+			console.log(xhr.responseText);
+			if (xhr.responseText.responseText == undefined) {
+				document.getElementById("outputForm").innerHTML = xhr.responseText; 
+			} else {
+				document.getElementById("outputForm").innerHTML = xhr.responseText.responseText + "<br>" + xhr.responseText.statusText
+			}
+		}
+	}
+}
+
+function emr_idWatch_logRx_idForm() {
+	document.getElementById("inputForm").innerHTML = 
+		'type: "POST"<br><br>' +
+		'url: ' + url + '&lt;emr_id:＼d+&gt;/watch_log/&lt;rx_id:＼d+&gt;<br><br>' +
+		'　　emr_id: <input type="text" id="emr_id" value="' + emr_id + '"><br><br>' +
+		'　　rx_id: <input type="text" id="rx_id">';
+}
+
+function emr_idWatch_logRx_id() {
+	var emr_id = document.getElementById("emr_id").value;
+	var rx_id = document.getElementById("rx_id").value;
+	
+	xhr.open("GET", url + emr_id + "/watch_log/" + rx_id, true);
+	xhr.setRequestHeader("Authorization", getToken(user_id, user_api_key));
+	xhr.send();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			document.getElementById("outputForm").innerHTML = xhr.responseText;
+		} else if (xhr.readyState == 4 && xhr.status != 200) {
 			console.log(xhr.responseText);
 			if (xhr.responseText.responseText == undefined) {
 				document.getElementById("outputForm").innerHTML = xhr.responseText; 
@@ -1566,7 +1608,7 @@ function emr_idPlayVideo_idForm() {
 
 function emr_idPlayVideo_id(){
 	var video_id = document.getElementById("video_id").value;
-		
+		console.log(url + emr_id + '/play/' + video_id + '?width=500&height=281');
 	document.getElementById("outputForm").innerHTML = 
 		'<iframe src="' + url + emr_id + '/play/' + video_id + '?width=500&height=281" style="width:100%;height:100%"></iframe>';
 }

@@ -430,3 +430,11 @@ div[id^="teamInfo"] {
 	color: rgb(238, 238, 238);
 	transition: color .3s ease;
 }
+
+#newUserTable {
+	width: 100%;
+}
+
+#newUserTable td {
+	padding: 5px;
+}

@@ -32,10 +32,10 @@
 		<div class="col-lg-10 col-lg-offset-1 form-login" style="border-radius: 0px; background-color: rgb(249,249,249)">
 			<div class="col-lg-6 col-lg-offset-3">
 				<div>
-					<input style="border-radius: 0px" value="dhkim@hichart.net" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
+					<input style="border-radius: 0px" value="dhkim@healthbreeze.com" type="email" id="email" name="email" class="form-control input-lg" placeholder="E-Mail ID" required>
 				</div>
 				<div>
-					<input style="border-radius: 0px" value="kimc1310" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
+					<input style="border-radius: 0px" value="00000000" type="password" id="passwd" name="passwd" class="form-control input-lg" placeholder="Password" required pattern=".{8,}" title="8 characters minimum">
 				</div>
 				<div class="g-recaptcha" style="margin-bottom: 10px" align="center" data-sitekey="6LeeDRQTAAAAABRFHbgAfjTt6InTCZ50QzUouojm"></div>
 			</div>
@@ -54,8 +54,8 @@
 	<script type="text/javascript">
 	function validateForm() {
 //		var recaptcha = document.getElementById("g-recaptcha-response").value;
-		var recaptcha = grecaptcha.getResponse();
-		if (recaptcha) {
+		//var recaptcha = grecaptcha.getResponse();
+		//if (recaptcha) {
 			//data = { "email": $("#email").val(), "password": $("#passwd").val(), "g-recaptcha-response": recaptcha };
 			data = { "email": $("#email").val(), "password": $("#passwd").val(), "account": "login", "deviceType" : "I" };
 			console.log(data);
@@ -64,11 +64,11 @@
 				data.deviceId = deviceId;
 			}
 			postToServer(data);
-			return false;
-		} else {
-			alert("Please check not Robot!");
-			return false;
-		}
+			//return false;
+		//} else {
+			//alert("Please check not Robot!");
+			//return false;
+		//}
 		return false;
 	}
 

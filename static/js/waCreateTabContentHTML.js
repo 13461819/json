@@ -106,10 +106,11 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 	var count = 0, length = 0;
 	var searchWord = $("input#searchText").val().toLowerCase();
 	var searchWordIndex;
+	/*
 	if(searchWord == "") {
 		$("#accordion_s").html("");
 		return;
-	}
+	}*/
 	for( var i = videos_length; i-- ;) {
 		beforeLength = 
 			'<div class="panel panel-default">' +
@@ -128,7 +129,7 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 			
 			i + 
 			
-			'" class="arrow glyphicon glyphicon-minus-sign"></span>' + 
+			'" class="arrow glyphicon glyphicon-' + (searchWord == "" ? 'plus' : 'minus') + '-sign"></span>' + 
 			
 			categories[i] +
 				
@@ -143,13 +144,13 @@ function createSearchHTML() { // 서치 결과를 검색 탭에 보여주는 HTM
 				
 				i + 
 				
-				'" class="panel-collapse collapse in" aria-expanded="true">' + 
+				'" class="panel-collapse collapse' + (searchWord == "" ? '' : ' in" aria-expanded="true') + '">' +
 				'<div class="list-group">';
 					length = videos[i].length;
 					for( var j = length; j-- ;) {
 						title = videos[i][j].title.toLowerCase();
 						searchWordIndex = title.indexOf(searchWord);
-						if( -1 < searchWordIndex) {
+						if( -1 < searchWordIndex || searchWord == "") {
 							count++;
 							id = videos[i][j].id;
 							subSearchHTML += 

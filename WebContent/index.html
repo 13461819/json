@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<link rel="stylesheet" href="/static/css/waIndex.css" />
-<link href="/static/css/waConfirm.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/waIndex.css" />
+<link href="../static/css/waConfirm.css" rel="stylesheet">
 <style>
 html [lang]:not([lang="en"]) {
   display: none;
@@ -29,23 +29,25 @@ html [lang]:not([lang="en"]) {
 			onclick="showSetting('비디오 목록 탭 언어')"><span class="glyphicon glyphicon-globe"></span> 비디오 목록 탭 언어</div>
 		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
 			onclick="showSetting('사용법 안내')"><span class="glyphicon glyphicon-question-sign"></span> 사용법 안내</div>
+		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
+			onclick="showSetting('사용자 추가')"><span class="glyphicon glyphicon-plus"></span> 사용자 추가</div>
 		<h4>팀</h4>
 		<div class="teamTitleEnd"></div>
 	</nav>
 	<label id="drawer_menu_label" onclick="toggleMenu()"></label>
 	<header id="my_header">
 		<div>
-			<img src="/static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
+			<img src="../static/img/ic_drawer.png" id="menu_image" onclick="toggleMenu()" style="cursor: pointer;">
 <!-- 			<span class="page_name" id="page_name">VIDEO</span> -->
-<!-- 			<span class="page_name" ><img style="cursor: pointer" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image"></span> -->
-			<img style="margin-right: 140px; cursor: pointer; float: left; margin-top: 3px" src="/static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image">
-			<img src="/static/img/logout.png" class="list-logout" id="logout_image" onclick="confirmLogout()" title="Logout" style="cursor: pointer">
+<!-- 			<span class="page_name" ><img style="cursor: pointer" src="../static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image"></span> -->
+			<img style="margin-right: 140px; cursor: pointer; float: left; margin-top: 3px" src="../static/img/logo.png" title="HealthBreeze" onclick="window.location.reload()" alt="HealthBreeze Logo image">
+			<img src="../static/img/logout.png" class="list-logout" id="logout_image" onclick="confirmLogout()" title="Logout" style="cursor: pointer">
 			
-			<img src="/static/img/ic_action_set_bookmark.png" class="list-manipulation" id="insertBookMark_image" onclick="confirmAddBookMark()" title="북마크에 추가" style="cursor: pointer; display: none">
-			<img src="/static/img/ic_action_download.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="download_image" onclick="confirmDownload()" title="다운로드" style="cursor: pointer; display: none">
-			<img src="/static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer; display: none">
+			<img src="../static/img/ic_action_set_bookmark.png" class="list-manipulation" id="insertBookMark_image" onclick="confirmAddBookMark()" title="북마크에 추가" style="cursor: pointer; display: none">
+			<img src="../static/img/ic_action_download.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="download_image" onclick="confirmDownload()" title="다운로드" style="cursor: pointer; display: none">
+			<img src="../static/img/ic_action_add_my_list.png" data-toggle="modal" data-target="#modal_setting" class="list-manipulation" id="insertList_image" onclick="modalInsertList()" title="리스트에 추가" style="cursor: pointer; display: none">
 			<div class="drop-down" style="float: left">
-				<img src="/static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer; display: none">
+				<img src="../static/img/ic_action_send_now.png" class="list-manipulation" id="send_image" onclick="modalSendMessage()" title="메시지 전송" style="cursor: pointer; display: none">
 				<div id="dropDownSendMethod" class="drop-down-content" style="top: 60px; z-index: 101">
 					<a onclick="send2SMS()" style="font-size: 18px"><span class="glyphicon glyphicon-phone"></span>&nbsp;문자 (SMS)</a>
 					<a onclick="send2Email()" style="font-size: 18px"><span class="glyphicon glyphicon-envelope"></span>&nbsp;이메일(E-mail)</a>
@@ -60,7 +62,7 @@ html [lang]:not([lang="en"]) {
 					<li class="active"><a data-toggle="tab" href="#recommend" style="margin-right: 0px; border-radius: 0px">Recommend</a></li>
 					<li><a data-toggle="tab" href="#topic" style="margin-right: 0px; border-radius: 0px" onclick="onTopicLbtn()">Topic</a></li>
 					<li><a data-toggle="tab" href="#my_list" style="margin-right: 0px; border-radius: 0px" onclick="onMyListLbtn()">My List</a></li>
-					<li><a data-toggle="tab" href="#search" style="margin-right: 0px; border-radius: 0px"><span class="glyphicon glyphicon-search" style="font-size: 16px;"></span></a></li>
+					<li><a data-toggle="tab" href="#search" style="margin-right: 0px; border-radius: 0px" onclick="onSearchLbtn()"><span class="glyphicon glyphicon-search" style="font-size: 16px;"></span></a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="recommend" class="tab-pane fade in active">
@@ -123,30 +125,32 @@ html [lang]:not([lang="en"]) {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 	<!-- <script src="/js/bootbox.min.js"></script> -->
 	<!-- <script src="/js/json2.js"></script>  -->
-	<script src="/static/js/waInit.js"></script>
-	<script src="/static/js/waTeam.js"></script>
-	<script src="/static/js/waList.js"></script>
-	<script src="/static/js/waMisc.js"></script>
+	<script src="../static/js/waInit.js"></script>
+	<script src="../static/js/waTeam.js"></script>
+	<script src="../static/js/waList.js"></script>
+	<script src="../static/js/waMisc.js"></script>
 	<!-- <script src="/js/login2.js"></script> -->
-	<script src="/static/js/flowplayer-3.2.13.min.js"></script>
-	<script src="/static/js/waYoutube.js"></script>
-	<script src="/static/js/waFlowplayer.js"></script>
-	<script src="/static/js/waCreateTabContentHTML.js"></script>
-	<script src="/static/js/waSelectVideo.js"></script>
-	<script src="/static/js/waSetting.js"></script>
-	<script src="/static/js/waTeamSetting.js"></script>
-	<script src="/static/js/waCrypto.js"></script>
+	<script src="../static/js/flowplayer-3.2.13.min.js"></script>
+	<script src="../static/js/waYoutube.js"></script>
+	<script src="../static/js/waFlowplayer.js"></script>
+	<script src="../static/js/waCreateTabContentHTML.js"></script>
+	<script src="../static/js/waSelectVideo.js"></script>
+	<script src="../static/js/waSetting.js"></script>
+	<script src="../static/js/waTeamSetting.js"></script>
+	<script src="../static/js/waUser.js"></script>
+	<script src="../static/js/waCrypto.js"></script>
 	<script type="text/javascript">
 	var accounts = {
 			  "picture": "https://lh3.googleusercontent.com/rZUV72Nw9Z0l8ukg-vrwUI56-dVAOociTpIwwSKKBMNdinUnf0jgHwk6-R0vnhHHCuemfOQlb12mdmX37pz0LA",
-			  "userId": 5398744128290816,
+			  "userId": 5730654603968512,
 			  "profession": 101,
 			  "professionName": "인턴",
 			  "specialty": 4007,
 			  "specialtyName": "호스피스",
-			  "deviceId": 5768755258851328,
-			  "email": "dhkim@hichart.net",
-			  "password": "9dlUIEyJUEdJ30iYRyBuAJX0O3caBGlz",
+			  "deviceId": 5449179627257856,
+			  "email": "dhkim@healthbreeze.com",
+			  "emr_id": 5519548371435520,
+			  "password": "kfsB3Ydia3MJbfyg57JbtpZdyo5BghtF",
 			  //"multiLogin": true,
 			  "expiredDate": 1453864403000,
 			  "msIsdn": "821049334688",
@@ -155,6 +159,7 @@ html [lang]:not([lang="en"]) {
 			  "language": "ko",
 			  //"sessionKey": "pjA32lejZaC6tFun",
 			  "nickName": "김동현",
+			  "options": 0,
 			  "needLicense": false
 			};
 	//var accounts = JSON.parse(sessionStorage.getItem("accounts"));

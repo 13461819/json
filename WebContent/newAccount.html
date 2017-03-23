@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>새로운 계정 만들기</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+		integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+.modal-footer {
+	padding: 15px 50px;
+	text-align: left;
+}
+
+.modal-footer>button {
+	width: 15%;
+}
+
+.modal-footer>button:last-child {
+	float: right;
+}
+
+#newUserTable {
+	width: 100%;
+}
+
+#newUserTable td {
+	padding: 5px;
+}
+
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"
+					style="background-color: rgb(82, 167, 231); color: rgb(237, 254, 255);">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title">새로운 계정 만들기</h2>
+				</div>
+				<div class="modal-body"
+					style="font-size: 18px; padding-top: 30px; background-color: rgb(238, 238, 238);">
+					<table id="newUserTable">
+						<tbody>
+							<tr>
+								<td><label for="input_email">e-mail</label></td>
+								<td colspan="2"><input class="form-control" id="input_email" type="text"></td>
+							</tr>
+							<tr>
+								<td><label for="input_nickname">이름</label></td>
+								<td colspan="2"><input class="form-control" id="input_nickname" type="text"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><label for="input_phone">전화번호</label></td>
+								<td><input class="form-control" id="input_phone" type="text"></td>
+								<td><button type="button" class="btn btn-info" style="width: 100%">인증번호 요청</button></td>
+							</tr>
+							<tr>
+								<td><label for="input_verify">인증번호</label></td>
+								<td><input class="form-control" id="input_verify" type="text"></td>
+								<td><button type="button" class="btn btn-info" style="width: 100%">인증번호 확인</button></td>
+							</tr>
+							<tr>
+								<td><label for="input_password">비밀번호</label></td>
+								<td colspan="2"><input class="form-control" id="input_password" type="text"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><label for="input_confirmpassword">비밀번호 확인</label></td>
+								<td colspan="2"><input class="form-control" id="input_confirmpassword" type="text"></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">저장</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"></script>
+</body>
+</html>
