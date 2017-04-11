@@ -96,7 +96,9 @@ var selectedEditLists = []; // myList에서 edit 하려는 리스트의 클론 (
 var youtubeAds = ["jh1IHMJI5lc", "F7viKAPDmT0", "Snl61MzlotM", "egywPKPjS7Y", "aAHbscecDcI"];
 var youtubePlayList = [];
 var isAds = false, youtubeIndex = 0;
-var hbUrl = "https://hbreeze4ani.appspot.com";
+//var hbUrl = "https://hbreeze4ani.appspot.com";
+//var hbUrl = "https://test-dot-hbreeze4ani.appspot.com";
+var hbUrl = "http://10.11.12.100:8082";
 var hbApiPath = "/api/v1";
 var waData = {}; // localStrorage에 들어있는 WebApp의 데이터
 var totalPlayCount = 0;
@@ -118,12 +120,33 @@ function getWaData() {
 function setToken() {
 	console.log("setToken");
 	//accounts.token = "Basic " + btoa(accounts.userId + "-" + accounts.deviceId + ":" + accounts.sessionKey);
-	accounts.token = "Basic NTczMDY1NDYwMzk2ODUxMi01NDQ5MTc5NjI3MjU3ODU2OkliWUtTeWlydzhuZGl0MDFCYlNpaHp3eQ==";
+	accounts.token = "Basic NTkzMDc2NTcyMDIyMzc0NC00OTQ1NjAzMzAxNzM2NDQ4OlhWU1ZWam1ZcGRyREhLOHpEZXlZakFxRg==";
 	delete accounts.sessionKey;
 	console.log(accounts);
 }
 
-function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
+function getVideos() { // 비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
+	$("#accordion_r").html("<img src=\"/static/img/loading.gif\">");
+	$.getJSON(hbUrl + hbApiPath + "/videos", function(json) {
+		createVideos(); // 카테고리의 갯수만큼 첫 12개의 리스트들을 2차원 배열로 만든다.
+		categorizeVideos(json); // 첫 12개의 인덱스에는 카테고리에 맞게 비디오를 분류해서 2차원 배열을 채운다.
+		// 나머지 인덱스에는 비디오 ID값을 이용해 배열의 인덱스에 [Key: ID] = Value: 비디오 값으로 채운다.
+		// for (var ii = 0; ii < downloadedVideos.length; ii++) {
+		// videos[downloadedVideos[ii].id].expired_date =
+		// videos[downloadedVideos[ii].id].created;
+		// }
+		sortVideos(); // 첫 12개의 인덱스에 들어있는 카테고리별 비디오만 각각 정렬한다.
+		createRecommendHTML(); // 정렬 된 배열을 가지고 HTML코드를 생성한다.
+		// getTopics(); // 비디오 배열이 완성 되었으면 소주제 API를 받아온다.
+	}).fail(function(message) {
+		// alert("서버와 통신 오류로 로그인할 수 없습니다!");
+		// location.replace("start.html");
+		console.log(message);
+	});
+}
+
+function getPrivateVideos() {	// 비디오 API를 이용해서 videos[] 배열에 값을 할당한다.
+	/*
 	$("#accordion_r").html("<img src=\"/static/img/loading.gif\">");
 	$.getJSON(hbUrl + hbApiPath + "/videos",
 					function(json) {
@@ -142,6 +165,7 @@ function getVideos() {	//비디오 API를 이용해서 videos[] 배열에 값을
 //				location.replace("start.html");
 				console.log(message);
 			});
+	*/
 }
 
 function getTopics() {

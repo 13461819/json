@@ -125,8 +125,8 @@ function registerUser() {
 	
 	$.ajax({
 		type: "POST",
-		url: hbUrl + "/emr/" + accounts.emr_id + "/tv_accounts",
-		//url: "http://10.11.12.100:8081/emr/" + accounts.emr_id + "/tv_accounts",
+		//url: hbUrl + "/emr/" + accounts.emr_id + "/tv_accounts",
+		url: "http://10.11.12.100:8081/emr/" + accounts.emr_id + "/tv_accounts",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", accounts.token)
 		},
@@ -159,6 +159,65 @@ function registerUser() {
 			break;
 		default:
 			showConfirmDialog('', '회원가입 실패', 'OK', function(){});
+			break;
+		}
+	});
+}
+
+function isEnteredValidValuePassword() {
+    var result = false;
+    
+    if ($("#input_new_password").val().length == 0 || $("#input_new_password").val().length < 8)
+    {
+        showConfirmDialog('', '비밀번호는 8자 이상입니다.', 'OK', function(){});
+    }
+    else if ($("#input_new_password").val() != $("#input_confirm_password").val())
+    {
+        showConfirmDialog('', '비밀번호가 서로 다릅니다.', 'OK', function(){});
+    }
+    else
+    {
+        result = true;
+    }
+    
+    return result;
+}
+
+function changePassword() {
+	if (!isEnteredValidValuePassword()) return;
+	
+	var data = {};
+	data.old_passwd = $("#input_current_password").val();
+	data.new_passwd = $("#input_new_password").val();
+	console.log(data);
+	
+	$.ajax({
+		type: "PUT",
+		url: hbUrl + "/tvapp/login",
+		//url: "http://10.11.12.100:8082/tvapp/login",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", accounts.token)
+		},
+		data : JSON.stringify(data),
+		success: function(json) {
+			console.log(json);
+			showConfirmDialog('', '비밀번호가 변경되었습니다.', 'OK', function(){});
+			$("#modal_setting").modal('hide');
+		}
+	}).fail( function (message){
+		console.log("fail");
+		console.log(message);
+		var responseText = JSON.parse(message.responseText);
+		console.log(responseText);
+		switch (responseText.code) {
+		case 2011:
+			showConfirmDialog('', '비밀번호는 8자 이상입니다.', 'OK', function(){});
+			break;
+		case 2012:
+			showConfirmDialog('', '현재 비밀번호가 잘못되었습니다.', 'OK', function(){});
+			break;
+		default:
+			showConfirmDialog('', '비밀번호 변경 실패', 'OK', function(){});
 			break;
 		}
 	});

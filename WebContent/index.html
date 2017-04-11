@@ -28,9 +28,11 @@ html [lang]:not([lang="en"]) {
 		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
 			onclick="showSetting('비디오 목록 탭 언어')"><span class="glyphicon glyphicon-globe"></span> 비디오 목록 탭 언어</div>
 		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
-			onclick="showSetting('사용법 안내')"><span class="glyphicon glyphicon-question-sign"></span> 사용법 안내</div>
-		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
 			onclick="showSetting('사용자 추가')"><span class="glyphicon glyphicon-plus"></span> 사용자 추가</div>
+			<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
+			onclick="showSetting('비밀번호 변경')"><span class="glyphicon glyphicon-lock"></span> 비밀번호 변경</div>
+		<div class="drawer_menu_sub" data-toggle="modal" data-target="#modal_setting"
+			onclick="showSetting('사용법 안내')"><span class="glyphicon glyphicon-question-sign"></span> 사용법 안내</div>
 		<h4>팀</h4>
 		<div class="teamTitleEnd"></div>
 	</nav>
@@ -142,7 +144,7 @@ html [lang]:not([lang="en"]) {
 	<script type="text/javascript">
 	var accounts = {
 			  "picture": "https://lh3.googleusercontent.com/rZUV72Nw9Z0l8ukg-vrwUI56-dVAOociTpIwwSKKBMNdinUnf0jgHwk6-R0vnhHHCuemfOQlb12mdmX37pz0LA",
-			  "userId": 5730654603968512,
+			  "userId": 6012129580679168,
 			  "profession": 101,
 			  "professionName": "인턴",
 			  "specialty": 4007,
@@ -150,7 +152,7 @@ html [lang]:not([lang="en"]) {
 			  "deviceId": 5449179627257856,
 			  "email": "dhkim@healthbreeze.com",
 			  "emr_id": 5519548371435520,
-			  "password": "kfsB3Ydia3MJbfyg57JbtpZdyo5BghtF",
+			  "password": "Ec30ekaPSxeare5YCCCbpUS9EfSJ5UQD",
 			  //"multiLogin": true,
 			  "expiredDate": 1453864403000,
 			  "msIsdn": "821049334688",
@@ -167,6 +169,7 @@ html [lang]:not([lang="en"]) {
 		getWaData();
 		setToken();
 		getVideos(); // Videos 리스트 받아옴
+		getPrivateVideos(); // Private Videos 받아옴
 		getTeamTitle(); //팀 타이틀 받아옴
 		getAds();
 		getProfessions();

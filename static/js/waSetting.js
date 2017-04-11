@@ -59,11 +59,14 @@ function getModalSetting(settingName) {
 	case '비디오 목록 탭 언어':
 		settingHTML = getLanguage();
 		break;
-	case '사용법 안내':
-		settingHTML = getHelp();
-		break;
 	case '사용자 추가':
 		settingHTML = getNewUser();
+		break;
+	case '비밀번호 변경':
+		settingHTML = getChangePassword();
+		break;
+	case '사용법 안내':
+		settingHTML = getHelp();
 		break;
 	default:
 		break;
@@ -491,6 +494,35 @@ function getNewUser() {
 			'</div>' +
 			'<div class="modal-footer">' +
 				'<button type="button" class="btn btn-info" onclick="registerUser()">가입</button>' +
+				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
+			'</div>' +
+		'</div>';
+	return settingHTML;
+}
+
+function getChangePassword() {
+	var settingHTML = "";
+	settingHTML += 
+				'<table id="newUserTable">' +
+					'<tbody>' +
+						'<tr>' +
+							'<td><label for="input_current_password">현재 비밀번호</label></td>' +
+							'<td><input class="form-control" id="input_current_password" type="password"></td>' +
+						'</tr>' +
+						'<tr>' +
+							'<td><label for="input_new_password">새 비밀번호</label></td>' +
+							'<td><input class="form-control" id="input_new_password" type="password"></td>' +
+							'<td></td>' +
+						'</tr>' +
+						'<tr>' +
+							'<td><label for="input_confirm_password">비밀번호 확인</label></td>' +
+							'<td><input class="form-control" id="input_confirm_password" type="password"></td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>' +
+			'</div>' +
+			'<div class="modal-footer">' +
+				'<button type="button" class="btn btn-info" onclick="changePassword()">변경</button>' +
 				'<button type="button" class="btn btn-info" data-dismiss="modal">취소</button>' +
 			'</div>' +
 		'</div>';
